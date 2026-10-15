@@ -1,0 +1,11 @@
+# Bounded presentation projection contract
+
+Before implementation: App retains one `UsageSummary` object, containing totals, model totals, day totals and today's hour totals only. `UsageStore.summary` uses the selected period; `summary(in:now:)` provides the same deterministic calculation for native verification. Cache identity is report generation + requested period + Gregorian local day + timezone identifier/UTC offset. Root reset and accepted report publication clear the old entry; a failed refresh preserves it. Period/day/timezone changes replace the single entry. No raw records, session copies, query map or persisted cache are retained.
+
+Core remains the date-boundary owner: use its existing public report/session aggregation methods with one captured now. A handful of bounds constructions once per cache miss is preferable to widening the Core API for presentation. Production summary uses the current timezone, consistently with Core. Tests check timezone key inequality separately without claiming arbitrary-timezone daily aggregation. It preserves unknown cache/reasoning flags by adding TokenUsage values. No numerical rounding enters aggregation.
+
+Session body evaluates matching rows and selected row once, using one captured now and precomputed session usage/model names. Sorting never recomputes usage in its comparator. Internal session id remains selection identity; visible/copyable Session ID uses recordedSessionID or 未记录, with disabled copy if missing. Existing geometry stays unchanged. Requests reuses summary model choices and computes its list footer total once. Dashboard uses shared summary and precomputes its filtered/sorted model rows once per body.
+
+Verification: native UsageStore harness compares summary fields to Core results, checks object reuse/replacement for same query/range/day/timezone/report/root, verifies incomplete field flags, retained successful data on errors, and expired-root results. Native App build is parent's final integration check. No Swift Package build from this worker.
+
+Verified limitation: cache-key timezone invalidation does not rebuild existing scanner buckets. Scanner captures timezone at startup; restart after OS timezone change. No runtime rebucketing acceptance is claimed.

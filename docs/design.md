@@ -1,16 +1,16 @@
 # Codex Stats 设计基线与重建入口
 
-文档更新：2026-10-15。实现基线：2026-10-14，**v0.2.9 / build 11 的当前源码**。本次是文档整理，不发布新版 App。设计目的：另一位开发者根据本文和明细、合成验收数据，重建统计口径、布局与交互基本一致的原生 App。
+文档更新：2026-10-15。实现基线：2026-10-15，**v0.2.10 / build 12 的当前源码**。设计目的：另一位开发者根据本文和明细、合成验收数据，重建统计口径、布局与交互基本一致的原生 App。
 
 ## 文档权威与状态
 
 | 文档 | 负责内容 | 状态 |
 |---|---|---|
 | [产品需求](requirements.md) | 产品范围、R/T 验收编号 | 当前基线 |
-| [当前 UI 设计](ui-design.md) | 页面结构、尺寸、字体、颜色、交互、状态 | 已实现 v0.2.9 |
-| [数据与统计设计](data-design.md) | 输入协议、数据结构、计量、去重、性能字段与聚合 | 已实现 v0.2.9 |
-| 本文 | 架构、状态流、偏好、生命周期、构建和重建验收 | 已实现 v0.2.9 |
-| [B 视觉目标](ui-design-b.md) | 用户选定的仪表盘方向、原型参数、待实现边界 | **已批准方向，未实现** |
+| [当前 UI 设计](ui-design.md) | 页面结构、尺寸、字体、颜色、交互、状态 | 已实现 v0.2.10 |
+| [数据与统计设计](data-design.md) | 输入协议、数据结构、计量、去重、性能字段与聚合 | 已实现 v0.2.10 |
+| 本文 | 架构、状态流、偏好、生命周期、构建和重建验收 | 已实现 v0.2.10 |
+| [B 视觉目标](ui-design-b.md) | 用户选定的菜单方向、生产参数、原型参考 | 已实现菜单；分析窗口改版未实施 |
 | [原生方案比较](menu-design-comparison.html) | A/B 合成数据截图 | 设计参考，非运行时切换 |
 | [.trellis/spec](../.trellis/spec/guides/index.md) | 开发时必须执行的详细契约和检查 | 已建立条目有效，初始化占位不算规范 |
 | [使用指南](usage.md) / [统计说明](statistics.md) / [开发指南](development.md) | 从首页拆出的安装、操作、统计边界和验证命令 | 当前实现说明，契约以设计文档为准 |
@@ -18,7 +18,7 @@
 
 **未来以设计文档为开发依据：先更新需求和目标设计，再实现。** 已实现与待实现必须明确标记。若源码与已实现设计矛盾，先核对并记录差异，修正文档或代码；不能擅自以旧代码覆盖已批准目标，也不能将目标直接标成已交付。只有实现与验证完成才推进基线版本。具体流程见 [Design-first workflow](../.trellis/spec/guides/design-first.md)。
 
-B 已由用户选择。当前生产版仍是 288 pt 窄版菜单；B 原型及后续分析窗口视觉改版没有上线。此前大弹窗、科学计数法和多实例等问题的历史修复证据留在 VERIFICATION，不作为另一套可选产品行为。
+B 菜单已接入生产实现，宽 288 pt；总量卡加 2×2 指标卡。分析窗口大幅视觉改版尚未实施。此前大弹窗、科学计数法和多实例等问题的历史修复证据留在 VERIFICATION，不作为另一套可选产品行为。
 
 ## 产品与架构决策
 
@@ -41,7 +41,7 @@ flowchart LR
 |---|---|
 | Sources/Core/Models.swift | Token、记录、会话、模型、诊断、日期边界和聚合 |
 | Sources/Core/CodexLogScanner.swift | 输入协议、所有权、物理历史、去重、计量与文件缓存 |
-| Sources/App/UsageStore.swift | 串行扫描 actor、刷新排队、可见状态、偏好 |
+| Sources/App/UsageStore.swift | 串行扫描 actor、刷新排队、可见状态、偏好、单个当前范围摘要 |
 | Sources/App/CodexStatsApp.swift | 唯一 Store、MenuBarExtra.window、dashboard Window、⌘Q |
 | Sources/App/AppLifecycle.swift | 常驻策略、重复实例处理、弱关联菜单窗口 |
 | Sources/App/Components.swift | 主题、字体层级、统一数字、共用组件 |
@@ -97,7 +97,7 @@ App 创建一个 `@StateObject UsageStore`，菜单和分析窗口共享同一�
 | 显示名称 / .app | Codex Stats / Codex Stats.app |
 | 可执行文件 | CodexStats |
 | bundle identifier | dev.codexpulse.local |
-| 版本 / build | 0.2.9 / 11 |
+| 版本 / build | 0.2.10 / 12 |
 | 最低系统 | macOS 14.0 |
 | LSUIElement | true；菜单栏应用，不依赖 Dock 窗口驻留 |
 | 分析场景 | Window id=dashboard，默认 1120×760 pt，contentMinSize |
@@ -115,7 +115,7 @@ AppDelegate 在 willFinishLaunching 启用 automaticTerminationSupportEnabled，
 
 不读取 auth.json、配置密钥或数据库，不上传日志，不跟随 JSONL 符号链接。多个扫描根用英文逗号分隔；扫描根目录规则、字段校验和诊断详见数据设计。
 
-当前身份边界有两处待完善：会话页未区分原始 Session ID 与文件名生成的归组 ID；无元数据时原生所有权检查比较内部 log.id，thread_id 恰等于文件名仍可能被接受。详见数据/UI设计和 T04/T06，不能把当前实现标为完全符合真实身份目标。本次记录差异，不修改计量；后续先更新目标设计和验收再修复。
+原生所有权必须由真实 session_meta ID 证明，内部归组标识不参与认证；缺少真实 ID 的会话显示“未记录”并禁用复制。具体归组、重复副本和通知去重边界见数据设计及 T04/T06。
 
 当前没有字节级追加、文件监听或持久缓存：降低复杂度，代价是首次全量读取和增长文件重新解析。`cold` 是新进程解析器缓存为空，不是清系统磁盘缓存。RSS、当前 footprint、峰值 footprint 和虚拟空间必须分别记录；扫描 CLI 不代表完整 UI App。性能指标按固定输入比较，同时核对精确计量快照，不能牺牲统计降低内存。
 
@@ -145,18 +145,27 @@ open "/tmp/codex-stats-rebuild/Codex Stats.app"
 | 刷新状态 | Scripts/test-usage-store.sh | 首次加载、错误目录恢复、定时刷新不重复扫描 |
 | 菜单关闭与常驻 | Scripts/test-menu-lifecycle.sh、test-app-lifecycle.sh | 点分析/诊断后弹窗收起，关闭分析后菜单保留，退出结束进程 |
 | UI 参数与状态 | Scripts/render-ui-previews.sh，ui-design 状态矩阵 | 搜索/排序/复制/缩放/深浅色/详情关闭实际操作 |
-| B 参考 | Scripts/render-menu-designs.sh | 仅参考；不得当成当前生产界面通过验收 |
+| B 菜单 | Scripts/render-ui-previews.sh 生产视图；render-menu-designs.sh 保留原型 | 生产静态渲染不替代真实菜单点击 |
 | 性能 | Scripts/benchmark-performance.sh、measure-app-memory.sh | 固定输入，记录宿主/版本/架构/指标定义；长期运行观察 |
 | 安装 | 原生构建、签名、DMG 检查 | 目标 Mac 从 Applications 运行，macOS 14/Intel 单独验收 |
 
-目前历史验证宿主为 macOS 27.0.1 / Apple Silicon；已有自动测试、原生编译和静态预览证据见 VERIFICATION。**静态渲染不证明点击成功，源码策略不证明长期不崩溃。** macOS 14、Intel、Developer ID、公证及真实交互仍有未完成项；本次文档整理不新增这些运行证据。
+目前历史验证宿主为 macOS 27.0.1 / Apple Silicon；已有自动测试、原生编译和静态预览证据见 VERIFICATION。**静态渲染不证明点击成功，源码策略不证明长期不崩溃。** macOS 14、Intel、Developer ID、公证及真实交互仍有未完成项；本轮新增证据见 VERIFICATION，未执行的交互和平台检查保持待验收。
 
 ## 仓库与目录规范
 
-目录边界、命名依据、Git 忽略策略及开源准备见 [源码仓库设计](repository-layout.md)。该设计先于本次仓库操作编写；当前 App 与 B 状态不变。
+目录边界、命名依据、Git 忽略策略及开源准备见 [源码仓库设计](repository-layout.md)。该设计记录源码、开发工具和生成物的公开边界。
 
 ## 设计决策的可追踪修改
 
 每次变更用 Trellis 任务引用 R/T 编号，在目标设计中写：触发原因、现状、目标状态、影响的数据/页面/状态、替代方案与取舍、验收命令/人工步骤、明确延期项。改数字单位需追查所有共享显示位置；改计量需同时约束 CLI、列表和图表；改窗口需核验菜单窗口身份与进程生命周期。
 
 2026-10-15 已按用户要求初始化 Git，并提交推送至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main。原创 App 使用 MIT，Trellis 上游材料保留 AGPL-3.0-only；发布证据见 VERIFICATION。初始化前的无 Git 状态仅为历史证据。仓库边界和后续公开准备以源码仓库设计为准，不将旧任务自动 base_branch 当作真实提交证据。
+
+
+## v0.2.10 第一批精修
+
+关联任务 10-15-refinement-review（R01/R07/R13/R14/R17、T04/T06）。实现真实会话身份边界、当前范围摘要复用、B菜单和中文指标文案。没有分析窗口大改、持久缓存、数据库或追加解析，默认30秒不变。
+
+`UsageStore.summary` 返回 `UsageSummary`（总量、模型、日与今日小时汇总）；仅缓存一个键/值，不保留原始记录。键含报告修订、范围、本地日期、时区标识及当时 UTC 偏移，成功报告/切换根路径清空；失败保持旧成功报告与摘要。同一天同范围重复绘制复用对象。会话每次 body 捕获同一个 now，预计算各会话总量/模型，筛选排序和选中查找只做一次；比较器不聚合用量。请求页底部合计也仅计算一次。
+
+时区键失效不代表重建扫描桶：扫描器启动时固定时区，本轮未实现运行中跨系统时区重新分桶，系统时区变化后应重启 App。测试仅验证键变化与原有本地日筛选，不能声称时区切换后的实际聚合已验证。

@@ -14,44 +14,54 @@ struct SessionsContent: View {
     private enum SessionSort: String, CaseIterable {
         case recent = "最近活动", tokens = "Token 用量", project = "项目名称"
     }
-    private var matching: [SessionUsage] {
-        store.report.recentSessions(in: period).filter { session in
-            search.isEmpty || session.title.localizedCaseInsensitiveContains(search)
+    private struct SessionRow: Identifiable {
+        let session: SessionUsage
+        let usage: TokenUsage
+        let models: [ModelUsage]
+        var id: String { session.id }
+    }
+
+    private func matching(now: Date) -> [SessionRow] {
+        let rows = store.report.recentSessions(in: period, now: now).compactMap { session -> SessionRow? in
+            let usage = session.usage(in: period, now: now)
+            let models = session.modelUsage(in: period, now: now)
+            guard search.isEmpty || session.title.localizedCaseInsensitiveContains(search)
                 || session.project.localizedCaseInsensitiveContains(search)
-                || session.id.localizedCaseInsensitiveContains(search)
-                || session.modelUsage(in: period).contains { $0.model.localizedCaseInsensitiveContains(search) }
-        }.sorted {
+                || (session.recordedSessionID?.localizedCaseInsensitiveContains(search) ?? false)
+                || models.contains(where: { $0.model.localizedCaseInsensitiveContains(search) }) else { return nil }
+            return SessionRow(session: session, usage: usage, models: models)
+        }
+        return rows.sorted {
             switch sort {
-            case .recent: return $0.lastActivity > $1.lastActivity
-            case .tokens: return $0.usage(in: period).total > $1.usage(in: period).total
-            case .project: return $0.project == $1.project ? $0.id < $1.id : $0.project < $1.project
+            case .recent: return $0.session.lastActivity == $1.session.lastActivity
+                ? $0.id < $1.id : $0.session.lastActivity > $1.session.lastActivity
+            case .tokens: return $0.usage.total == $1.usage.total ? $0.id < $1.id : $0.usage.total > $1.usage.total
+            case .project: return $0.session.project == $1.session.project ? $0.id < $1.id : $0.session.project < $1.session.project
             }
         }
     }
 
-    private var selectedSession: SessionUsage? {
-        matching.first(where: { $0.id == selectedID }) ?? matching.first
-    }
-
     var body: some View {
+        let rows = matching(now: Date())
+        let selected = rows.first(where: { $0.id == selectedID }) ?? rows.first
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 15) {
-                SectionHeader(title: "历史会话", subtitle: "\(matching.count) 个本地会话")
+                SectionHeader(title: "历史会话", subtitle: "\(rows.count) 个本地会话")
                 TextField("搜索项目、模型或 Session ID", text: $search)
                     .textFieldStyle(.roundedBorder)
                 Picker("排序", selection: $sort) {
                     ForEach(SessionSort.allCases, id: \.self) { Text($0.rawValue).tag($0) }
                 }
                 Divider()
-                if matching.isEmpty {
+                if rows.isEmpty {
                     EmptyViewCard(title: "暂无会话", subtitle: "换个时间范围，或检查 Codex 的日志路径。")
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 7) {
-                            ForEach(matching) { session in
-                                Button { selectedID = session.id } label: {
-                                    SessionListRow(session: session,
-                                        period: period, selected: selectedSession?.id == session.id)
+                            ForEach(rows) { row in
+                                Button { selectedID = row.id } label: {
+                                    SessionListRow(session: row.session, usage: row.usage, models: row.models,
+                                        selected: selected?.id == row.id)
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -63,9 +73,9 @@ struct SessionsContent: View {
             .padding(24)
             .frame(width: 360)
             Divider()
-            if let selection = selectedSession {
-                SessionDetailView(session: selection, period: period)
-                    .id(selection.id)
+            if let selected {
+                SessionDetailView(session: selected.session, period: period, usage: selected.usage, models: selected.models)
+                    .id(selected.id)
             } else {
                 EmptyViewCard(title: "选择一个会话", subtitle: "右侧将展示会话中的模型和用量明细。")
             }
@@ -75,9 +85,9 @@ struct SessionsContent: View {
 
 private struct SessionListRow: View {
     let session: SessionUsage
-    let period: UsagePeriod
+    let usage: TokenUsage
+    let models: [ModelUsage]
     let selected: Bool
-    private var usage: TokenUsage { session.usage(in: period) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
@@ -100,12 +110,12 @@ private struct SessionListRow: View {
                 Text(session.lastActivity.cpDateTime)
             }
             .font(.system(size: 10)).foregroundStyle(.secondary)
-            Text(session.id).font(.system(size: 9, design: .monospaced)).foregroundStyle(.tertiary).lineLimit(1)
+            Text(session.recordedSessionID ?? "Session ID 未记录").font(.system(size: 9, design: .monospaced)).foregroundStyle(.tertiary).lineLimit(1)
             HStack {
                 Text(abbreviated(usage.total) + " tokens")
                     .font(.system(size: 11, weight: .semibold, design: .rounded))
                 Spacer()
-                Text(session.modelUsage(in: period).map(\.model).joined(separator: ", "))
+                Text(models.map(\.model).joined(separator: ", "))
                     .lineLimit(1)
                     .font(.system(size: 10)).foregroundStyle(.secondary)
             }
@@ -122,7 +132,8 @@ private struct SessionListRow: View {
 private struct SessionDetailView: View {
     let session: SessionUsage
     let period: UsagePeriod
-    private var usage: TokenUsage { session.usage(in: period) }
+    let usage: TokenUsage
+    let models: [ModelUsage]
 
     var body: some View {
         ScrollView {
@@ -134,7 +145,7 @@ private struct SessionDetailView: View {
                             .textSelection(.enabled)
                         Label(session.project, systemImage: "folder")
                             .font(.system(size: 11)).foregroundStyle(.secondary)
-                        Text(session.workingDirectory.isEmpty ? session.id : session.workingDirectory)
+                        Text(session.workingDirectory.isEmpty ? "项目路径未记录" : session.workingDirectory)
                             .font(.system(size: 10, design: .monospaced))
                             .foregroundStyle(.tertiary)
                             .lineLimit(1)
@@ -142,12 +153,15 @@ private struct SessionDetailView: View {
                     }
                     Spacer()
                     Button {
+                        guard let id = session.recordedSessionID else { return }
                         NSPasteboard.general.clearContents()
-                        NSPasteboard.general.setString(session.id, forType: .string)
+                        NSPasteboard.general.setString(id, forType: .string)
                     } label: {
                         Label("复制 ID", systemImage: "doc.on.doc")
                     }
                     .buttonStyle(.bordered)
+                    .disabled(session.recordedSessionID == nil)
+                    .help(session.recordedSessionID == nil ? "Session ID 未记录" : "复制 Session ID")
                 }
                 Surface {
                     VStack(alignment: .leading, spacing: 14) {
@@ -177,7 +191,7 @@ private struct SessionDetailView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("会话内模型明细")
                         .font(.system(size: 14, weight: .semibold))
-                    ForEach(session.modelUsage(in: period)) { model in
+                    ForEach(models) { model in
                         Surface(padding: 14) {
                             VStack(alignment: .leading, spacing: 9) {
                                 HStack {
@@ -200,7 +214,7 @@ private struct SessionDetailView: View {
                 if session.replayUnverified {
                     StatusBanner(message: "该会话包含分叉/子 Agent 历史，未能核实继承快照。用量可能偏高，请勿用于精确计费。")
                 }
-                Text("Session ID: \(session.id)")
+                Text("Session ID: \(session.recordedSessionID ?? "未记录")")
                     .font(.system(size: 10, design: .monospaced))
                     .foregroundStyle(.tertiary)
                     .textSelection(.enabled)

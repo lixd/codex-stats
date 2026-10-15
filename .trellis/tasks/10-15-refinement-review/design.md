@@ -1,0 +1,15 @@
+# First refinement batch design (approved 2026-10-15)
+
+Core: SessionUsage adds optional recordedSessionID distinct from internal grouping id (default nil for manual synthetic constructions). Native ownership must compare explicit metadata id, never fallback filename; reject unknown/foreign owner while retaining enough native provenance to suppress counters. Session UI shows real ID or 未记录, copy disabled when missing, internal id only for selection. CLI exports distinction.
+
+Presentation: one bounded current-period summary in UsageStore, invalidation keyed by report generation, period and local calendar day/timezone; compute once per key, reuse across menu/overview/model options. No retaining raw JSON, no all-query/unbounded cache. Session list computes matching/selected once per body and precomputes per-session totals for token sort; row selection compares selected id directly. Reuse current list total once. Tests cover correct value changes after report/range/date/root invalidation. Any necessary API refinements must be documented before editing.
+
+Menu: implement docs/ui-design-b.md approved288pt B; four small cards and total, dynamic scope, preserved unknown and pending states, 24pt minimum hit area for icon actions, accessibility labels, real refresh and exact menu closing. No synthetic values. Components: Chinese TokenDetails labels, field-specific missing labels, nonduplicative metric captions; no invented counts/prices. Dashboard layout and request sidebar geometry unchanged.
+
+Release after verification:0.2.10/build12, preserve bundle identity. Native previews don't prove live click. No extra installed App copies, staging under temporary directory. Metadata/source docs updated only after actual checks.
+
+Identity refinement before implementation: missing-metadata groups use a path-namespaced internal ID rather than the filename stem, so a malformed copy cannot select, suppress or conflict with a verified session of the same filename. Every native ownership/conflict/compaction check requires explicit recorded metadata; rejected native rows keep pairing provenance. Legacy missing-metadata counters remain accepted conservatively within their own file. CLI retains internal id and adds optional recordedSessionID.
+
+Independent check correction before code: unknown legacy path grouping double-counted same-name active/archive copies. Replace it with typed recorded/unknown-stem grouping, conservative primary-stream selection for unknown copies, and opaque fallback IDs allocated against all recorded IDs plus existing allocations. Known IDs remain unchanged; unknown IDs never become ownership evidence. Add duplicate/prefix/archive and adversarial real-prefix collision tests.
+
+Before final identity correction: parent metadata references must resolve only candidates with recordedSessionID exactly matching the declared parent ID, never a generated unknown internal key. Add a collision regression preserving the child legacy usage and disclose unresolved inheritance. Audit remaining lookup sites separately from physical-rollout history diagnostics.

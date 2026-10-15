@@ -34,7 +34,7 @@ func detailedNumber(_ value: Int64, known: Bool = true) -> String
 
 ## Exact Values and Verification
 
-TokenDetails uses the compact text with `.help(detailedNumber(...))`; menu footers, card subtitles, session headings and list totals also use compact text with exact help. Original metering detail and CLI keep integer fields. The chart Double overload avoids converting fractional ticks to Int64 or overflowing large ticks.
+TokenDetails uses Chinese field labels (input, cached input, uncached input, output, reasoning, total) and compact text with `.help(detailedNumber(...))`; menu footers, session headings and list totals also use compact text with exact help. MetricTile requires an explicit field-specific semantic caption (for example input includes cached input); do not repeat the main amount in its caption. The main number carries exact-value help. An unknown MetricTile caption names its actual field, never a hardcoded cache explanation. The B menu uses a range-aware total and a 2-by-2 grid; unknown cache/reasoning remains 未完整记录 rather than zero. Original metering detail and CLI keep integer fields. The chart Double overload avoids converting fractional ticks to Int64 or overflowing large ticks.
 
 Run `./Scripts/test-token-display.sh` to test the App's real implementation in en_US, zh_CN and fr_FR without moving UI concerns into Core. Use `./Scripts/render-ui-previews.sh` for today's and 7-day native light/dark charts with synthetic data. Static rendering does not verify hovering or clicking; report that limit explicitly. Keep the existing Core tests green.
 

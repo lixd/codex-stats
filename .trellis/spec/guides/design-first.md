@@ -4,7 +4,7 @@ This is the project contract requested by the user on 2026-10-14. It applies bef
 
 ## Authoritative documents
 
-Read [design baseline](../../../docs/design.md), [requirements](../../../docs/requirements.md) and the linked current UI/data designs. Approved pending targets are separate from implemented behavior. B is selected but not implemented; the current baseline is v0.2.9/build 11. Bootstrap placeholders are not executable contracts.
+Read [design baseline](../../../docs/design.md), [requirements](../../../docs/requirements.md) and the linked current UI/data designs. Approved pending targets are separate from implemented behavior. The current baseline is v0.2.10/build 12 with the B menu implemented; analysis-window redesign remains deferred. Bootstrap placeholders are not executable contracts.
 
 ## Before implementation
 

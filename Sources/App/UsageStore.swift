@@ -22,6 +22,21 @@ private actor ScanWorker {
     func scan(_ path: String) throws -> ScanReport { try scanner.scan(homePath: path) }
 }
 
+// One current query only; does not retain sessions or raw records.
+final class UsageSummary {
+    let usage: TokenUsage
+    let models: [ModelUsage]
+    let dailyTotals: [(day: String, usage: TokenUsage)]
+    let hourlyTotals: [HourlyUsage]
+
+    init(report: ScanReport, period: UsagePeriod, now: Date) {
+        usage = report.totals(in: period, now: now)
+        models = report.models(in: period, now: now)
+        dailyTotals = report.dailyTotals(in: period, now: now)
+        hourlyTotals = period == .today ? report.hourlyTotals(on: now) : []
+    }
+}
+
 @MainActor
 final class UsageStore: ObservableObject {
     @Published private(set) var report = ScanReport.empty
@@ -49,6 +64,35 @@ final class UsageStore: ObservableObject {
     private let worker = ScanWorker()
     private var timer: Timer?
     private var pendingRefresh = false
+    private var reportGeneration = 0
+    struct SummaryKey: Equatable {
+        let generation: Int
+        let period: UsagePeriod
+        let day: Date
+        let timeZone: String
+        let utcOffset: Int
+
+        init(generation: Int, period: UsagePeriod, now: Date, timeZone: TimeZone) {
+            var calendar = Calendar(identifier: .gregorian)
+            calendar.timeZone = timeZone
+            self.generation = generation
+            self.period = period
+            day = calendar.startOfDay(for: now)
+            self.timeZone = timeZone.identifier
+            utcOffset = timeZone.secondsFromGMT(for: now)
+        }
+    }
+    private var cachedSummary: (key: SummaryKey, value: UsageSummary)?
+
+    var summary: UsageSummary { summary(in: period) }
+
+    func summary(in period: UsagePeriod, now: Date = Date()) -> UsageSummary {
+        let key = SummaryKey(generation: reportGeneration, period: period, now: now, timeZone: .current)
+        if let cachedSummary, cachedSummary.key == key { return cachedSummary.value }
+        let value = UsageSummary(report: report, period: period, now: now)
+        cachedSummary = (key, value)
+        return value
+    }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -75,6 +119,8 @@ final class UsageStore: ObservableObject {
         let path = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !path.isEmpty else { return }
         rootPath = path
+        cachedSummary = nil
+        reportGeneration += 1
         report = .empty
         lastSuccessfulRefresh = nil
         didScan = false
@@ -92,6 +138,8 @@ final class UsageStore: ObservableObject {
             do {
                 let scanned = try await worker.scan(path)
                 if path == rootPath {
+                    cachedSummary = nil
+                    reportGeneration += 1
                     report = scanned
                     lastSuccessfulRefresh = scanned.refreshedAt
                     didScan = true

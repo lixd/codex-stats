@@ -6,7 +6,7 @@ Read before changing timestamp parsing, calendar filtering, scan caching or load
 
 ## 2. Signatures
 
-`ScanReport.records(in:now:sortedByTime:)` defaults to newest-first ordering; callers that own another sort can request `sortedByTime: false`. `UsagePeriod.bounds(now:timeZone:)` returns operation-local day bounds. `CodexLogScanner(timeZone:)` owns immutable ISO parsing styles and serial file cache.
+`UsageStore.summary` / `summary(in:now:)` return one current `UsageSummary` with usage/models/dailyTotals/hourlyTotals; only today computes hourly totals. `ScanReport.records(in:now:sortedByTime:)` defaults to newest-first ordering; callers that own another sort can request `sortedByTime: false`. `UsagePeriod.bounds(now:timeZone:)` returns operation-local day bounds. `CodexLogScanner(timeZone:)` owns immutable ISO parsing styles and serial file cache.
 
 ## 3. Contracts
 
@@ -15,6 +15,7 @@ Read before changing timestamp parsing, calendar filtering, scan caching or load
 - Cache uses file path, size and modification time. Unchanged files reuse parsed metadata; changed files reparse in 64 KiB chunks, deleted files leave cache. This is file caching, not byte-incremental or persistent caching.
 - Bound Foundation temporary lifetimes: wrap each FileHandle 64 KiB read and each JSON line callback in a local autoreleasepool, including an unterminated tail. Chunking alone does not release autoreleased NSData/JSON objects. Preserve retained metadata and parse/error behavior; never use pools as a substitute for bounded reads.
 - Background actor owns scanning. First load and changed-root load are pending, not successful zero usage. Refresh keeps the successful report; failure does not move successful refresh time. Old-root results must not overwrite the new root.
+- UsageStore caches only one current UsageSummary, keyed by report generation, period, local day, current timezone identifier and offset; clear on accepted report/root change, retain on refresh failure. No raw-record or unbounded query cache. Sessions precompute totals/models at one now and filter/sort/select once per body. A timezone cache-key change alone does not rebucket scanner data: scanner captures its zone at startup; restart after OS timezone change.
 - UI must not perform two sorts for the same request projection. Display formatting never affects counters or timestamp identity.
 
 ## 4. Validation & Error Matrix
@@ -26,7 +27,10 @@ Read before changing timestamp parsing, calendar filtering, scan caching or load
 | Missing/invalid usage timestamp | Existing missing-timestamp diagnostic, no invented date |
 | Unchanged file | Cache hit and equal accounting |
 | Controlled append / root switch | Correct invalidation and no stale result |
-| Failed refresh after success | Previous successful data/time retained with visible error |
+| Failed refresh after success | Previous successful data/time retained with visible error and same accepted-report summary |
+| Repeated same report/range/local-day query | Same bounded summary object; no repeated aggregate computation |
+| Range/day/report/root change | Different summary with values equal to Core public aggregates |
+| System timezone changes | Key changes; scanner buckets still require App restart, no rebucketing claim |
 | First load | Pending placeholder rather than zero-result presentation |
 | 350 MB fixed corpus | Bounded temporary lifetime; equal accounting before/after; measure peak footprint and maximum RSS separately |
 

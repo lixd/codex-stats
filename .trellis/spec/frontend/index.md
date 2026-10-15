@@ -20,8 +20,8 @@ This directory contains guidelines for frontend development. Fill in each file w
 | [State Management](./state-management.md) | Local state, global state, server state | To fill |
 | [Quality Guidelines](./quality-guidelines.md) | Code standards, forbidden patterns | To fill |
 | [Type Safety](./type-safety.md) | Type patterns, validation | To fill |
-| [Menu Lifecycle](./menu-lifecycle.md) | Exact menu-window dismissal, compact layout and resident termination policy | v0.2.8 |
-| [Token Display](./token-display.md) | Native K/M formatting, exact values and locale checks | Verified v0.2.6; compact main captions |
+| [Menu Lifecycle](./menu-lifecycle.md) | Exact menu-window dismissal, compact layout and resident termination policy | v0.2.10 B menu |
+| [Token Display](./token-display.md) | Native K/M formatting, exact values and locale checks | Verified v0.2.10; semantic card captions |
 
 ## Token Display Changes
 

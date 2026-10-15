@@ -4,7 +4,7 @@ import CodexStatsCore
 // Optional offline verification CLI, independent of the menu bar application.
 struct Output: Encodable {
     struct Model: Encodable { let model: String; let usage: TokenUsage; let sessions: Int }
-    struct Session: Encodable { let id: String; let project: String; let usage: TokenUsage; let models: [Model] }
+    struct Session: Encodable { let id: String; let recordedSessionID: String?; let project: String; let usage: TokenUsage; let models: [Model] }
     let total: TokenUsage
     let models: [Model]
     let sessions: [Session]
@@ -20,7 +20,7 @@ do {
     let report = try CodexLogScanner().scan(homePath: root)
     func model(_ m: ModelUsage) -> Output.Model { .init(model: m.model, usage: m.usage, sessions: m.sessionCount) }
     let result = Output(total: report.totals(in: .all), models: report.models(in: .all).map(model),
-        sessions: report.sessions.map { .init(id: $0.id, project: $0.project, usage: $0.usage(in: .all), models: $0.modelUsage(in: .all).map(model)) },
+        sessions: report.sessions.map { .init(id: $0.id, recordedSessionID: $0.recordedSessionID, project: $0.project, usage: $0.usage(in: .all), models: $0.modelUsage(in: .all).map(model)) },
         warnings: report.warnings, diagnostics: report.diagnostics, files: report.fileCount, invalidLines: report.invalidLineCount,
         records: args.contains("--records") ? report.records(in: .all) : nil)
     let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

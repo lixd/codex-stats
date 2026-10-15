@@ -1,6 +1,6 @@
 # 源码仓库结构与发布边界
 
-目标设计：2026-10-15，关联 R14/R17。状态：源码已提交并推送至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main，目录与忽略规则已建立。App 仍为 v0.2.9/build 11，本次不改变运行行为。
+目标设计：2026-10-15，关联 R14/R17。状态：源码已提交并推送至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main，目录与忽略规则已建立。目录治理与产品版本独立；当前 App 基线见主设计。
 
 ## 目录命名决策
 

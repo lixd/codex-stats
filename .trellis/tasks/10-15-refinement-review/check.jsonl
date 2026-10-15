@@ -1,0 +1,7 @@
+{"file": "docs/design.md", "reason": "First refinement contract"}
+{"file": "docs/data-design.md", "reason": "First refinement contract"}
+{"file": "docs/ui-design-b.md", "reason": "First refinement contract"}
+{"file": ".trellis/spec/backend/token-accounting.md", "reason": "First refinement contract"}
+{"file": ".trellis/spec/backend/scan-performance.md", "reason": "First refinement contract"}
+{"file": ".trellis/spec/frontend/menu-lifecycle.md", "reason": "First refinement contract"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "First refinement contract"}

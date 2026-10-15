@@ -166,14 +166,15 @@ private struct OverviewContent: View {
     let period: UsagePeriod
 
     var body: some View {
+        let summary = store.summary(in: period)
+        let usage = summary.usage
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                let usage = store.report.totals(in: period)
                 HStack(spacing: 12) {
-                    MetricTile(label: "总 Token", number: usage.total, tint: CPTheme.accent, systemImage: "circle.hexagongrid")
-                    MetricTile(label: "输入 Token", number: usage.input, tint: CPTheme.cyan, systemImage: "arrow.down.left")
-                    MetricTile(label: "输出 Token", number: usage.output, tint: CPTheme.purple, systemImage: "arrow.up.right")
-                    MetricTile(label: "缓存输入", number: usage.cachedInput, tint: CPTheme.accent, systemImage: "externaldrive", known: usage.cachedInputKnown)
+                    MetricTile(label: "总 Token", number: usage.total, tint: CPTheme.accent, systemImage: "circle.hexagongrid", caption: "输入 + 输出")
+                    MetricTile(label: "输入 Token", number: usage.input, tint: CPTheme.cyan, systemImage: "arrow.down.left", caption: "包含缓存输入")
+                    MetricTile(label: "输出 Token", number: usage.output, tint: CPTheme.purple, systemImage: "arrow.up.right", caption: "包含推理 Token")
+                    MetricTile(label: "缓存输入", number: usage.cachedInput, tint: CPTheme.accent, systemImage: "externaldrive", known: usage.cachedInputKnown, caption: "已包含在输入中")
                 }
                 Surface {
                     VStack(alignment: .leading, spacing: 16) {
@@ -186,7 +187,7 @@ private struct OverviewContent: View {
                         if usage.isZero {
                             EmptyViewCard(title: "该时间范围没有用量", subtitle: "检查日志位置，或选择其他时间范围。")
                         } else {
-                            trendChart
+                            trendChart(summary)
                         }
                         Text(period == .today ? "按本地小时汇总，归属时间取已计入用量的日志事件时间" : "按本地日期汇总，最近最多显示 30 个有记录的日期")
                             .font(.system(size: 10)).foregroundStyle(.secondary)
@@ -200,7 +201,7 @@ private struct OverviewContent: View {
                                 Spacer()
                                 Text("按总 Token").font(.system(size: 10)).foregroundStyle(.secondary)
                             }
-                            let models = store.report.models(in: period)
+                            let models = summary.models
                             if models.isEmpty {
                                 EmptyViewCard(title: "暂无模型数据", subtitle: "请检查日志目录设置。")
                             } else {
@@ -235,10 +236,10 @@ private struct OverviewContent: View {
         }
     }
 
-    private var trendChart: some View {
+    private func trendChart(_ summary: UsageSummary) -> some View {
         Group {
             if period == .today {
-                Chart(store.report.hourlyTotals()) { point in
+                Chart(summary.hourlyTotals) { point in
                     BarMark(x: .value("小时", point.hour, unit: .hour), y: .value("Token", point.usage.total))
                         .foregroundStyle(CPTheme.cyan)
                         .cornerRadius(3)
@@ -253,7 +254,7 @@ private struct OverviewContent: View {
                     }
                 }
             } else {
-                let points = Array(store.report.dailyTotals(in: period).suffix(30))
+                let points = Array(summary.dailyTotals.suffix(30))
                     .map { DailyPoint(day: $0.day, tokens: Double($0.usage.total)) }
                 Chart(points) { point in
                     BarMark(x: .value("日期", point.day), y: .value("Token", point.tokens))
@@ -304,12 +305,13 @@ private struct ModelsContent: View {
         }
     }
     private var models: [ModelUsage] {
-        store.report.models(in: period)
+        store.summary(in: period).models
             .filter { search.isEmpty || $0.model.localizedCaseInsensitiveContains(search) }
             .sorted { sort.value($0) == sort.value($1) ? $0.model < $1.model : sort.value($0) > sort.value($1) }
     }
 
     var body: some View {
+        let rows = models
         VStack(alignment: .leading, spacing: 17) {
             HStack(alignment: .bottom) {
                 SectionHeader(title: "模型消耗明细", subtitle: "按模型拆分输入、缓存、输出和推理 Token")
@@ -321,11 +323,11 @@ private struct ModelsContent: View {
             Picker("排序", selection: $sort) {
                 ForEach(ModelSort.allCases, id: \.self) { Text($0.rawValue).tag($0) }
             }.frame(width: 200)
-            if models.isEmpty {
+            if rows.isEmpty {
                 EmptyViewCard(title: "没有匹配的模型", subtitle: "请切换时间范围或查看设置中的日志路径。")
             } else {
                 // Native Table owns horizontal scrolling and keeps the first column visible.
-                Table(models) {
+                Table(rows) {
                     TableColumn("模型") { model in
                         Text(model.model).fontWeight(.semibold)
                             .lineLimit(1).help(model.model)

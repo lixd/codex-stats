@@ -24,7 +24,7 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 
 - Read `docs/design.md` before every product change; it is the reconstruction baseline and links to UI/data contracts and approved pending designs.
 - Before implementation, update `docs/requirements.md` and the affected design document with the intended behavior, rationale, state/data/layout contracts, and acceptance checks. Record the change in a Trellis task referencing R/T requirement IDs. Do not leave the design update until after coding.
-- Keep **implemented baseline** separate from **approved pending** work. The user selected B; `docs/ui-design-b.md` describes that pending direction. The current production UI remains the v0.2.9 narrow menu until implementation and verification are complete.
+- Keep **implemented baseline** separate from **approved pending** work. The user selected B; `docs/ui-design-b.md` describes the implemented v0.2.10 menu. Further analysis-window redesign remains deferred until its design and verification are complete.
 - When code and design disagree, report and resolve the discrepancy explicitly. Existing code is evidence for documenting current behavior, not authorization to override an approved design.
 - After verification, update implementation status, baseline version and evidence links. Do not claim static previews prove live interaction, or unexecuted checks passed.
 - Workflow details: `.trellis/spec/guides/design-first.md`. Preserve the managed Trellis block above.

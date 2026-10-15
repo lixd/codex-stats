@@ -91,6 +91,7 @@ struct MetricTile: View {
     let tint: Color
     let systemImage: String
     var known = true
+    let caption: String
 
     var body: some View {
         Surface(padding: 16) {
@@ -105,8 +106,8 @@ struct MetricTile: View {
                     .monospacedDigit()
                     .lineLimit(1).minimumScaleFactor(0.65)
                     .contentTransition(.numericText())
-                Text(known ? abbreviated(number) + " tokens" : "日志缺少部分缓存字段")
-                    .help(detailedNumber(number, known: known))
+                    .help(detailedNumber(number, known: known) + " tokens")
+                Text(known ? caption : "日志未完整记录\(label)")
                     .font(.system(size: 10)).foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -231,12 +232,12 @@ struct TokenDetails: View {
     let usage: TokenUsage
     var body: some View {
         Grid(alignment: .leading, horizontalSpacing: 22, verticalSpacing: 9) {
-            row("Input Tokens", usage.input)
-            row("Cached Input Tokens", usage.cachedInput, known: usage.cachedInputKnown)
-            row("Non-cached Input Tokens", usage.uncachedInput, known: usage.cachedInputKnown)
-            row("Output Tokens", usage.output)
-            row("Reasoning Tokens", usage.reasoning, known: usage.reasoningKnown)
-            row("Total Tokens", usage.total)
+            row("输入 Token", usage.input)
+            row("缓存输入", usage.cachedInput, known: usage.cachedInputKnown)
+            row("非缓存输入", usage.uncachedInput, known: usage.cachedInputKnown)
+            row("输出 Token", usage.output)
+            row("推理 Token", usage.reasoning, known: usage.reasoningKnown)
+            row("总 Token", usage.total)
         }
         .font(.system(size: 12))
         .textSelection(.enabled)

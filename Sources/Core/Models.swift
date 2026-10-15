@@ -169,6 +169,7 @@ public struct SessionUsage: Identifiable, Sendable {
     public let fileName: String
     public var hourlyUsage: [Date: TokenUsage] = [:]
     public var records: [UsageRecord] = []
+    public var recordedSessionID: String? = nil
 
     public func usage(in period: UsagePeriod, now: Date = Date()) -> TokenUsage {
         usage(in: period.bounds(now: now))

@@ -110,7 +110,11 @@ private struct Logs {
     let logs = try Logs(); defer { logs.remove() }
     try logs.write([count(usage(100))], name: "local-group.jsonl")
     let row = try #require(try logs.scan().records(in: .all).first)
-    #expect(row.sessionID == "local-group")
+    #expect(row.sessionID.hasPrefix("unidentified:"))
+    #expect(row.sessionID == "unidentified:local-group")
+    let session = try #require(try logs.scan().sessions.first)
+    #expect(session.recordedSessionID == nil)
+    #expect(session.title == "未识别项目 · 未记录 ID")
     #expect(row.recordedSessionID == nil)
     #expect(row.requestID == nil)
 }
@@ -824,4 +828,120 @@ private func byteCount(_ lines: [[String: Any]]) throws -> Int {
         #expect(report.records(in: .all).isEmpty)
         #expect(report.diagnostics.contains { $0.kind == .missingTimestamp })
     }
+}
+
+
+@Test func missingMetadataFilenameCannotAdmitNativeOrCompanionUsage() throws {
+    for prior in [false, true] {
+        for lastOnly in [false, true] {
+            let logs = try Logs(); defer { logs.remove() }
+            let tokens = usage(100, 20)
+            let native = request("unverified", tokens, total: tokens, owner: "session")
+            let notification = count(lastOnly ? nil : tokens, last: tokens)
+            let lines = prior ? [turn(), notification, native] : [turn(), native, notification]
+            // Before the fix this exact filename admitted the unverified request.
+            try logs.write(lines, name: "session.jsonl")
+            let report = try logs.scan()
+            #expect(report.totals(in: .all).isZero)
+            #expect(report.records(in: .all).isEmpty)
+            #expect(report.sessions.first?.recordedSessionID == nil)
+            #expect(report.diagnostics.contains { $0.kind == .missingIdentity })
+        }
+    }
+}
+
+@Test func unidentifiedCopyCannotPoisonVerifiedResponseOrCompaction() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    let good = request("same-response", usage(100), total: usage(100), model: "model-A")
+    try logs.write([meta(), turn(), good, count(usage(100), last: usage(100))], name: "good.jsonl")
+    // More frames would previously select this file as primary; conflicting usage,
+    // model and compaction evidence could invalidate the genuine response globally.
+    try logs.write([turn(), request("same-response", usage(900), total: usage(900), model: "wrong"),
+        count(usage(900), last: usage(900)), compact("same-response"),
+        request("unverified-extra", usage(800), total: usage(1700)), count(usage(1700), last: usage(800))],
+        name: "session.jsonl", archived: true)
+    let report = try logs.scan()
+    let verified = try #require(report.sessions.first { $0.recordedSessionID == "session" })
+    #expect(report.totals(in: .all).total == 110)
+    #expect(verified.records.count == 1)
+    #expect(verified.records.first?.model == "model-A")
+    #expect(verified.records.first?.isCompaction == false)
+    #expect(!report.diagnostics.contains { $0.kind == .conflictingResponse })
+}
+
+@Test func unidentifiedLegacyFilenameDoesNotShareVerifiedSessionGroup() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    try logs.write([meta(), turn(), request("verified", usage(100))], name: "good.jsonl")
+    try logs.write([turn(), count(usage(40, 4))], name: "session.jsonl")
+    let report = try logs.scan()
+    #expect(report.totals(in: .all).total == 154)
+    #expect(report.sessions.count == 2)
+    let recorded = try #require(report.sessions.first { $0.recordedSessionID != nil })
+    #expect(recorded.id == "session")
+    #expect(recorded.usage(in: .all).total == 110)
+    #expect(report.sessions.first { $0.recordedSessionID == nil }?.usage(in: .all).total == 44)
+}
+
+@Test func metadataSessionIDAliasRemainsVerifiedIdentity() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    var metadata = meta()
+    var payload = metadata["payload"] as! [String: Any]
+    payload.removeValue(forKey: "id"); payload["session_id"] = "session"
+    metadata["payload"] = payload
+    try logs.write([metadata, turn(), request("verified", usage(100))])
+    let report = try logs.scan()
+    #expect(report.sessions.first?.recordedSessionID == "session")
+    #expect(report.totals(in: .all).total == 110)
+}
+
+
+@Test func unidentifiedLegacyArchiveCopiesRetainOneConservativeStream() throws {
+    for prefix in [false, true] {
+        let logs = try Logs(); defer { logs.remove() }
+        let first = [turn(), count(usage(100), last: usage(100))]
+        let full = first + [count(usage(140, 14), last: usage(40, 4))]
+        try logs.write(full, name: "same.jsonl")
+        try logs.write(prefix ? first : full, name: "same.jsonl", archived: true)
+        let report = try logs.scan()
+        #expect(report.sessions.count == 1)
+        #expect(report.totals(in: .all).total == 154)
+        #expect(report.records(in: .all).count == 2)
+        #expect(report.sessions.first?.recordedSessionID == nil)
+        #expect(report.diagnostics.contains { $0.kind == .supersededCopy })
+    }
+}
+
+@Test func explicitSessionIDCannotCollideWithAllocatedUnknownInternalKey() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    try logs.write([meta("unidentified:orphan"), turn(),
+        request("real-one", usage(100), owner: "unidentified:orphan")], name: "good.jsonl")
+    try logs.write([meta("unidentified:unidentified:orphan"), turn(),
+        request("real-two", usage(20, 2), owner: "unidentified:unidentified:orphan")], name: "other.jsonl")
+    let legacy = [turn(), count(usage(40, 4))]
+    try logs.write(legacy, name: "orphan.jsonl")
+    try logs.write(legacy, name: "orphan.jsonl", archived: true)
+    let report = try logs.scan()
+    #expect(report.sessions.count == 3)
+    #expect(Set(report.sessions.map(\.id)).count == 3)
+    #expect(report.totals(in: .all).total == 176)
+    let unknown = try #require(report.sessions.first { $0.recordedSessionID == nil })
+    #expect(unknown.id == "unidentified:unidentified:unidentified:orphan")
+    #expect(unknown.usage(in: .all).total == 44)
+    #expect(report.sessions.first { $0.id == "unidentified:orphan" }?.recordedSessionID == "unidentified:orphan")
+}
+
+
+@Test func generatedUnknownKeyCannotResolveDeclaredParentIdentity() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    let first = count(usage(100), last: usage(100))
+    try logs.write([turn(), first], name: "orphan.jsonl")
+    try logs.write([meta("child", parent: "unidentified:orphan"), turn(), first,
+        count(usage(140, 14), last: usage(40, 4))], name: "child.jsonl")
+    let report = try logs.scan()
+    let child = try #require(report.sessions.first { $0.recordedSessionID == "child" })
+    #expect(child.usage(in: .all).total == 154)
+    #expect(!child.replayDeduplicated)
+    #expect(child.replayUnverified)
+    #expect(report.totals(in: .all).total == 264)
+    #expect(report.diagnostics.contains { $0.kind == .inheritedHistory && $0.sessionID == "child" })
 }

@@ -118,6 +118,24 @@ public final class CodexLogScanner {
         }
         let paths = Set(files.map(\.path))
         cache = cache.filter { paths.contains($0.key) }
+        // Preserve conservative same-name legacy-copy selection without allowing a
+        // fallback filename to select or poison a genuinely recorded session.
+        var groupIDs: [SessionGroupKey: String] = [:]
+        var usedIDs = Set(logs.compactMap(\.recordedSessionID))
+        for index in logs.indices {
+            let key = logs[index].recordedSessionID.map(SessionGroupKey.recorded)
+                ?? .unidentified(logs[index].id)
+            if groupIDs[key] == nil {
+                var candidate = logs[index].recordedSessionID ?? "unidentified:\(logs[index].id)"
+                if logs[index].recordedSessionID == nil {
+                    while usedIDs.contains(candidate) { candidate = "unidentified:\(candidate)" }
+                }
+                groupIDs[key] = candidate
+                usedIDs.insert(candidate)
+            }
+            logs[index].id = groupIDs[key]!
+            logs[index].physicalID = physicalIdentity(URL(fileURLWithPath: logs[index].path), sessionID: logs[index].id)
+        }
         normalizeCompaction(&logs)
         // Stable SessionMeta.id groups the UI, not the immutable physical rollout.
         // Independent native response identities survive revert and remain expenditure.
@@ -133,7 +151,7 @@ public final class CodexLogScanner {
         var responses: [String: Frame] = [:]
         var conflicting = Set<String>()
         for log in logs {
-            for frame in log.frames where frame.owner == log.id {
+            for frame in log.frames where log.owns(frame) {
                 guard let response = frame.responseID else { continue }
                 if let old = responses[response], !sameResponse(old, frame) {
                     conflicting.insert(response)
@@ -141,7 +159,7 @@ public final class CodexLogScanner {
             }
         }
         for log in logs where log.frames.contains(where: {
-            $0.owner == log.id && $0.responseID.map { conflicting.contains($0) } == true
+            log.owns($0) && $0.responseID.map { conflicting.contains($0) } == true
         }) {
             diagnostics.append(.init(severity: .warning, kind: .conflictingResponse,
                 sessionID: log.id, fileName: log.fileName,
@@ -153,7 +171,10 @@ public final class CodexLogScanner {
         for id in groups.keys.sorted() {
             let copies = groups[id]!
             let primary = selected[id]!
-            let parent = primary.parentId.flatMap { selected[$0] }
+            let parent = primary.parentId.flatMap { parentID -> ParsedLog? in
+                guard let candidate = selected[parentID], candidate.recordedSessionID == parentID else { return nil }
+                return candidate
+            }
             var slices: [DailyModelUsage] = []
             var hours: [Date: TokenUsage] = [:]
             var records: [UsageRecord] = []
@@ -174,7 +195,7 @@ public final class CodexLogScanner {
                 inheritedCount += inherited
                 diagnostics += log.diagnostics + result.diagnostics
                 unverified = unverified || (log.isFork && inherited == 0 && !log.frames.isEmpty &&
-                    !log.frames.contains { $0.responseID != nil && $0.owner == log.id })
+                    !log.frames.contains { $0.responseID != nil && log.owns($0) })
                 if log.path != primary.path {
                     let safeCopy = accountingCopy(log, primary)
                     if safeCopy {
@@ -200,12 +221,13 @@ public final class CodexLogScanner {
             let metadata = copies.sorted { $0.lastActivity != $1.lastActivity ? $0.lastActivity > $1.lastActivity : $0.path < $1.path }[0]
             var merged: [DayModel: TokenUsage] = [:]
             for slice in slices { merged[DayModel(day: slice.day, model: slice.model), default: TokenUsage()] += slice.usage }
-            sessions.append(SessionUsage(id: id, project: metadata.project, title: "\(metadata.project) · \(id.prefix(8))",
+            sessions.append(SessionUsage(id: id, project: metadata.project, title: "\(metadata.project) · \(metadata.recordedSessionID.map { String($0.prefix(8)) } ?? "未记录 ID")",
                 workingDirectory: metadata.cwd, source: metadata.source, isFork: copies.contains { $0.isFork },
                 replayDeduplicated: inheritedCount > 0 || foreign > 0, replayUnverified: unverified,
                 firstActivity: copies.map(\.started).min()!, lastActivity: copies.map(\.lastActivity).max()!,
                 dailyModel: merged.map { .init(day: $0.key.day, model: $0.key.model, usage: $0.value) }.sorted { ($0.day, $0.model) < ($1.day, $1.model) },
-                fileName: metadata.fileName, hourlyUsage: hours, records: records.sorted { ($0.timestamp, $0.id) < ($1.timestamp, $1.id) }))
+                fileName: metadata.fileName, hourlyUsage: hours, records: records.sorted { ($0.timestamp, $0.id) < ($1.timestamp, $1.id) },
+                recordedSessionID: metadata.recordedSessionID))
         }
         attachTurnPerformance(to: &sessions, logs: logs, conflicting: conflicting)
         attachRequestEstimates(to: &sessions, logs: logs)
@@ -240,8 +262,11 @@ private struct Frame: Equatable {
     var isNative = false
     var explicitTurn = false
 }
+private enum SessionGroupKey: Hashable {
+    case recorded(String), unidentified(String)
+}
 private struct ParsedLog {
-    let id: String
+    var id: String
     let recordedSessionID: String?
     let cwd: String
     let project: String
@@ -252,7 +277,7 @@ private struct ParsedLog {
     let isFork: Bool
     let hasHistoryBase: Bool
     let history: HistoryReference?
-    let physicalID: String
+    var physicalID: String
     let path: String
     let boundaries: [Int64: UInt64]
     let incomplete: Bool
@@ -266,6 +291,11 @@ private struct ParsedLog {
     let failedTurns: Set<String>
     let requestEstimates: [String: RequestEstimate]
     let conflictingEstimates: Set<String>
+
+    func owns(_ frame: Frame) -> Bool {
+        guard let recordedSessionID else { return false }
+        return frame.owner == recordedSessionID
+    }
 }
 /// Retains timestamps only, never model output or tool contents.
 private struct RequestTimer {
@@ -442,11 +472,11 @@ private extension CodexLogScanner {
                 let owner = nonempty(p["thread_id"])
                 let matchingTurn = requestTurn != nil && requestTurn == requestTimer.turnID
                 if let estimate = requestTimer.finish(at: timestamp, output: last?.output ?? 0),
-                   owner == id, let response, last != nil, matchingTurn {
+                   id != nil, owner == id, let response, last != nil, matchingTurn {
                     if let prior = requestEstimates[response], prior != estimate { conflictingEstimates.insert(response) }
                     else { requestEstimates[response] = estimate }
                 }
-                if owner == nil { warn(.missingIdentity, "原生请求缺少 thread_id，无法核验所有权；该请求及对应通知未计入。") }
+                if owner == nil || id == nil { warn(.missingIdentity, "原生请求缺少 thread_id 或会话元数据，无法核验所有权；该请求及对应通知未计入。") }
                 frames.append(Frame(timestamp: timestamp,
                     model: nonempty(p["model"]) ?? (requestTurn == nil || requestTurn == turn ? model : "Unknown model"),
                     explicitModel: nonempty(p["model"]) != nil, turn: requestTurn ?? turn, cumulative: usage(p["thread_token_usage"]), last: last,
@@ -623,7 +653,7 @@ private extension CodexLogScanner {
             a.timestamp == b.timestamp && a.isCompaction == b.isCompaction
     }
     func normalizeCompaction(_ logs: inout [ParsedLog]) {
-        let owned = logs.flatMap { log in log.frames.filter { $0.isNative && $0.owner == log.id } }
+        let owned = logs.flatMap { log in log.frames.filter { $0.isNative && log.owns($0) } }
         let compacted = Set(owned.filter(\.isCompaction).compactMap(\.responseID))
         var explicitModels: [String: Set<String>] = [:]
         for frame in owned where frame.explicitModel {
@@ -634,7 +664,7 @@ private extension CodexLogScanner {
         for i in logs.indices {
             for j in logs[i].frames.indices {
                 let frame = logs[i].frames[j]
-                guard frame.isNative, frame.owner == logs[i].id, let response = frame.responseID,
+                guard frame.isNative, logs[i].owns(frame), let response = frame.responseID,
                       compacted.contains(response) else { continue }
                 logs[i].frames[j].isCompaction = true
                 if let models = explicitModels[response], models.count == 1 {
@@ -658,7 +688,7 @@ private extension CodexLogScanner {
             guard record.isNative else { continue }
             // A malformed owned request may still have an independently valid legacy
             // counter. Foreign/unknown rejected records retain provenance for pairing.
-            if record.owner == log.id && (record.responseID == nil || record.last == nil) { continue }
+            if log.owns(record) && (record.responseID == nil || record.last == nil) { continue }
             if let response = record.responseID, !responses.insert(response).inserted { continue }
             func matches(_ j: Int) -> Bool {
                 let count = log.frames[j]
@@ -717,7 +747,9 @@ private extension CodexLogScanner {
     /// A shared counter value alone is not evidence of replay. Require timestamps and
     /// model/turn identity as well. Rewritten legacy replay remains visibly unverified.
     func inheritedPrefix(child: ParsedLog, parent: ParsedLog?) -> Int {
-        guard child.isFork, let parent, child.id != parent.id, let first = child.frames.first else { return 0 }
+        guard child.isFork, let parent, parent.recordedSessionID != nil,
+              child.parentId == parent.recordedSessionID, child.id != parent.id,
+              let first = child.frames.first else { return 0 }
         var best = 0
         for start in parent.frames.indices where sameInherited(first, parent.frames[start]) {
             var count = 0
@@ -771,7 +803,7 @@ private extension CodexLogScanner {
             var usingLastRequest = false
             var initialSnapshot = false
             if frame.isNative {
-                guard frame.owner == log.id else {
+                guard log.owns(frame) else {
                     if frame.owner != nil { foreignRecords += 1 }
                     unverifiableNativeSinceCounter = true
                     continue
@@ -862,13 +894,13 @@ private extension CodexLogScanner {
                 continue
             }
             countedUsage += usage
-            if frame.owner == log.id, !frame.isCompaction, !coveredPriorRecords.contains(position) {
+            if log.owns(frame), !frame.isCompaction, !coveredPriorRecords.contains(position) {
                 requestsSinceCounter += usage
             }
             let key = DayModel(day: formatter.string(from: date), model: frame.model)
             sums[key, default: TokenUsage()] += usage
             let evidence: UsageEvidence
-            if frame.owner == log.id && frame.responseID != nil { evidence = .responseRecord }
+            if log.owns(frame) && frame.responseID != nil { evidence = .responseRecord }
             else if usingLastRequest || frame.cumulative == nil || usage == frame.last { evidence = .lastUsage }
             else { evidence = initialSnapshot ? .initialSnapshot : .cumulativeDelta }
             records.append(UsageRecord(id: "\(log.path)#\(position)", sessionID: log.id, recordedSessionID: log.recordedSessionID, project: log.project,

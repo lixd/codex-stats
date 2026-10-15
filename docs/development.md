@@ -2,7 +2,7 @@
 
 所有命令均在仓库根目录执行。协作流程见 [参与开发](../CONTRIBUTING.md)，统计口径见 [统计说明](statistics.md)。
 
-当前发布：**v0.2.9 / build 11**。当前生产菜单宽 288 points；用户已选择 B 视觉方向，尚待实现，不是运行时样式选项。
+当前发布：**v0.2.10 / build 12**。当前生产菜单宽 288 points；已采用 B 总量卡及四指标布局，不提供运行时样式切换。
 
 原生 macOS Codex Token 使用分析工具。macOS 14+，完全离线、本地只读，零第三方运行时依赖。
 
@@ -21,7 +21,7 @@
 
 ## 菜单设计方案
 
-[打开两套原生菜单方案对比](menu-design-comparison.html)。浅色 / 深色截图使用同一份合成数据，B 已选定为后续方向，见 [B 目标设计](ui-design-b.md)，尚未进入生产 App。运行 `./Scripts/render-menu-designs.sh` 可重新生成原生 PNG；正式版只先缩窄现有菜单。
+[打开两套原生菜单方案对比](menu-design-comparison.html)。浅色 / 深色截图使用同一份合成数据，生产已采用 B，见 [B 设计](ui-design-b.md)；此对比仍是原型参考。运行 `./Scripts/render-menu-designs.sh` 可重新生成原生 PNG；正式视图状态预览使用 `./Scripts/render-ui-previews.sh`。
 
 ## 内存验证
 

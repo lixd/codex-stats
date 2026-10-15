@@ -1,6 +1,6 @@
-# 当前原生界面设计（v0.2.9）
+# 当前原生界面设计（v0.2.10）
 
-本文描述 **v0.2.9 / build 11 已实现的界面**，用于复建当前 App。菜单 B 方案已获用户选择但未进入生产，见 [B 方案目标设计](ui-design-b.md)。功能和统计以 [主设计](design.md)、[数据设计](data-design.md) 为共同契约；不能用原型中的固定数字替代真实日志。
+本文描述 **v0.2.10 / build 12 已实现的界面**，用于复建当前 App。菜单已接入用户选择的 B 方案，选择背景与参数见 [B 菜单设计](ui-design-b.md)。功能和统计以 [主设计](design.md)、[数据设计](data-design.md) 为共同契约；不能用原型中的固定数字替代真实日志。
 
 尺寸单位均为 macOS points，字体为系统字体，除非另有注明。截图像素受 Retina 比例影响，不能把 576 像素宽当作 576 points。未指定高度的容器使用 SwiftUI 自适应高度；系统控件的外观、行高和窗口装饰随 macOS 版本变化，本文没有给它们虚构固定像素值。
 
@@ -41,9 +41,9 @@
 
 `Surface`：内边距默认 20，圆角 18 / continuous，语义卡片背景及 stroke 边框。`SectionHeader`：标题 27 / bold / rounded，副标题 12 / secondary，垂直间距 5。
 
-`MetricTile`：Surface 内边距 16，垂直间距 9；图标及标签 12 / medium，标签 secondary；数字 26 / semibold / rounded、等宽数字、单行、最小缩放 0.65、numericText 过渡；副行 10 / secondary，紧凑数量加 tokens。缓存字段不完整时副行提示日志缺少部分缓存字段。
+`MetricTile`：Surface 内边距 16，垂直间距 9；图标及标签 12 / medium，标签 secondary；数字 26 / semibold / rounded、等宽数字、单行、最小缩放 0.65、numericText 过渡；副行 10 / secondary，由调用处提供字段口径：总量“输入 + 输出”、输入“包含缓存输入”、输出“包含推理 Token”、缓存“已包含在输入中”；不再重复主数字。字段不完整时显示“日志未完整记录”加该卡标签。主数字保留完整整数 help，不能用副标题推导新的统计。
 
-`TokenDetails`：两列 Grid，横距 22，行距 9，字体 12，标签 secondary，数值右对齐、等宽数字，可选择文字。行序固定为 Input / Cached Input / Non-cached Input / Output / Reasoning / Total Tokens。
+`TokenDetails`：两列 Grid，横距 22，行距 9，字体 12，标签 secondary，数值右对齐、等宽数字，可选择文字。行序固定为输入 Token / 缓存输入 / 非缓存输入 / 输出 Token / 推理 Token / 总 Token；未知字段保留“未完整记录”，紧凑值仍提供精确整数 help。
 
 `ModelBar`：名称 12 / medium / rounded，数值 12 / semibold / rounded；单行名称，数字等宽；垂直间距 8。条高 6，底条 accent×0.10，前景 accent，宽度 `max(3, 可用宽×本模型总量/max(1,第一名总量))`。底行 10 / secondary，显示输入、输出和会话数。条表示相对第一名的排行，不是占总用量的百分比。
 
@@ -71,18 +71,21 @@ M 最多两位小数，K 最多一位，去尾零；999,950 提前提升为 M，
 
 ## 4. 菜单栏弹窗
 
-`MenuBarExtra` 使用 `.window` 样式，菜单栏符号为 `waveform.path.ecg.rectangle`，无障碍标签 Codex Stats。生产菜单固定 **宽 288**，外内边距 14，有效内容宽 260。主 VStack 左对齐、间距 12；高度根据数据、诊断、错误动态决定，没有生产固定高度。
+`MenuBarExtra` 使用 `.window` 样式，菜单栏符号为 `waveform.path.ecg.rectangle`，无障碍标签 Codex Stats。B 菜单固定 **宽 288**，外内边距 14，有效内容宽 260。主 VStack 左对齐、间距 10；高度由内容决定，没有生产固定高度。
 
 从上到下重建：
 
-1. 标题 HStack 间距 8：Logo 27，Codex Stats 14 / semibold，Spacer，borderless 刷新。扫描时改小型 ProgressView、禁用按钮；帮助文本“重新扫描本地日志”。
-2. 时间 Picker 宽 260，四段，共享 `store.period`。
-3. 总量卡：VStack 间距 10，内边距 12，圆角 12、accent×0.08 背景、撑满宽。总量 30 / bold / rounded / 等宽数字，tokens 11 / secondary，基线对齐、间距 6。下方两行：输入/输出，缓存/推理；每行横距 14。每个指标色点 5，标签 secondary，数值 medium；整体 10 字体，单行、最小缩放 0.85，Spacer 最少 2。缓存或推理缺失显示“未完整记录”。卡片帮助说明缓存/推理包含关系。
-4. 主要模型：标题 11 / medium / secondary，区域间距 8。只展示排行前两名；每项行内名称单行、悬停全名，数字紧凑且精确整数帮助，字体 11 / medium。名称与值之间 Spacer 最少 8；该行和进度条间距 4。条高 3、底条 accent×0.09，前景宽为本模型/第一名，无 3pt 最小宽强制。
-5. 有扫描失败时显示 orange 10 字体，最多两行，帮助文本保留完整错误；不清除已有成功数据。
-6. 有诊断时显示一行 button：图标、警告/错误数、信息数、右箭头。字体 10、箭头 9；有警告/错误用 orange，否则 cyan。这里不展开全部源文件明细；点击执行与完整分析相同动作。
-7. 主操作“打开完整分析”：白色 12 / semibold、图表图标，右侧箭头 10；水平内边距 10、垂直 9、accent 背景、圆角 8、plain button。
-8. 底行：左侧两行“刷新于 …”/“每 30 秒刷新 · 本地只读”或手动刷新，9 / secondary、间距 3；右侧 borderless power+“退出”10，直接终止 App，帮助显示 ⌘Q。
+1. 标题 HStack 间距 8：Logo 24，Codex Stats 13 / semibold，Spacer，borderless 刷新。标签区域 24×24，扫描时小型 ProgressView、禁用按钮；帮助文本“重新扫描本地日志”，可访问性标签按状态为“刷新本地日志”或“正在刷新本地日志”。
+2. 时间 Picker 宽 260，四段，共享 `store.period`，segmented / small / labelsHidden。
+3. 总量卡：VStack 间距 6，内边距 10，圆角 10、accent×0.09 背景、撑满宽。首行“今日用量”或所选范围 rawValue 加“用量”，10 / medium / secondary。总量 29 / semibold / rounded / 等宽数字、单行、最小缩放 0.65，tokens 10 / secondary；基线对齐、横距 5。精确整数 help，卡片帮助说明总计与缓存/推理包含关系。
+4. 独立四卡：LazyVGrid 两列 flexible，行距 8，列距使用 GridItem 系统默认。顺序输入/输出、缓存输入/推理；小卡内边距 8、圆角 9、语义卡片背景及 stroke。内部左对齐、间距 6；标签 Label 色点 5、字体 9 / secondary，颜色 cyan/purple/accent/orange；数值 16 / semibold / 等宽，字段未知时文字“未完整记录”用 12 字体。数值单行、最小缩放 0.65、数值区域最小高 19，保证未知卡与已知卡对齐。每卡 help 与无障碍标签保留字段和精确值或明确未知状态。
+5. 主要模型：标题 10 / secondary，区域间距 8。只展示当前范围前两名；名称与值 10 / medium，名称单行并帮助全名，值固定其固有宽度、等宽并提供完整整数 help。两者间 Spacer 最少 8；行与条间距 4。条高 3、底条 accent×0.10，前景按本模型/第一名归一化，无最小宽强制。未知模型显示 Unknown model。
+6. 扫描失败时 orange 10 字体、最多两行，帮助文本保留完整错误；已有成功数据保持。
+7. 有诊断时一行 button：图标、警告/错误数、信息数、右箭头。字体 10、箭头 8；有警告/错误用 orange，否则 cyan。这里不展开源文件明细；点击与完整分析相同。
+8. 主操作“打开完整分析”：白色 11 / medium、图表图标，右侧箭头 10；水平内边距 10、垂直 9、accent 背景、圆角 8、plain button。
+9. 底行左侧两行“刷新于 …”/“每 30 秒刷新 · 本地只读”或手动刷新，9 / secondary、间距 3；右侧 borderless power+“退出”10 / secondary，标签最小 24×24。直接终止 App，帮助显示 ⌘Q；可访问性标签“退出 Codex Stats”，保留 quit-app 标识。
+
+2026-10-15 原生合成预览实测：正常/四范围 **288×466**、首扫 **288×270**、真实空态 **288×409**、首次失败 **288×306**、完整字段且 Unknown model 单模型 **288×415**，深浅色均覆盖。这些是当前宿主的内容 fittingSize，不是固定高度承诺；不同诊断、错误、系统字体和状态会改变高度。预览同时覆盖长模型名、缓存/推理未知及十亿以上统一 M 单位，未证明真实菜单点击或 macOS 14 布局。
 
 首次没有成功结果：总量卡显示“正在读取本地日志…”或“尚未取得用量”14 / medium / secondary，不展示假 0 和四项指标；模型处显示“等待扫描结果”。成功扫描但范围空：真实总量 0，模型处“该时间范围没有使用记录”。
 
@@ -163,7 +166,7 @@ ScrollView 内左对齐 VStack 间距 18，外内边距 24。
 
 会话开始/最后活动是会话元数据，Token是当前范围值，不应把开始日期误写为筛选范围内首条。
 
-当前会话页使用 `SessionUsage.id` 展示并复制 ID；若日志缺少 session_meta ID，这个值是文件名生成的本地归组标识，页面尚未专门标出它不是原始 Session ID。请求详情则保留 `recordedSessionID=nil` 并显示“未记录”。这是当前实现限制，不能据此在复建的数据层伪造真实身份；后续完善会话页时须先更新设计和 T06 验收。
+会话页只用 `SessionUsage.recordedSessionID` 展示、搜索及复制真实 ID；缺失时列表显示“Session ID 未记录”，详情显示“未记录”，复制按钮禁用且帮助说明缺失。`SessionUsage.id` 只作为内部归组/选择标识，不能冒充原始 Session ID。一次 body 中只计算一次匹配列表与选中项，行比较选中 ID，不逐行重新筛选；Token 排序复用预先计算的每会话范围用量。请求详情仍遵守真实 ID 与本地归组 ID 的独立标记。
 
 ## 10. 设置页
 
@@ -209,4 +212,9 @@ DiagnosticSummary缺省收起，按severity+kind分组，组顺序error→warnin
 |窗口机制|`Scripts/test-menu-lifecycle.sh`|owned AppKit窗口关闭顺序/驻留callback；不等于实际鼠标点MenuBarExtra|
 |用户验收|安装后点击菜单、打开分析、关闭窗口、切范围/筛选、详情×/Esc、深浅色|真实交互；macOS14实机仍须单独验收|
 
-运行脚本前检查仓库实际名称与参数；历史执行证据见 [VERIFICATION](../VERIFICATION.md)。本次文档同步依据源码，不产生新的UI运行或macOS14验收声明。系统字体字形、默认Table行高、segmented样式、阴影和窗口外圆角由系统绘制；复建要求结构、数据口径、指定points与交互一致，不承诺跨OS逐像素完全相同。
+运行脚本前检查仓库实际名称与参数；历史执行证据见 [VERIFICATION](../VERIFICATION.md)。v0.2.10 已执行原生合成预览和数字检查；这些不产生真实菜单点击或 macOS 14 实机验收声明。系统字体字形、默认Table行高、segmented样式、阴影和窗口外圆角由系统绘制；复建要求结构、数据口径、指定points与交互一致，不承诺跨OS逐像素完全相同。
+
+
+## 2026-10-15 第一批精修实现记录
+
+v0.2.10/build12 接入 B 菜单及上述中文/字段口径细节，保留分析窗口布局和 360pt 请求侧栏。菜单和总览读取同一个 Store 当前范围摘要，不因展示而分别重做聚合；摘要按报告修订、范围、本地日期及时区失效。真实身份展示与筛选规则见会话部分，详细实现和验证以主设计、数据设计、VERIFICATION 为准。

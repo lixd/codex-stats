@@ -1,6 +1,6 @@
 # 数据与统计设计：当前实现基线
 
-状态：**已实现，v0.2.9 / build 11**。本页描述 Core 当前行为；视觉方案 B 不改变这里的统计口径。与 [设计总纲](design.md)、[界面设计](ui-design.md) 配套使用。代码依据是 `Sources/Core/Models.swift`、`Sources/Core/CodexLogScanner.swift`；测试是独立复建时的可执行判据。
+状态：**已实现，v0.2.10 / build 12**。本页描述 Core 当前行为；视觉方案 B 不改变这里的统计口径。与 [设计总纲](design.md)、[界面设计](ui-design.md) 配套使用。代码依据是 `Sources/Core/Models.swift`、`Sources/Core/CodexLogScanner.swift`；测试是独立复建时的可执行判据。
 
 ## 1. 产品计量对象与分层
 
@@ -33,13 +33,13 @@ FileHandle 每次读 64 KiB，以 LF 切行；跨块的单行保存在 `pending`
 |---|---|
 | `TokenUsage` | `Int64` 的 `input / cachedInput / output / reasoning`，以及 `cachedInputKnown / reasoningKnown` 两个 Bool |
 | `UsageRecord` | 内部 `id`，`sessionID`，可选 `recordedSessionID`，`project / source / fileName`，`timestamp / day / model`，可选 `requestID / turnID`，`usage / evidence / isCompaction`，可选 `cumulativeSnapshot / lastReportedUsage / turnPerformance / requestEstimate` |
-| `SessionUsage` | 稳定会话 ID、项目标题、cwd、来源、fork 与去重状态、首末活动、文件名、日模型切片、小时桶、被接受记录 |
+| `SessionUsage` | 内部归组 `id`、可选真实 `recordedSessionID`、项目标题、cwd、来源、fork 与去重状态、首末活动、文件名、日模型切片、小时桶、被接受记录 |
 | `ModelUsage` | 模型字符串、用量、涉及会话数；ID 就是模型字符串 |
 | `DailyModelUsage` | 本地 `yyyy-MM-dd`、模型、用量 |
 | `ScanDiagnostic` | `severity / kind / sessionID? / fileName? / message` |
 | `ScanReport` | `sessions / fileCount / invalidLineCount / diagnostics / refreshedAt / cachedFileCount`；提供时间筛选和汇总方法 |
 
-`UsageRecord.id` 是 `物理路径#帧序号`，用于行标识，**不能显示成真实请求 ID**。只有原始 response ID 可放入 `requestID`。缺少会话元数据时以去扩展名的文件名作为内部 sessionID，而 `recordedSessionID` 保持 nil。项目来自 cwd 最后一段，cwd 缺失显示“未识别项目”；标题为“项目 · ID 前 8 位”。`originator` 是来源字符串，缺失使用 `Codex`。
+`UsageRecord.id` 是 `物理路径#帧序号`，用于行标识，**不能显示成真实请求 ID**。只有原始 response ID 可放入 `requestID`。`SessionUsage.id` 和 `UsageRecord.sessionID` 是内部归组键；有真实元数据时等于其 ID，缺少时先按无元数据文件的同名 stem 保守归组，再分配 `unidentified:stem` 形式的不透明内部键（若与任一真实 ID 或已分配内部键冲突，则重复前缀直到唯一），不能作为真实身份显示或复制。`recordedSessionID` 仅来自首个 `session_meta.id / session_id`，否则为 nil；手工构造 SessionUsage 时默认也是 nil。归组使用已记录/未记录两种身份类型；同 stem 的缺失元数据文件沿用保守 primary 流选择，不证明它们属于同一真实会话，也不跨副本求和。这样既抑制同名活动/归档旧流重复，也隔离无元数据文件对真实会话副本选择、冲突判定或压缩归并的影响。项目来自 cwd 最后一段，cwd 缺失显示“未识别项目”；真实身份存在时标题为“项目 · ID 前 8 位”，否则为“项目 · 未记录 ID”。`originator` 是来源字符串，缺失使用 `Codex`。
 
 `UsageEvidence` 有四种：`responseRecord`（独立请求）、`lastUsage`（最近一次用量）、`cumulativeDelta`（累计增量）、`initialSnapshot`（初始快照）。只有第一种证明独立请求，后两种可能覆盖多次请求。零用量帧可以更新基线，但不生成 UsageRecord。
 
@@ -72,22 +72,21 @@ Cached ⊆ Input；Reasoning ⊆ Output
 - 父会话支持 `forked_from_id`、`parent_thread_id`，以及 `source.subagent.thread_spawn.parent_thread_id`；`thread_source == "subagent"` 也标为子会话。
 - `turn_context` 更新当前 turn 和 model，缺 model 会清除旧模型并设 `Unknown model`。新模型不回填以前记录。
 - `token_count` 支持 `info.total_token_usage / last_token_usage`，模型优先 payload.model、info.model、当时上下文。
-- 原生 `token_usage_record` 必须有 response_id 和有效 usage；当前所有权判断实际是显式 thread_id 等于解析后的内部 `log.id`。正常文件的 log.id 来自 session_meta.id；thread_id 缺失或不匹配会排除。模型优先 payload.model；无显式模型时，payload.turn_id 缺失或与当前上下文 turn 相同才可使用上下文模型，否则 Unknown。原始 turn_id 是否显式存在被另行保留，不能以推断 Turn 代替性能成员资格。
+- 原生 `token_usage_record` 必须有 response_id 和有效 usage；所有权要求非空的真实 `recordedSessionID`，并且显式 thread_id 与之相等；thread_id 缺失、不匹配或会话元数据缺失都会排除。thread_id 恰好等于文件名也不能证明归属。模型优先 payload.model；无显式模型时，payload.turn_id 缺失或与当前上下文 turn 相同才可使用上下文模型，否则 Unknown。原始 turn_id 是否显式存在被另行保留，不能以推断 Turn 代替性能成员资格。
 - `compacted.payload.compaction_response_id` 标记压缩响应。它的独立用量可计入，模型没有明确 payload 证据时设 Unknown。
 - 仅在上述主帧数组完全为空时使用 `turn.completed` 的顶层 usage 或 payload.usage 作为旧格式补充。其顶层 id 不视为 response_id，不产生原生请求性能。没有主帧时才启用，避免两套日志相加。
 - 未识别事件忽略；`response_item` 的消息/工具类型仅为请求估算提供时间边界，不保留内容。
 
-**已发现的身份缺口：** 无 session_meta ID 时，log.id 退化为文件名；若原生 thread_id 恰好等于这个文件名，现有 aggregate 判断仍会接受 Token。这不等于真实会话身份已核验，不能据此声称原生计量入口始终要求 session_meta.id。请求估算和 Turn 性能另有真实元数据/候选约束，不因此补齐。目标契约应要求真实会话ID；修复入口或增加专门诊断前，须先在本文及 Trellis 任务明确目标与验收。会话页展示这个归组ID的限制见UI设计。
 
 ## 5. 扫描与去重的完整决策顺序
 
 顺序属于契约，不能把“先汇总后去重”替换成另一种实现。
 
 1. 枚举、文件缓存/解析，保留物理文件的帧序列、原始诊断、引用边界、Turn 和请求估算候选。
-2. 跨副本归一化正向压缩证据，再比较真实 response 记录。
-3. 按稳定 session_meta.id 分组。每组选择帧数量最多的 primary；数量相同优先非归档，再按路径升序。该选择控制**旧格式流**，不意味着丢弃其他原生物理历史。
+2. 仅从具有真实元数据且 owner 匹配的原生帧归一化跨副本正向压缩证据，再比较真实 response 记录。缺失身份文件不能为其他真实响应补模型或压缩证据。
+3. 按内部归组键分组：真实元数据 ID 归入稳定会话；缺失元数据则以未记录身份类型和文件名 stem 保守归组，真实身份与同名未记录身份保持独立。每组选择帧数量最多的 primary；数量相同优先非归档，再按路径升序。该选择控制**旧格式流**，不意味着丢弃其他原生物理历史。
 4. 核验 history_base 链，生成信息或告警。它不恢复远端历史，也不作为另一份累计 Token 加入。
-5. 在全部“owner 等于所在会话”的响应帧中按 response_id 找冲突：owner、usage、model、turn、timestamp、compaction 状态任一不同，则该身份所有副本不计入；每个参与物理来源都收到冲突告警。
+5. 仅在全部“非空 recordedSessionID 与 owner 相等”的响应帧中按 response_id 找冲突：owner、usage、model、turn、timestamp、compaction 状态任一不同，则该身份所有副本不计入；每个参与物理来源都收到冲突告警。
 6. 稳定会话 ID 升序，每组先 primary，再其余路径升序。只有 primary 可接受旧格式计量。若 primary 已接受旧格式行，其他副本无法证明不重叠的原生行也不合并；否则合并不同物理历史的独立原生响应，全局 response_id 去重。
 7. 每文件先排除已证实继承前缀，再执行下面的逐帧计量状态机。
 8. 从被接受记录同时建立日模型、小时及会话聚合；再附加性能元数据。会话展示元信息取最近活动的副本（同时间按路径）；活动边界跨所有副本取最早/最晚。
@@ -97,7 +96,7 @@ Cached ⊆ Input；Reasoning ⊆ Output
 
 先按文件帧序列找每个独立原生 response 的相邻 token_count：优先后一帧，再前一帧。必须同 Turn 且满足“last 相同”或“非压缩且 cumulative 相同”。相邻是计量帧相邻，忽略中间非计量事件。每个 response 只配一次；前置通知另记一项，避免之后再扣减该原生响应。
 
-缺 owner、foreign owner 或冲突原生记录的来源仍参与通知抑制，不能让已拒绝请求经累计通知重新计入。owner 正确但 response_id / usage 损坏的原生帧不压掉独立有效旧计量。
+缺 owner、缺真实会话元数据、foreign owner 或冲突原生记录的来源仍参与通知抑制，不能让已拒绝请求经累计通知重新计入。真实元数据与 owner 匹配但 response_id / usage 损坏的原生帧不压掉独立有效旧计量。缺元数据的损坏原生帧仍保留通知抑制证据，不能误当成已核验 owner 的例外。
 
 **thread_token_usage 和 token_count.total_token_usage 可能因压缩长期不一致，禁止跨两类计数器作差。** 原生始终计 usage，匹配的通知仅更新旧累计基线，不再增加用量。
 
@@ -133,7 +132,7 @@ Cached ⊆ Input；Reasoning ⊆ Output
 
 引用边界使用 Codex 原始 ordinal，不是行数。完整 JSONL 行结束位置（含 LF）到 `ordinal + 1` 的映射用于核验；exclusive byte 必须精确落在该完整行尾，exclusive ordinal 必须一致。目标文件不存在、截断、边界不匹配、引用前缀内损坏、无效 history 元数据或非空循环均为未解决历史告警。边界后的损坏不使已引用前缀失效。byte=0 且 ordinal=0 是空前缀，停止遍历，不引入目标祖先。已核验引用为信息级，不再逐项渲染成计量错误。
 
-子会话旧格式继承前缀必须有父会话，且子首帧可在父流中找到连续最长匹配段。带 response ID 时比较 response 与 owner；无 ID 时必须同时匹配有效时间、model、turn、非空 cumulative、last（last 可以同时为 nil）。相同累计数字本身不是继承证据。已证实前缀跳过，但累计值可建立基线；无原生身份且无法验证继承边界则警告可能含历史。
+子会话旧格式继承前缀必须有真实记录身份与 child.parentId 完全匹配的父会话；不透明内部键不能解析元数据中的父引用，即使字符串恰好相等也不能作为继承证明。子首帧可在父流中找到连续最长匹配段。带 response ID 时比较 response 与 owner；无 ID 时必须同时匹配有效时间、model、turn、非空 cumulative、last（last 可以同时为 nil）。相同累计数字本身不是继承证据。已证实前缀跳过，但累计值可建立基线；无原生身份且无法验证继承边界则警告可能含历史。
 
 同会话完整非空计量帧前缀相同，且双方无损坏/部分写入，记录会话、父身份、fork 与 history 一致，可标 `supersededCopy` 信息；独立原生物理历史可标 `mergedPhysicalHistory` 信息。不同旧流无法证明覆盖则为 `divergentAccountingCopies` 警告，保留 primary 而不相加。
 
@@ -157,6 +156,12 @@ Scanner 初始化捕获分桶 timeZone（默认当前系统时区）。用量事
 | `recentSessions(in:now:)` | 全部范围保留所有会话；有限范围有用量，或首次/末次活动日期落在范围即可显示；因此可有 0 Token 会话 |
 
 全局、会话、模型、日和记录总量来自同一接受记录集合，应一致；小时求和也应一致，除非 `invalidTimeBucket` 已明确报告无法分桶。筛选只改变显示集合，不能重新推测身份、模型或性能分子。
+
+### App 的有界范围摘要
+
+UsageStore 只保留一个当前查询的 `UsageSummary`：总量、模型汇总、日汇总，以及仅在今天范围构建的小时汇总。通过既有 ScanReport API，以同一个捕获的 now 计算，供菜单、总览和模型筛选复用；不缓存 SessionUsage 或原始 UsageRecord，不建立无限查询缓存、数据库或持久缓存。
+
+摘要键为报告修订号、范围、本地 Gregorian 日起点、当前时区标识及该时刻的 UTC 偏移。同键返回同一摘要；换范围、本地日期或时区键变化时，在下次访问时替换。新路径清空报告时、当前路径成功发布报告时，显式清摘要并递增报告修订号；刷新失败保留上次成功报告及摘要。此策略减少同一报告被多个视图重复聚合，不宣称首次摘要构建不遍历数据，也不替代 Scanner 的文件级缓存。系统时区变化后扫描器原有分桶限制仍适用。
 
 ## 8. 请求估算与完整 Turn 性能
 
@@ -215,7 +220,7 @@ UI 用“≈耗时 / ≈tok/s”，未知显示 `—` 并解释依据不足；�
 swift run codex-stats-report Tests/CodexStatsCoreTests/Fixtures --records
 ```
 
-CLI 无日期筛选参数，总是输出全部；JSON 含 `total / models / sessions / warnings / diagnostics / files / invalidLines`，`--records` 才含明细。TokenUsage 编码为上述四个整数与 known 标志，total/uncached 是计算属性，不作为 TokenUsage JSON 字段；Date 使用 ISO8601 编码。解析失败输出 stderr 并退出 1。App 不运行 CLI，而是直接使用 Core。
+CLI 无日期筛选参数，总是输出全部；JSON 含 `total / models / sessions / warnings / diagnostics / files / invalidLines`，`--records` 才含明细。sessions 中 `id` 是内部归组键，`recordedSessionID` 才是真实日志身份；缺失时按标准可选值编码省略该字段，不能从内部 id 补齐。TokenUsage 编码为上述四个整数与 known 标志，total/uncached 是计算属性，不作为 TokenUsage JSON 字段；Date 使用 ISO8601 编码。解析失败输出 stderr 并退出 1。App 不运行 CLI，而是直接使用 Core。
 
 复建必须通过现有测试合同，而不只与截图数字相似：
 
@@ -223,4 +228,4 @@ CLI 无日期筛选参数，总是输出全部；JSON 含 `total / models / sess
 - [DateFilteringTests.swift](../Tests/CodexStatsCoreTests/DateFilteringTests.swift)：精度、偏移、Gregorian、午夜、未来日期、DST。
 - [RequestEstimateTests.swift](../Tests/CodexStatsCoreTests/RequestEstimateTests.swift)：边界/工具/同批补充、100 ms/1 h、200 Token/1 s、abort、缺证据、候选冲突，性能未知时 Token 不变。
 - [TurnPerformanceTests.swift](../Tests/CodexStatsCoreTests/TurnPerformanceTests.swift)：完整生命周期、全 Turn 输出覆盖、缺 TTFT/0、跨过滤、错误/中止/副本不完整。
-- [统计实现规范](../.trellis/spec/backend/token-accounting.md)、[请求估算规范](../.trellis/spec/backend/request-estimates.md)、[Turn 规范](../.trellis/spec/backend/turn-performance.md)、[性能规范](../.trellis/spec/backend/scan-performance.md) 提供修改门禁；历史实际命令结果与环境限制见 [VERIFICATION.md](../VERIFICATION.md)。本次仅更新文档，未重新声称运行测试或完成实机交互验收。
+- [统计实现规范](../.trellis/spec/backend/token-accounting.md)、[请求估算规范](../.trellis/spec/backend/request-estimates.md)、[Turn 规范](../.trellis/spec/backend/turn-performance.md)、[性能规范](../.trellis/spec/backend/scan-performance.md) 提供修改门禁；历史实际命令结果与环境限制见 [VERIFICATION.md](../VERIFICATION.md)。2026-10-15 身份修复后实际执行 `./Scripts/test.sh`，121 项通过、0 失败；包含缺元数据文件名碰撞、前后相邻累计/last-only 通知抑制、不可信副本冲突/压缩隔离、旧格式用量保留、无元数据同名活动/归档完整及前缀副本去重、真实身份与内部前缀碰撞、未知内部键不能证明父身份、session_id 别名。该测试同时编译了 App 目标，不能据此声称真实交互或 macOS 14 实机验收完成。

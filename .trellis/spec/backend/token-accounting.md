@@ -12,11 +12,13 @@ Read this contract before changing JSONL decoding, deduplication, physical histo
 
 - Read only regular JSONL files in `sessions`/`archived_sessions`, or the explicitly selected JSONL directory. Never read credentials or retain conversation bodies.
 - `total = input + output`; cached input is a subset of input and reasoning is a subset of output. Preserve unknown-field flags rather than inventing zero observations.
-- Stable `session_meta.id` groups sessions. The UUID suffix of a canonical rollout filename identifies immutable physical history; `history_base` refers to that physical UUID with exclusive byte/ordinal boundaries.
-- Owned `token_usage_record` requires an explicit `thread_id` matching the containing session and a valid `response_id`. Deduplicate real responses globally across active, archived and reverted physical files.
-- Native usage comes from per-response usage, never from differences between `thread_token_usage` and `total_token_usage`. Matched cumulative notifications are suppressed. Rejected foreign/unknown native rows retain provenance so an adjacent counter cannot resurrect them.
+- Explicit nonempty `session_meta.id` (or `session_id`) fills `SessionUsage.recordedSessionID` and groups verified sessions. Grouping distinguishes recorded IDs from unknown filename stems using a typed key. Unknown same-stem active/archive copies share one conservative selected legacy stream; this is not proof of real session identity. Their opaque internal IDs start at `unidentified:<stem>`, repeatedly prefixed on collision against all recorded and already allocated IDs. Unknown groups must never select a verified legacy stream or contribute response conflicts/compaction evidence. Session/record internal IDs are not user-facing identities. Hand-built SessionUsage defaults recordedSessionID to nil.
+- The UUID suffix of a canonical rollout filename identifies immutable physical history; `history_base` refers to that physical UUID with exclusive byte/ordinal boundaries.
+- Owned `token_usage_record` requires an explicit `thread_id` matching a nonempty recorded metadata ID and a valid `response_id`. Comparing an owner against the filename or internal fallback ID is forbidden. Global response-conflict and compaction normalization use the same recorded-ID ownership gate. Deduplicate real responses globally across active, archived and reverted physical files.
+- Native usage comes from per-response usage, never from differences between `thread_token_usage` and `total_token_usage`. Matched cumulative notifications are suppressed. Rejected foreign/unknown native rows, including missing session metadata, retain provenance so an adjacent counter before or after them cannot resurrect their usage. Only a genuinely verified owner with malformed response/usage may leave an independent valid legacy counter eligible.
 - A later positive compaction marker applies to matching response copies, including a shorter archive ending before the marker. Explicit payload model is authoritative; otherwise compaction usage is `Unknown model`. Contradictory explicit models remain conflicts.
 - Genuine contradictory response usage/owner/Turn/time/model is excluded with a warning for every contributing source. Distinct response IDs are independent expenditure even when cumulative totals coincide.
+- Metadata parent references may resolve only a candidate whose recordedSessionID exactly equals the declared parent ID; generated unknown internal keys never prove parent identity or inherited-prefix coverage.
 - Unidentified legacy counters use one deterministic selected stream. Do not union divergent legacy histories or merge extra native rows when overlap with accepted legacy consumption is unprovable.
 
 ## 4. Validation & Error Matrix
@@ -30,7 +32,8 @@ Read this contract before changing JSONL decoding, deduplication, physical histo
 | Missing/invalid byte-ordinal reference or nonempty cycle | Unresolved-history warning |
 | Corruption after referenced exclusive prefix | Keep prefix valid; report corruption separately |
 | Empty zero-byte/zero-ordinal reference | Imports nothing; stop traversal |
-| Native ownership absent/foreign | Exclude; never infer owner |
+| Native ownership absent/foreign or session metadata absent | Exclude native usage and matching companion notifications; never infer owner from filename |
+| Missing-metadata filename equals a real session ID | Keep groups separate; unverified response/model/compaction cannot poison the verified group |
 | Conflicting genuine response | Exclude all copies; explicit incomplete warning |
 | Damaged/partial JSONL | Preserve valid rows; typed corruption/partial-write diagnostic |
 | Unprovable legacy coverage | Conservative selected stream; possible-undercount warning |
@@ -41,7 +44,7 @@ Good: one stable session has physical A with response X and reverted physical B 
 
 ## 6. Tests Required
 
-Run `./Scripts/test.sh` and native build after decoder/report changes. Assert exact record/global/session/model/day/hour sum agreement and unique internal row identities. Cover archive repeats, independent generations, model switches, resets, cached/reasoning subsets, missing owner/model, malformed rows, inherited notifications, physical reference bounds/cycles, corruption before/after reference boundaries, compaction markers absent from a shorter prefix, and true conflicting explicit models. Compare fixed corpora in the same read; live logs may grow between runs.
+Run `./Scripts/test.sh` and native build after decoder/report changes. Assert exact record/global/session/model/day/hour sum agreement and unique internal row identities. Cover archive repeats, independent generations, model switches, resets, cached/reasoning subsets, missing owner/model/metadata, filename collision with and without a verified copy, identical/prefix unknown archive copies, arbitrary recorded IDs matching internal-key prefixes, prior/following cumulative and last-only companion suppression, malformed rows, inherited notifications, physical reference bounds/cycles, corruption before/after reference boundaries, compaction markers absent from a shorter prefix, and true conflicting explicit models. Compare fixed corpora in the same read; live logs may grow between runs. The 2026-10-15 identity implementation passed all 121 Core tests; App-target package compilation is not live UI or macOS14 acceptance evidence.
 
 ## 7. Wrong vs Correct
 

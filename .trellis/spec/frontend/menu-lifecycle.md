@@ -6,7 +6,7 @@ Keep SwiftUI MenuBarExtra and dashboard scene. MenuWindowProbe captures its own 
 
 ## Compact presentation
 
-MenuPanelView is 288 points wide; preserve range, all Token categories, leading model, last successful refresh, loading/error and Quit. Compact diagnostic count opens full analysis instead of expanding large source lists in the menu. Shared formatting retains exact values in help. Do not compress the dashboard just to shorten the menu.
+MenuPanelView uses the production B layout in v0.2.10/build12: 288 points wide, 14-point outer padding, 260-point content, 10-point stack spacing, a range-aware total card followed by a 2-by-2 metric grid. Preserve range, all Token categories, leading model, last successful refresh, loading/error and Quit. Refresh and Quit label hit areas are at least 24 points with explicit accessibility labels. Unknown metrics remain explicit, and no successful report must never render a fake zero. Height is content-fitting, never fixed to the preview's 466-point normal state. Compact diagnostic count opens full analysis instead of expanding large source lists in the menu. Shared formatting retains exact values in help. Do not compress the dashboard just to shorten the menu.
 
 ## Residency
 

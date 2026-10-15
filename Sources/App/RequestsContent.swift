@@ -39,6 +39,7 @@ struct RequestsContent: View {
 
     var body: some View {
         let rows = records
+        let total = rows.reduce(Int64(0)) { $0 + $1.usage.total }
         VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Text("\(rows.count) 条用量记录").font(.system(size: 16, weight: .semibold))
@@ -50,7 +51,7 @@ struct RequestsContent: View {
                     .textFieldStyle(.roundedBorder)
                 Picker("模型", selection: $modelFilter) {
                     Text("全部模型").tag("")
-                    ForEach(store.report.models(in: period).map(\.model).sorted(), id: \.self) { model in
+                    ForEach(store.summary(in: period).models.map(\.model).sorted(), id: \.self) { model in
                         Text(model).tag(model)
                     }
                 }
@@ -112,8 +113,8 @@ struct RequestsContent: View {
                 }
             }
             HStack {
-                Text("当前列表合计 \(abbreviated(rows.reduce(Int64(0)) { $0 + $1.usage.total })) tokens")
-                    .help(detailedNumber(rows.reduce(Int64(0)) { $0 + $1.usage.total }) + " tokens")
+                Text("当前列表合计 \(abbreviated(total)) tokens")
+                    .help(detailedNumber(total) + " tokens")
                 Spacer()
                 Text("新增输入 = 输入 − 缓存输入")
             }
