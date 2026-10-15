@@ -158,4 +158,4 @@ open "/tmp/codex-stats-rebuild/Codex Stats.app"
 
 每次变更用 Trellis 任务引用 R/T 编号，在目标设计中写：触发原因、现状、目标状态、影响的数据/页面/状态、替代方案与取舍、验收命令/人工步骤、明确延期项。改数字单位需追查所有共享显示位置；改计量需同时约束 CLI、列表和图表；改窗口需核验菜单窗口身份与进程生命周期。
 
-2026-10-15 已按用户要求在本目录初始化本地 Git，默认分支名 main；尚无首次提交、远端或发布。初始化前的无 Git 状态仅为历史证据。仓库边界和后续公开准备以源码仓库设计为准，不将旧任务自动 base_branch 当作真实提交证据。
+2026-10-15 已按用户要求初始化 Git，并提交推送至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main。原创 App 使用 MIT，Trellis 上游材料保留 AGPL-3.0-only；发布证据见 VERIFICATION。初始化前的无 Git 状态仅为历史证据。仓库边界和后续公开准备以源码仓库设计为准，不将旧任务自动 base_branch 当作真实提交证据。

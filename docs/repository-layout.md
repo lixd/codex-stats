@@ -1,6 +1,6 @@
 # 源码仓库结构与发布边界
 
-目标设计：2026-10-15，关联 R14/R17。状态：本地 main Git 已初始化，目录与忽略规则已建立；尚无首次提交或远端。App 仍为 v0.2.9/build 11，本次不改变运行行为。
+目标设计：2026-10-15，关联 R14/R17。状态：源码已提交并推送至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main，目录与忽略规则已建立。App 仍为 v0.2.9/build 11，本次不改变运行行为。
 
 ## 目录命名决策
 
@@ -40,9 +40,9 @@ codex-stats/
 
 ## Git 与开源状态
 
-仅在用户指定项目根运行 `git init -b main`，不创建远端、不修改全局 Git 配置、不自动暂存或首次提交。保留 untracked 源码以便审阅第一批公开内容；初始化本身没有提交历史。未来提交前按当前 Trellis 流程检查任务范围、设计和验证。
+首次本地规范化仅运行 `git init -b main`。用户随后批准公开仓库和 MIT，完成初始提交及 main 推送。未来提交前按当前 Trellis 流程检查任务范围、设计和验证；Git 身份仅配置在当前仓库，不修改全局配置。
 
-上述 Git 初始化描述是首次本地规范化时的操作边界。2026-10-15，用户另行明确授权公开仓库 `lixd/codex-stats`、MIT 和首次提交推送；发布进度见下节，不能把初始化时“无远端”当作后续发布限制。
+上述 Git 初始化描述是首次本地规范化时的操作边界。2026-10-15，用户另行明确授权公开仓库 `lixd/codex-stats`、MIT 和首次提交推送；发布结果见下节，初始化时“无远端”仅为历史状态。
 
 原创 App 源码、测试、资源及项目文档采用根目录 [MIT](../LICENSE)。独立 Trellis 开发工具与模板保留上游 AGPL-3.0-only，完整原文位于 [licenses/Trellis-AGPL-3.0.txt](../licenses/Trellis-AGPL-3.0.txt)，归属与混合文件边界见 [第三方声明](../THIRD_PARTY_NOTICES.md)。发布前仍须审阅历史材料中的本地信息及第三方授权，此文档不代替远端发布验证。
 
@@ -54,10 +54,10 @@ codex-stats/
 - 文档链接存在，`git diff --check` 检查已暂存或追踪变更时才有意义；首次未暂存仓库不能把空 diff 当作全部文件通过。
 
 
-## 已批准的首次公开目标（2026-10-15，待发布验证）
+## 首次公开结果（2026-10-15，已验证）
 
 用户确认创建 `https://github.com/lixd/codex-stats` 公开仓库，自有 App 源码使用 MIT，首次提交推送 main。Git author 使用当前仓库局部配置 `lixd <31980412+lixd@users.noreply.github.com>`，不修改全局身份。
 
 已安装 `@mindfoldhq/trellis` 0.6.17 的 package.json 与 LICENSE 明确为 AGPL-3.0-only。随项目保留的独立开发工具/模板沿用原许可证和完整声明；根 MIT 不覆盖第三方材料。Trellis 不进入 App target 或 .app 构建，不能仅因 App 选择 MIT 就重新许可这些工具。具体路径见 [第三方声明](../THIRD_PARTY_NOTICES.md)，完整原文保存于 [licenses/Trellis-AGPL-3.0.txt](../licenses/Trellis-AGPL-3.0.txt)。
 
-本次不发布 DMG/Release，不声称已完成全部平台/UI验收。真实日志、凭证、用户journal、运行缓存和构建产物保持忽略；模式扫描没有找到真实token/private-key候选，路径命中为工具中的通用 Windows 示例。首次推送成功后以 GitHub public/defaultBranch/license 及远端 SHA 一致作为交付证明。
+本次不发布 DMG/Release，不声称已完成全部平台/UI验收。真实日志、凭证、用户journal、运行缓存和构建产物保持忽略；模式扫描没有找到真实token/private-key候选，路径命中为工具中的通用 Windows 示例。已核验 GitHub 为 PUBLIC、默认分支 main、根许可证识别为 MIT；初始提交 `46c0e5305690190e188b5c57ac8996e074688d2d` 与远端 main 及 GitHub commits API 一致。详细证据见 [VERIFICATION](../VERIFICATION.md)。

@@ -101,4 +101,4 @@ R17：后续所有产品改动先更新需求及设计文档，再实现。当�
 
 ### 仓库交付规范（R14/R17）
 
-2026-10-15：本地 main Git 已初始化；规范目录命名和生成物/个人状态忽略规则，见 [源码仓库设计](repository-layout.md)。产品版本不变；未进行首次源码提交、选择许可证或公开发布。
+2026-10-15：本地 main Git 已初始化；规范目录命名和生成物/个人状态忽略规则，见 [源码仓库设计](repository-layout.md)。产品版本不变。随后经用户批准完成首次源码提交并推送公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main；原创 App 使用 MIT，Trellis 上游材料保留 AGPL-3.0-only，详见第三方声明与验证记录。

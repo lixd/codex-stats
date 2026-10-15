@@ -10,7 +10,7 @@
 
 ## 许可证与仓库
 
-用户已批准以公开仓库 `lixd/codex-stats` 发布，首次推送状态以实际远端验证为准。原创 App 源码、测试、资源和项目文档采用 [MIT](LICENSE)，允许在保留版权及许可声明的条件下使用、修改和商业分发。
+源码已发布至公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支为 `main`。原创 App 源码、测试、资源和项目文档采用 [MIT](LICENSE)，允许在保留版权及许可声明的条件下使用、修改和商业分发。
 
 随项目保留的 Trellis 开发工具及模板保留上游 **AGPL-3.0-only**，不由根 MIT 重新许可，也不进入 App 运行时。具体授权边界与上游来源见 [第三方声明](THIRD_PARTY_NOTICES.md)。
 
