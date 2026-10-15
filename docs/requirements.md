@@ -102,3 +102,6 @@ R17：后续所有产品改动先更新需求及设计文档，再实现。当�
 ### 仓库交付规范（R14/R17）
 
 2026-10-15：本地 main Git 已初始化；规范目录命名和生成物/个人状态忽略规则，见 [源码仓库设计](repository-layout.md)。产品版本不变。随后经用户批准完成首次源码提交并推送公开仓库 [lixd/codex-stats](https://github.com/lixd/codex-stats)，默认分支 main；原创 App 使用 MIT，Trellis 上游材料保留 AGPL-3.0-only，详见第三方声明与验证记录。
+
+
+2026-10-15（R14/R17，已实现并完成本地文档验证）：公开首页精简为产品、功能、安装和文档入口；详细说明迁入 [使用文档](usage.md)、[统计文档](statistics.md) 与 [开发文档](development.md)。GitHub 语言统计按上游开发工具与产品代码分开归类，保留真实语言，不将 Python 伪装为 Swift；原创 Python 测试工具仍正常计数。规则、链接、README 长度和产品文件未变更已核验，远端语言缓存刷新另行确认。

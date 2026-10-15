@@ -27,3 +27,5 @@ For a menu-width change, first document width, picker inner width, padding, long
 ## Documentation-only closeout
 
 Verify facts against source, links against files, and product-file hashes unchanged. Do not rerun/install the App or create a new binary version solely to claim documentation quality. Do not alter real logs, personal memory or unrelated bootstrap tasks.
+
+Public repository README stays concise (at most 70 lines); route usage, statistics and development details through `docs/usage.md`, `docs/statistics.md` and `docs/development.md`. Keep root VERIFICATION.md as the stable evidence entry. Classify upstream development scripts with path-specific Linguist attributes, never relabel their actual language or exclude original product tests merely to change percentages.

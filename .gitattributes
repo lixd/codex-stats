@@ -7,3 +7,9 @@
 # picking either side (task state lives in task.json, not index.md). See
 # .trellis/spec/cli/backend/directory-structure.md for details.
 .trellis/workspace/*/journal-*.md merge=union
+
+# Upstream development tooling is not App runtime source.
+.trellis/scripts/** linguist-vendored
+.codex/hooks/** linguist-vendored
+# Design documents and previews are documentation.
+docs/** linguist-documentation

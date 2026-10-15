@@ -18,7 +18,10 @@ codex-stats/
 │       └── Fixtures/          纳入仓库的合成日志样本
 ├── Assets/                    Info.plist 和图标源文件
 ├── Scripts/                   构建、测试、安装、打包脚本
-├── docs/                      当前设计、需求与待实现 B 方案
+├── docs/                      使用/统计/开发说明、设计及需求
+│   ├── usage.md               安装、操作、隐私和使用限制
+│   ├── statistics.md          统计规则、身份边界与参考
+│   └── development.md         构建、测试、核对和性能复测
 ├── .trellis/                  共享开发规范/任务及本地工作状态
 ├── .agents/skills/            项目共享的 Trellis 工作技能
 ├── .codex/                    项目共享的代理配置与 hooks
@@ -61,3 +64,12 @@ codex-stats/
 已安装 `@mindfoldhq/trellis` 0.6.17 的 package.json 与 LICENSE 明确为 AGPL-3.0-only。随项目保留的独立开发工具/模板沿用原许可证和完整声明；根 MIT 不覆盖第三方材料。Trellis 不进入 App target 或 .app 构建，不能仅因 App 选择 MIT 就重新许可这些工具。具体路径见 [第三方声明](../THIRD_PARTY_NOTICES.md)，完整原文保存于 [licenses/Trellis-AGPL-3.0.txt](../licenses/Trellis-AGPL-3.0.txt)。
 
 本次不发布 DMG/Release，不声称已完成全部平台/UI验收。真实日志、凭证、用户journal、运行缓存和构建产物保持忽略；模式扫描没有找到真实token/private-key候选，路径命中为工具中的通用 Windows 示例。已核验 GitHub 为 PUBLIC、默认分支 main、根许可证识别为 MIT；初始提交 `46c0e5305690190e188b5c57ac8996e074688d2d` 与远端 main 及 GitHub commits API 一致。详细证据见 [VERIFICATION](../VERIFICATION.md)。
+
+
+## 首页与语言统计（2026-10-15，已实现并验证本地规则）
+
+README 已精简为 37 行，仅呈现定位、核心功能、源码安装、文档入口及许可证。详细使用、统计口径和开发核对分别进入 [usage.md](usage.md)、[statistics.md](statistics.md)、[development.md](development.md)；原有验证记录入口保持兼容。参考 CodexBar 产品优先、安装与文档分层的结构，不复制其多 Provider、账号、Homebrew 或 Release 能力。
+
+修改前 GitHub 统计为 Python 491016 bytes、Swift 270262 bytes、Shell 14741 bytes。Python 中 487380 bytes（约 99.3%）来自 Trellis 脚本与 Codex hooks；Tests/Performance/generate.py 另有 3636 bytes 的原创合成日志生成脚本，保留正常计数。产品 Core/App/Report 是 Swift，App 运行不依赖 Python；开发工作流和部分测试工具使用 Python。用 .gitattributes 将 .trellis/scripts/**、.codex/hooks/** 归为 linguist-vendored，docs/** 为 linguist-documentation；不更改实际语言，不排除原创产品测试或脚本。该分类只影响 GitHub 展示，不改构建、许可证和运行依赖。GitHub 更新异步，验收区分规则生效与远端语言缓存刷新。
+
+本地验证：README 行数、迁移内容、相对文件链接、git check-attr 与 41 项产品文件 SHA-256 均通过，git diff --check 无问题。未修改产品源码或版本，不新增构建/UI 验证；GitHub 远端语言比例是否刷新由发布后单独记录。

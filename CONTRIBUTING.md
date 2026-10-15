@@ -4,6 +4,8 @@
 
 先阅读 [设计总纲](docs/design.md)、[产品需求](docs/requirements.md) 和 [仓库结构](docs/repository-layout.md)。项目通过 Trellis 跟踪需求，遵循 [AGENTS.md](AGENTS.md) 与 [设计优先流程](.trellis/spec/guides/design-first.md)：**先更新受影响的设计和验收条件，再修改实现**，任务中关联 R/T 需求编号。已实现基线和待实现方案分开记录；B 菜单方案已选定，但尚未进入生产版本。
 
+完整命令、离线 JSON 核对、性能复测和预览说明见 [开发文档](docs/development.md)。
+
 ## 本地开发与验证
 
 在项目根目录执行：
