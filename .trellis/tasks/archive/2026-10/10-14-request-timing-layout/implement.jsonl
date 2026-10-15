@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/backend/token-accounting.md", "reason": "Applicable accounting, timing, memory and display evidence"}
+{"file": ".trellis/spec/backend/scan-performance.md", "reason": "Applicable accounting, timing, memory and display evidence"}
+{"file": ".trellis/spec/backend/turn-performance.md", "reason": "Applicable accounting, timing, memory and display evidence"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Applicable accounting, timing, memory and display evidence"}
+{"file": ".trellis/tasks/archive/2026-10/10-14-request-timing-layout/research.md", "reason": "Applicable accounting, timing, memory and display evidence"}
+{"file": ".trellis/spec/backend/request-estimates.md", "reason": "Estimated request timing and rate contracts"}

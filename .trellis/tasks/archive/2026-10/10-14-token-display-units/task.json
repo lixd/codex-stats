@@ -1,0 +1,28 @@
+{
+  "id": "token-display-units",
+  "name": "token-display-units",
+  "title": "统一 Token 显示单位",
+  "description": "Replace scientific notation and locale-dependent Chinese chart units with K/M and compact token details while preserving exact values and accounting.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-14",
+  "completedAt": "2026-10-14",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": "10-14-project-baseline",
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {
+    "planning_approval": "User approved the presented final plan on 2026-10-14: 确认，开始吧"
+  }
+}

@@ -1,0 +1,18 @@
+.build/
+dist/
+.DS_Store
+
+# Local SwiftPM / Xcode workspace state
+.swiftpm/
+xcuserdata/
+*.xcuserstate
+
+# Local script caches and environment files
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Personal journals; shared Trellis specs, scripts and tasks remain versioned
+/.trellis/workspace/

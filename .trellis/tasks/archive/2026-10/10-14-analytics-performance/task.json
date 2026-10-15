@@ -1,0 +1,35 @@
+{
+  "id": "analytics-performance",
+  "name": "analytics-performance",
+  "title": "扫描性能、诊断与请求性能界面",
+  "description": "Investigate slow cold/refresh scanning, remaining exact-token text and excessive diagnostics; plan reliable request duration/tok-s and right-side detail layout.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-14",
+  "completedAt": "2026-10-14",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [
+    "10-14-physical-log-accounting",
+    "10-14-scan-filter-performance",
+    "10-14-request-inspector-polish"
+  ],
+  "parent": null,
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {
+    "approval": "User approved final planning summary with 开始吧 on 2026-10-14",
+    "accounting_check": "PASS",
+    "performance_check": "PASS",
+    "final_check": "PASS"
+  }
+}

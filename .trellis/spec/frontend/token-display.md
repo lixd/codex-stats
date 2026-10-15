@@ -1,0 +1,43 @@
+# Token Display Contract
+
+## Scope
+
+Token amounts in the native App share `abbreviated` from `Sources/App/Components.swift`. Chart axes and TokenDetails must use it too. Do not use Charts automatic number labels or locale-dependent `compactName`: Chinese locales produce 万/亿 and older defaults can produce scientific notation.
+
+## Signatures and Units
+
+```swift
+func abbreviated(_ value: Int64, known: Bool = true) -> String
+func abbreviated(_ value: Double) -> String
+func detailedNumber(_ value: Int64, known: Bool = true) -> String
+```
+
+- K = 1,000; M = 1,000,000. Keep M above one billion; no B suffix.
+- M uses up to two fractional digits; K uses up to one. Trim trailing zeros.
+- Display integers below 10,000 without magnitude abbreviation. Preserve fractional Double chart ticks.
+- Promote values >=999,950 to M so rounding does not display 1000K.
+- Compact display fixes the locale to en_US_POSIX. Exact `detailedNumber` may use local grouping and never abbreviates or converts the Int64 to Double.
+- Missing cache/reasoning values must display 未完整记录, including in help text; zero is an actual known value.
+- Display rounding never feeds back into Core counters, date buckets or JSON.
+
+## Cases
+
+| Input | Compact output |
+|---|---|
+| 0 / 0.5 | 0 / 0.5 |
+| 563,240 | 563.2K |
+| 999,949 / 999,950 | 999.9K / 1M |
+| 40,000,000 | 40M |
+| 109,946,996 | 109.95M |
+| 1,000,000,000 | 1000M |
+| any Int64, known=false | 未完整记录 |
+
+## Exact Values and Verification
+
+TokenDetails uses the compact text with `.help(detailedNumber(...))`; menu footers, card subtitles, session headings and list totals also use compact text with exact help. Original metering detail and CLI keep integer fields. The chart Double overload avoids converting fractional ticks to Int64 or overflowing large ticks.
+
+Run `./Scripts/test-token-display.sh` to test the App's real implementation in en_US, zh_CN and fr_FR without moving UI concerns into Core. Use `./Scripts/render-ui-previews.sh` for today's and 7-day native light/dark charts with synthetic data. Static rendering does not verify hovering or clicking; report that limit explicitly. Keep the existing Core tests green.
+
+Wrong: `tokens.formatted(.number.notation(.compactName))` on a Token axis.
+
+Correct: `Text(abbreviated(tokens))` plus an exact-value path where the component displays amounts.

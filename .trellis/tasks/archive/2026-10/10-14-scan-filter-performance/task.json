@@ -1,0 +1,28 @@
+{
+  "id": "scan-filter-performance",
+  "name": "scan-filter-performance",
+  "title": "扫描与时间筛选性能优化",
+  "description": "Optimize measured date parsing and repeated period filtering; preserve accounting and show honest loading state.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-14",
+  "completedAt": "2026-10-14",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": "10-14-analytics-performance",
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {
+    "independent_check": "PASS"
+  }
+}

@@ -1,0 +1,3 @@
+{"file": "docs/design.md", "reason": "Actual architecture and evidence boundaries"}
+{"file": "docs/requirements.md", "reason": "Final R01-R14 statuses and validation boundaries"}
+{"file": "VERIFICATION.md", "reason": "Executed release checks rather than planning claims"}

@@ -1,0 +1,28 @@
+{
+  "id": "request-inspector-polish",
+  "name": "request-inspector-polish",
+  "title": "请求侧栏、性能口径与单位补齐",
+  "description": "Add right-side request details and explicit turn performance; compact remaining main-surface Token totals.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-14",
+  "completedAt": "2026-10-14",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": "10-14-analytics-performance",
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {
+    "independent_check": "PASS"
+  }
+}

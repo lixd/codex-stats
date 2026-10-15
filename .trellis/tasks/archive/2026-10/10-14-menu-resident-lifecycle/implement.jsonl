@@ -1,0 +1,3 @@
+{"file": ".trellis/tasks/archive/2026-10/10-14-menu-resident-lifecycle/design.md", "reason": "Native menu ownership and resident API contract"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Preserve compact units and exact help"}
+{"file": ".trellis/spec/frontend/menu-lifecycle.md", "reason": "Exact native window ownership and bundled resident policy"}

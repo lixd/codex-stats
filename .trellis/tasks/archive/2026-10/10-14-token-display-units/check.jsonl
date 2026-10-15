@@ -1,0 +1,3 @@
+{"file": "docs/requirements.md", "reason": "R12 acceptance and unchanged T01-T08 accounting contracts"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Reuse display formatter; avoid duplicate locale rules"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Codified real formatting signatures, numeric boundaries and exact-value contract"}

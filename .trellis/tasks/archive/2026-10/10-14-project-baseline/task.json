@@ -1,0 +1,30 @@
+{
+  "id": "project-baseline",
+  "name": "project-baseline",
+  "title": "Codex Stats 项目基线与迭代追踪",
+  "description": "Document current product requirements, native architecture, validation limits and iteration traceability; track token unit normalization as a child deliverable.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-14",
+  "completedAt": "2026-10-14",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [
+    "10-14-token-display-units"
+  ],
+  "parent": null,
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {
+    "planning_approval": "User approved the linked documentation and units plan on 2026-10-14"
+  }
+}

@@ -1,0 +1,6 @@
+{"file": "docs/requirements.md", "reason": "Existing R01-R14 and T01-T08 acceptance and offline boundary"}
+{"file": "docs/design.md", "reason": "Current architecture and conservative accounting contracts"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Existing formatter contract; task explicitly revises exact main captions"}
+{"file": ".trellis/tasks/archive/2026-10/10-14-analytics-performance/research/scan-and-diagnostics.md", "reason": "Measured bottlenecks, physical identity and diagnostic risks"}
+{"file": ".trellis/tasks/archive/2026-10/10-14-analytics-performance/research/request-timing.md", "reason": "Actual timing availability and rejected estimator evidence"}
+{"file": ".trellis/spec/backend/token-accounting.md", "reason": "Preserve verified physical-history accounting and typed report contract"}

@@ -1,0 +1,289 @@
+# Codex Stats v0.2 验证记录
+
+验证日期：2026-10-14（Asia/Shanghai）。工作环境：macOS 27.0.1、Apple Silicon、Apple Swift 6.4、macOS SDK 27.0；构建部署目标为 macOS 14.0。
+
+## 初始源码评审
+
+原型具有基本 SwiftUI 界面和独立 Core，但存在明确准确性问题：首次模型回填会猜测归属；回退快照整段重加；last-only 重发无去重；按 basename 筛选会误删同名文件；活动副本无条件优先可能丢失更完整归档；继承前缀仅匹配累计数可能误判；缺失 Token 字段按零显示；更新日志目录时旧扫描结果可能覆盖新选择。Package 只编译 Core，菜单栏没有时间筛选、推理明细或刷新时间，路径错误还会阻止用户打开设置。
+
+初始原生构建确实失败于 SDK 的 State 宏/包装器重名解析；初始 XCTest 测试因当前 CLT 未提供 XCTest 模块而失败。已改用无宏歧义的属性包装器别名与系统 Swift Testing。CLT 的增量解析还可能遗漏 TestingMacros，测试脚本显式传入已安装插件位置，未下载框架。
+
+## 自动化验证
+
+实际执行：
+
+```bash
+./Scripts/test.sh
+```
+
+最终结果：**38 tests passed，0 failures**。同一测试构建也编译 Core、核对 CLI 和 macOS App 目标。
+
+覆盖单模型、Cached/Reasoning 子集、模型切换、未知模型不回填、模型字段缺失、活动/归档身份去重、同名不同会话、更完整归档、重置有/无 last、缺失历史基线、last-only 重发、损坏行与追加修复、非法/缺失字段、UTC/上海跨天、7/30 天边界、缓存命中/变更/删除、父历史前缀、错误继承匹配、请求记录去重、先通知/后请求、外部 thread_id、远程/本地压缩、缺失时间、零用量会话、exec 备用格式、仅归档目录、多目录重复、JSONL 符号链接、空路径、未知子集字段、重复请求与同大小新请求、Int64 汇总溢出、未通知请求后切回旧通知格式，以及仓库合成 fixture。
+
+为测试生成的临时目录会在结束后清理；检入的 fixture 不包含用户提示词。
+
+## 真实日志对照
+
+读取本机 sessions/archived_sessions 中 35 个 JSONL。为保证输入不再变化，在临时目录冻结仅包含 Token 事件、模型、会话身份、时间和必要 fork/compaction 元数据的日志，删除提示词、正文、指令和账户字段，按 Session ID 选取完整副本后得到 29 个会话。真实日志未放入交付源码。
+
+实际对照命令：
+
+```bash
+CODEX_HOME=/tmp/codexpulse-frozen npx ccusage@20.0.31 codex session --json --offline --no-cost --speed standard
+# 使用 Swift Package 构建的同一核心
+# 当时使用改名前的 CLI；新版对应命令为 codex-stats-report
+codex-pulse-report /tmp/codexpulse-frozen
+```
+
+29 个会话中 **28 个会话总 Token 完全相同**。本工具总量为 **890,273,713**，ccusage 为 **890,139,088**，差额为 **134,625**。差额完全等于最后一条已保存但没有后续 token_count 通知的请求：Input 133,442 + Output 1,183。请求还有 Cached 128,512 和 Reasoning 516，但这两项不重复加入 Total。
+
+对照按冻结文件中的 session_meta.id 关联，未按文件名最后一个 UUID 猜 ID：部分分页日志名同时含两个 UUID。ccusage 的 inputTokens 是非缓存输入，需加 cacheReadTokens 才对应本应用 Input。其 compaction 模型会使用 fallback，本应用保留 Unknown model，因此没有宣称模型标签完全一致。
+
+此次真实对照发现并修复了合成测试最初遗漏的问题：压缩后 thread_token_usage 与 total_token_usage 存在持续偏移，交叉差分会重复计量。已增加专门回归测试，不以“测试绿”代替真实核对。
+
+核对过的上游源码：
+
+- Codex：`2f05c0a71f59fb2f05800846351f3e9926c3e52b`，protocol TokenUsage、TokenUsageRecord，以及子会话历史记录策略。
+- ccusage：`57afdc255fcbe031b0ecd7cac487f8fd7c5d531f`，Codex parser/replay 与说明。
+
+ccusage 的输出只作为独立交叉证据，不作为计费权威或固定 oracle。两者都无法恢复未保留的日志。
+
+## 原生构建与安装产物
+
+实际执行：
+
+```bash
+./Scripts/build-macos.sh
+./Scripts/make-dmg.sh
+codesign --verify --deep --strict "dist/Codex Stats.app"
+plutil -lint "dist/Codex Stats.app/Contents/Info.plist"
+hdiutil verify dist/CodexStats.dmg
+```
+
+交付包含源码 ZIP、ad-hoc 签名的 Apple Silicon `.app` 和 DMG。App 使用系统 SwiftUI、AppKit、Charts、Foundation，没有第三方运行时。Info.plist 设置 LSUIElement，二进制最低部署版本为 macOS 14.0。
+
+已通过 LaunchServices 打开 App 并确认本机进程存在。没有将程序自动安装到用户的 Applications，也没有更改 Gatekeeper、系统主题或登录项。
+
+## 初次交付的未验证与限制
+
+**本机 UI 自动化服务在读取 App 和系统状态时连续超时。** 无法通过点击完成菜单栏、Overview、Models、Sessions、排序/搜索、设置错误恢复及深浅色布局验收，也没有截图证明。原生编译和进程启动不等于上述交互已验证。建议在该版本上完成以下人工验收后再作为稳定版使用：
+
+1. 点击菜单栏图标，切换四档时间，检查准确数字和刷新状态。
+2. 打开三个分析页面；确认模型排序、会话搜索、详情各模型之和一致。
+3. 切换浅/深色、缩放窗口，检查长模型名及宽表格。
+4. 设置无效目录，确认错误提示与设置入口可用，再恢复正确目录。
+5. 执行一条 Codex 请求并刷新；对照离线 JSON CLI。
+
+尚未实机验证 macOS 14、Intel Mac、正式 Developer ID 签名/公证、Linux Core 构建；未测试超大规模目录的长期使用。未验证旧 fork 会显示风险；缺失历史、损坏/部分日志、无身份 last-only 事件等会造成明确标注的少计或不确定性。详见 README 的统计规则。
+
+## v0.2.1 名称修正
+
+2026-10-14：将产品名统一为 **Codex Stats**，同步菜单栏、分析窗口、辅助功能标签、App 包、可执行文件、图标资源、Swift Package 目标、安装脚本与源码 ZIP/DMG 名称。保留原 bundle identifier 和 UserDefaults 键，继续使用已有设置。
+
+再次实际执行 `./Scripts/test.sh`，38 项测试全部通过；`./Scripts/make-dmg.sh` 构建成功；新版 App 的签名与 Info.plist 验证通过，显示名称为 Codex Stats，可执行文件为 CodexStats。此修改不代表此前未完成的 UI 交互或 macOS 14 验收已通过。
+
+## v0.2.2 退出入口与重复实例修复
+
+用户提供的截图显示菜单弹窗、总览与会话详情已由用户实际打开。截图中的菜单退出文字太淡，分析窗口缺少退出入口。已将菜单退出替换为带边框的「退出应用」，在分析窗口侧栏底部增加同一按钮，并明确注册 ⌘Q 退出命令。关闭分析窗口仍保留菜单栏应用。
+
+新实例启动时按 bundle identity 检查已有实例，激活先前运行的实例并退出新实例。用户更新前仍需退出旧版：新版本无法让已启动的旧进程自动具备新功能。另为趋势图补上 PointMark，使今日仅有一个日期时有可见标记。
+
+实际执行 `./Scripts/test-app-lifecycle.sh`，结果为 **PASS: real app launch, duplicate-instance rejection, normal AppKit termination**。该测试通过 LaunchServices 强制再次启动真实 App，确认原 PID 保留且新副本退出，再通过 AppKit 正常终止；没有使用模拟进程。测试结束无 Codex Pulse/Stats 应用实例运行。
+
+这项检查验证的是进程生命周期，不代表实际点击退出按钮、⌘Q、修正后布局、深色模式或 macOS 14 已完成验收。
+
+## v0.2.3 刷新间隔与总览布局
+
+默认自动刷新间隔改为 30 秒，可选择 1 分钟、5 分钟、15 分钟或关闭自动刷新。已有关闭偏好保留；没有保存过间隔的用户使用 30 秒。菜单、分析窗口顶部与设置页同步显示间隔，成功刷新时间显示到秒；扫描失败不会产生虚假的成功时间。
+
+总览参考用户提供的 CC Switch 截图，调整为四张紧凑指标卡、集中刷新/筛选栏、全宽柱状趋势、模型排行与完整明细。按用户选择保留四档时间，不增加自定义日期选择器。今天按小时展示，其余范围按日。小时桶在原有去重逻辑之后聚合，未改变 Token 计量口径。
+
+实际验证：
+
+- `./Scripts/test.sh`：**41 tests passed，0 failures**。新增三项小时汇总测试，覆盖小时之和与原汇总一致、重复快照不重复进图、本地跨午夜、夏令时 23/25 小时及重复小时。
+- 临时原生 AppKit 运行检查直接实例化 `UsageStore`，读取合成 fixture，不修改用户应用设置；确认默认自动间隔为 30 秒，并在等待 32 秒后观察到另一次成功扫描。结果保存在 `dist/refresh-results.txt`。
+- 同一冻结输入再次运行 `xcrun swift run codex-stats-report /tmp/codexpulse-frozen`：Input 886,003,220 + Output 4,270,493 = **890,273,713**，与之前验证结果一致。
+- `./Scripts/render-ui-previews.sh`：真实 NSHostingView 渲染总览/菜单四张深浅色 PNG，已查看并修正横轴时间格式。图片仅含合成数据；不依赖超时的 UI 自动化服务，不捕获用户屏幕、不更改系统主题。
+- `./Scripts/make-dmg.sh`：原生构建及新版 DMG 生成成功。
+
+本轮补齐的是总览/菜单的静态深浅色渲染检查。菜单栏真实点击、交互、其他页面的深浅色验收及 macOS 14 实机验证仍未完成。
+
+## v0.2.4 请求日志与可核对详情
+
+新增「请求日志」页面，支持四档时间、动态模型筛选、项目/模型/会话/请求/Turn ID 搜索，以及时间、总 Token、模型排序。点击行或「查看」打开详情，展示真实身份、六项 Token 明细、统计依据、压缩标记与可展开的原始用量/累计快照；只复制存在的真实 ID。
+
+记录在原有计量逻辑完成去重、有效时间和溢出检查后产生，未改变汇总口径。独立 response_id、最近一次用量、累计增量和初始快照分别标注；累计记录可能覆盖多次请求，不显示为已确认请求数量。exec 的通用事件 ID、缺失 session_meta 时的文件归组名称不会伪装成真实请求或会话 ID。缺失缓存/推理字段仍明确显示未完整记录，没有增加费用、缓存写入、状态码、速度或耗时估算。
+
+实际执行与结果：
+
+- `./Scripts/test.sh`：**48 tests passed，0 failures**。新增七项测试覆盖真实请求身份、旧格式计量依据、跨日及模型切换、未知字段、exec 事件身份、归档重放与压缩、缺失会话身份。测试辅助函数还检查每份扫描结果的逐条记录之和与总量及会话模型明细一致、内部记录标识唯一。
+- `xcrun swift run codex-stats-report /tmp/codexpulse-frozen --records`：29 个冻结会话输出 **6,714 条唯一独立请求记录**。Python 核对四项 Token 数值与 known 标志在全局、每个会话、每个模型均一致；真实会话身份和 ISO 8601 时间有效。总量仍为 **890,273,713**，与此前独立对照一致；未将真实冻结日志加入源码包。结果保存在 `dist/records-verification.txt`。
+- `./Scripts/render-ui-previews.sh`：生成总览、菜单、请求列表、请求详情共八张原生深浅色图片，使用合成日志。已查看请求列表与详情并修正背景和筛选控件的渲染。
+- `./Scripts/make-dmg.sh`：v0.2.4 / build 6 的 Apple Silicon App 和 DMG 构建成功。`codesign --verify --deep --strict`、`plutil -lint`、`hdiutil verify` 均成功。源码 ZIP 不包含真实日志、导出数据或构建缓存。
+
+静态图片验证不等同于真实点击：新页面的点击/筛选/搜索/关闭详情与复制操作尚待安装后人工确认。未重启用户正在运行的旧版本，也未将本轮新增交互记为已通过 UI 自动化。macOS 14、Intel 和正式签名/公证限制仍然存在。
+
+## v0.2.5 Token 单位与 Trellis 文档追踪
+
+2026-10-14：修复趋势纵轴与 TokenDetails 的数字显示。App 共用固定 en_US_POSIX 的 K/M 格式，不使用科学计数法或中文「万 / 亿」，十亿以上仍显示 M；M 最多两位小数，K 最多一位。999,950 起提升为 1M，避免舍入显示 1000K。明细提供精确数字 help，卡片保留精确副标题；未知字段仍为未完整记录。
+
+实际执行与审查结果：
+
+- `./Scripts/test.sh`：**48 tests passed，0 failures**。
+- `./Scripts/test-token-display.sh`：**en_US、zh_CN、fr_FR 均通过**。检查 16 个整数边界（包含科学计数法截图中的 400,000,000、十亿及临近百万晋级）、小数 Double 轴刻度、Int64.max、未知字段和精确原值。脚本编译 App 的真实 formatter，未复制一套测试实现。独立 check 角色再次运行该脚本通过。
+- `./Scripts/render-ui-previews.sh`：生成 **10 张**原生浅 / 深色图，包括今日、7 天总览、菜单、请求列表和详情。仅使用合成日志；放大到数亿及超过十亿以验证 50M / 200M / 400M 轴刻度和 1606.4M 周总量。实现和独立审查均目视查看相关页面。
+- `bash -n Scripts/test-token-display.sh Scripts/render-ui-previews.sh`：通过。未配置额外 Swift linter；Swift 原生编译承担类型检查。Swift Package 仍有 CLT 搜索目录警告，没有以警告消失作为测试结果。
+- Core 两文件和 CLI 源码与 v0.2.4 源码 ZIP 逐字节相同，没有修改统计或 JSON 协议；本轮无需再次运行同一真实日志的 ccusage 对照。
+- `./Scripts/make-dmg.sh`：v0.2.5 / build 7 原生构建成功；App ad-hoc 签名、Info.plist、DMG 校验通过。最低部署版本由 vtool 确认为 14.0。
+
+项目需求与设计保存于 docs/requirements.md、docs/design.md，并关联 Trellis 父 / 子任务。数字格式的实际代码契约进入 .trellis/spec/frontend/token-display.md；其他初始化占位未被宣称完成。根目录没有 Git 仓库，因此本轮没有 commit，也未自动初始化 Git。
+
+UI 原生静态图片不代表真实悬停或点击验收，macOS 14 实机及正式签名 / 公证仍待完成。本轮未关闭或替换用户正在运行的旧实例；安装时应先退出旧版，再替换 App。
+
+## v0.2.6 扫描、物理历史与请求侧栏
+
+本轮按 Trellis 父任务及三个顺序子项实施，并分别进行独立检查。根目录仍没有 Git；未初始化仓库或生成虚假 commit。需求 / 设计、实际计量、扫描性能、Turn 性能与显示契约已同步。
+
+### 根因与最终行为
+
+- 原先只取较长物理副本会漏掉回退前确实发生的原生消耗。现在核验显式 owner / response_id，保留所有可证明的历史消耗并全局去重；身份 / 用量矛盾排除并为受影响来源诊断。旧格式无身份累计流仍保守选择，不盲目求和。
+- `history_base` 按物理 rollout UUID 和 exclusive byte / ordinal 边界核验。正常引用 / 副本处理为 information，缺失引用、无效边界、冲突等仍为风险。界面按级别 / 类型分组摘要，全部详情可查。
+- 首读不再显示伪零值。刷新失败保留成功数据和时间；日期格式复用、每次筛选只计算一次本地日期边界、只做一次排序。严格拒绝旧 Foundation 自动纠正的非法日期 / 时钟 / 偏移，合法输入保持毫秒精度。
+- 菜单底注、卡片副标题、会话标题和列表合计补齐共享 K/M；精确数字仍能从 help、原始计量详情与 CLI 核对。
+- 原生请求表格恢复可见时间，详情在右侧展开。单请求耗时 / 速度无日志字段，显示 —。另列完整 Turn 的明确 duration / TTFT，只有全 Turn 响应集合覆盖确认才计算均速；分子不受日期 / 模型 / 搜索截断，明确包含工具及等待。
+
+### 固定数据准确性
+
+独立 Python oracle 只读取 Token 身份与计量元数据，不复用 Swift 差分算法。固定捕获窗口保留 41 个物理日志的 69,915 行、405,813,861 字节位置，用空 payload / 尾部空白替换正文，保持历史引用边界。源日志捕获期间有增长，因此这不是单一时刻的在线总量；对同一固定输入的对照有效。私有快照仅用于本机验证，不进入源码、DMG 或 fixture。
+
+最终 release CLI 与 oracle 核对：**8,229 个原生响应、1,089,263,663 Tokens**；无遗漏、多计、重复、所有权 / Turn / 四项用量差异，全局 / Session / model 四项合计一致。此前 29 个冻结会话仍为 **6,714 条记录、890,273,713 Tokens**。统计较旧选择单副本的结果增长可由真实响应身份解释，不要求错误旧算法的总量不变。
+
+### 固定合成性能
+
+串行前后基准输入为 39 个文件、65,000 行、349,964,213 字节、7,020 条已计入记录、9,043,780 Tokens。基线是计量修复后、性能优化前的 Core。输出完整快照逐字段比较四档筛选、记录 / 排序 / 身份 / 模型 / 原始快照、Session、日期 / 小时及诊断，完全一致。
+
+| 操作 | 优化前 | 独立性能检查 |
+|---|---:|---:|
+| 新进程冷扫描 | 8.265 秒 | 3.472 秒 |
+| 未变更重扫 | 64.20ms | 54.64ms |
+| 单文件追加重解析 | 323.05ms | 122.39ms |
+| 今天筛选与排序 | 1538.04ms | 11.87ms |
+| 7 天 | 4901.44ms | 17.76ms |
+| 30 天 | 2625.66ms | 16.63ms |
+| 全部 | 35.98ms | 17.37ms |
+
+cold 表示新进程解析缓存为空，未清空 OS 磁盘缓存。5 秒 cold / 100ms warm / 50ms 筛选是本机 workload 目标，不是所有 Mac 的保证。增长文件仍全文重解析，尚无持久缓存或字节级追加。
+
+### 验证边界
+
+26 张原生 NSHostingView 合成深浅色预览覆盖总览 / 菜单 / 请求列表及 1120 与 950 宽度的侧栏、已知 / 未知性能、分组诊断、首次读取、真实空和错误状态；预览使用独立 UserDefaults suite，不污染安装偏好。已查看时间列、侧栏、单位、诊断和错误布局。
+
+尝试的 offscreen 原生表格程序选行没有触发 SwiftUI selection，AX 树也未暴露可操作按钮；该实验未通过，已移除失败实验 harness，没有记录成点击成功。真实鼠标选行、Esc / 关闭、搜索 / 排序、复制与菜单点击仍需安装后人工验收。当前宿主 macOS 27.0.1；macOS 14、Intel、Developer ID 和公证仍未验证。
+
+### 本轮实际命令与结果
+
+- `./Scripts/test.sh`：最终独立检查 **100 tests passed，0 failures**；新增覆盖非法完成副本、无法归属且无时间的响应、全部物理副本的未配对累计帧等真实失败回归。实施阶段 96、检查中间阶段 98 的数字仅为历史 gate。
+- `./Scripts/test-token-display.sh`：en_US / zh_CN / fr_FR 的 16 个边界、Double 轴刻度、unknown 和 exact 原值检查全部通过。
+- `./Scripts/test-usage-store.sh`：真实异步扫描、首次 pending、失败保留数据与成功时间、根目录切换、真实空报告及过期结果排除通过。
+- `./Scripts/build-macos.sh /tmp/codex-stats-inspector-check-build`：独立原生构建、ad-hoc 严格签名验证通过；vtool 确认最低部署目标 14.0。这不是 macOS 14 实机运行证明。
+- `./Scripts/render-ui-previews.sh /tmp/codex-stats-inspector-previews`：最终 **26 张**合成原生预览通过；未更改系统主题或安装偏好。
+- `xcrun swift build -c release --product codex-stats-report`：最终 Core 的 release CLI 构建通过。临时独立 Python oracle 对同一固定元数据快照核对身份、四项用量及全层合计通过；只保存聚合结果到 `dist/native-oracle.json`，私有快照不分发。
+- Shell 语法检查与 Swift 原生类型检查通过。没有配置额外 Swift linter；工具链仍报告 CLT 库搜索目录警告，没有将它们伪装为已消除。
+
+最终集成版串行执行 `./Scripts/benchmark-performance.sh /tmp/codex-stats-performance-fixed Sources/Core final check-baseline`：完整计量快照再次完全一致，cold **2.778 秒**、warm **52.63ms**、追加 **118.80ms**；今天 / 7 天 / 30 天 / 全部筛选分别 **10.18 / 17.07 / 16.99 / 17.88ms**，仍满足本机目标。该合成 fixture 没有完整 Turn 生命周期，证明基础扫描 / 筛选无回退，不代表所有真实 Turn 数量规模的独立性能保证。
+
+发布执行 `./Scripts/make-dmg.sh`：**v0.2.6 / build 8** 的 Apple Silicon App 和 DMG 构建成功。`codesign --verify --deep --strict`、`plutil -lint`、vtool minOS14.0、`hdiutil verify` 均通过。`./Scripts/test-app-lifecycle.sh "dist/Codex Stats.app"` 实际 LaunchServices 启动、拒绝新副本、保留原 PID、AppKit 正常退出 **PASS**，结束无测试应用残留。仅操作测试自身启动的实例，没有替换安装应用；生命周期 PASS 不等于真实按钮点击。
+
+额外只读挂载 DMG，确认其中 Info.plist 为 v0.2.6 / build 8，实际可执行文件与已校验 App 逐字节一致，再卸载自身挂载。完成任务归档和无 Git journal 后刷新源码 ZIP，校验完整性、脚本执行权限、文档 / 任务链接和 SHA256；源码包不包含 dist、真实日志、私有元数据、运行缓存或个人 journal。
+
+
+## v0.2.7 请求估算、扫描内存与模型表格
+
+版本 0.2.7 / build 9。按 Trellis 批准范围实施并独立检查，没有 Git commit。Token 计量逻辑保持不变。
+
+- 单条已接受原生响应关联有效事件边界后，显示 ≈耗时和 ≈输出 tok/s；时长取 100ms 到 1 小时，速度要求输出至少 200 Tokens 且耗时至少 1 秒。包含首字等待及可能的重试，不是实测纯生成速度。累计 / 初始快照、压缩、缺失或冲突边界仍显示 —。请求估算与完整 Turn 的明确计时分开。
+- JSON 行解析和 FileHandle 分块读取都有局部 autoreleasepool，释放扫描临时对象。模型表格使用原生 Table 统一滚动；模型列 150 点，数值列 76 点，名字单行，完整名字可查看 help。
+- ./Scripts/test.sh：独立检查 114 tests passed、0 failures。新增 14 个请求估算测试覆盖身份、延迟、重复、切换、损坏、压缩、阈值和中断等边界。
+- ./Scripts/test-token-display.sh：三个 locale、16 个数字边界通过。./Scripts/test-usage-store.sh：真实扫描、首次加载、失败保留、切换根目录、零值和过期结果通过。
+- ./Scripts/render-ui-previews.sh /tmp/codex-stats-v027-final-previews：30 张原生合成深浅色预览通过，含模型 950/1120 点、请求与侧栏、已知 / 未知估算。harness 断言请求为 45 秒、53.3 tok/s；已查看渲染的完整 Turn 为 120 秒、30 tok/s。静态预览不代表真实点击 / 滚动验收。
+
+固定 349,964,213 字节 / 39 文件基准：./Scripts/benchmark-performance.sh /tmp/codex-stats-performance-fixed Sources/Core v027 final。7,020 条记录、9,043,780 Tokens，完整计量快照与 v0.2.6 基准逐字段一致。新扫描器峰值 footprint 61.45 MiB，最大 RSS 83.53 MiB；原基线 footprint 788–795 MiB。cold 3.185 秒、warm 75.18ms、追加 123.17ms；今天 / 7天 / 30天 / 全部筛选 11.25 / 22.37 / 21.10 / 22.94ms。cold 是新进程，不清空系统磁盘缓存。
+
+实际原生 App 同输入单独验证：./Scripts/measure-app-memory.sh <built-app> /tmp/codex-stats-performance-fixed/fixture <output>。测试复制实际已构建 App，使用唯一临时 bundle ID，10 秒与 35 秒以 vmmap 采样，并仅正常退出自身实例。二进制不替换，未关闭用户运行的旧 App。
+
+| App | 10 秒当前 / 生命周期峰值 | 35 秒当前 / 生命周期峰值 |
+|---|---:|---:|
+| v0.2.6 build 8 | 117.2 / 746.6 MiB | 44.0 / 746.6 MiB |
+| v0.2.7 build 9 | 26.4 / 30.7 MiB | 28.0 / 35.5 MiB |
+
+峰值下降约 95.2%。这些是指定日志与采样窗口的 App footprint，不能保证任意规模或长时间运行的峰值，也没有自动断言界面扫描完成。RSS 与 footprint 分开报告。测量脚本的失败路径测试也确认只退出自身测试实例。
+
+一次只读真实日志元数据审计有 8,520 条计入记录，其中 6,754 条有请求时长、4,651 条符合速度阈值；不是所有行都能补出估算。真实日志会增长，该次审计不是固定输入前后计量等价证明。
+
+当前宿主 macOS 27.0.1 / Apple Silicon；macOS 14 实机、Intel、实际鼠标菜单 / 选行 / 滚动、正式签名与公证仍未验证。默认刷新保持 30 秒，完全离线，不读取 auth.json。安装时先退出旧版，再替换 App。
+
+发布 ./Scripts/make-dmg.sh 完成 v0.2.7 / build 9；codesign --verify --deep --strict、plutil、vtool minOS14.0 和 hdiutil verify 通过。发布 App 可执行文件与实际内存测量的 build 9 二进制逐字节一致。Trellis 独立全范围 gate PASS，任务已归档。源码 ZIP 排除真实日志、dist、运行缓存及个人 journal。
+
+
+## v0.2.8 紧凑菜单与常驻策略
+
+版本 0.2.8 / build 10。菜单宽度从 368 降为 320 points，正常预览约 399 points 高。压紧标题、Token两列指标、两个主要模型和底栏；去掉重复总量底注，诊断采用单行摘要，完整详情转到分析窗口。
+
+MenuWindowProbe 只弱关联自己所在的 NSWindow，打开分析前关闭该菜单窗口，不关闭 NSApp.keyWindow。旧探针移除不会擦掉新宿主引用；分析窗口聚焦后菜单仍能再次打开。后台策略采用 NSSupportsAutomaticTermination=true 配合 launch 时 disableAutomaticTermination，最后窗口关闭明确不退出。不是开机自启、不禁止睡眠、不添加重启守护，也不能阻止崩溃或 OS 强制终止。
+
+实测 / 命令：
+- ./Scripts/test.sh：114 Core tests passed、0 failures，计量代码未改。
+- ./Scripts/test-menu-lifecycle.sh：真实 LaunchServices 测试 bundle，生产 AppDelegate 的启动通知、准确宿主关闭顺序、分析窗口不受影响、重复 / 替换宿主及过时探针移除、关窗后保留进程、显式正常退出全部通过。它验证原生 AppKit 宿主和策略，不是实际 SwiftUI MenuBarExtra 鼠标点击证明。
+- ./Scripts/test-token-display.sh：独立三 locale、16 边界检查通过。
+- ./Scripts/render-ui-previews.sh：原生合成明暗预览通过；已看 /tmp/codex-stats-v028-menu-previews/menu-light.png 和 menu-dark.png，320×399 points，无指标 / 底栏裁剪。
+- ./Scripts/make-dmg.sh：原生 arm64 App / DMG 构建；strict codesign、Info.plist lint、minOS14.0 和 hdiutil verify 通过。未完成正式 Developer ID 签名或公证。
+- ./Scripts/measure-app-memory.sh：实际发布 App 的独立 bundle identity、固定350 MB输入，10s当前26.3MiB / 峰值30.5MiB，35s当前27.8MiB / 峰值35.5MiB；仅终止测试自身实例。实际进程70990的 AppKit 日志为 TAL eligibility=0。采样不能当作长期不退出或 UI 完成刷新的证明。
+- ./Scripts/test-app-lifecycle.sh /tmp/codexstats-v028-lifecycle.iNnNUe/Codex\ Stats.app：实际发布 App 临时独立 bundle ID，保留原 PID、重复实例退出、显式 AppKit 终止通过。没有操作用户原来的实例。
+
+此前运行的 v0.2.7 App 出现过 TAL eligibility=1，但没有找到对应 CodexStats 崩溃或当日15:47 Jetsam记录；这是可能被空闲自动终止的线索，不能据此确诊用户先前自行消失的原因。本轮 CUA 关闭按钮操作超时，未当作成功，真实菜单点击 / 再次展开和长期后台驻留仍需安装后观察。macOS 14 实机 / Intel 尚未验证。当前用户仍从挂载 DMG运行旧版；建议先退出旧版，将新 App 拖入 Applications 后启动。
+
+独立全范围 gate PASS，任务归档；只读挂载核对 DMG v0.2.8/build10、resident Info键及可执行文件与发布 App 一致，已卸载自身挂载。源码包完整性和脚本执行权限校验通过，不包含真实日志或个人journal。
+
+
+## v0.2.9 窄版菜单与设计对比
+
+正式菜单从320缩至288 points，时间选择器固定292导致的溢出通过适配菜单260points修复；分析窗口仍使用默认292。未知缓存/推理完整可读，长模型名省略并保留help。Token计量、菜单窗口关闭和常驻逻辑未变。
+
+- ./Scripts/test.sh：114 Core tests、0 failures。
+- ./Scripts/render-ui-previews.sh /tmp/codex-stats-v029-width-previews：生产窄菜单及空、错误、未知字段、深浅色原生合成预览通过；已查看正常浅色、错误深色和空状态，没有数字/退出裁剪。
+- ./Scripts/render-menu-designs.sh：两套独立SwiftUI布局A288×420、B288×469points，同一合成306.08M数据，不读取日志或偏好。4张单方案和2张并排明暗图通过，已查看。原型不进入Sources/App或Package运行时目标。docs/menu-design-comparison.html只展示原生截图，可切换浅/深色。项目无Git，原型清楚标记保存在独立测试目录，不虚构临时分支。
+- 独立 token-display 三locale检查、menu-lifecycle原生宿主关闭/关窗驻留回归通过。新增/变更Shell脚本语法通过。未配置通用Swift formatter；默认swift-format与现有风格不符，不宣称lint通过。
+- ./Scripts/build-macos.sh /tmp/codex-stats-v029-release：实际arm64原生App0.2.9/build11构建通过；DMG从该临时构建目录制作，避免在dist留下额外可被启动台识别的App副本。未替换用户安装或运行实例。
+
+A/B尚未选定，正式版只缩窄现有设计。静态原生预览不证明真实菜单点击或悬停；长期驻留、macOS14/Intel、正式签名/公证仍待验证。源码包排除真实日志、运行缓存和个人journal。
+
+发布严格签名、Info lint、minOS14.0、DMG校验通过。已只读挂载核对v0.2.9/build11与实际构建可执行文件逐字节一致，卸载自身挂载。
+
+独立质量检查PASS、任务归档，源码ZIP包含设计对比HTML和可重现原生原型源码，完整性/脚本权限检查通过。尚未选择A或B，不将方案评选视为已完成正式全App改版。
+
+
+## 2026-10-15 文档驱动重建基线（产品仍为 v0.2.9 / build 11）
+
+用户在原生 A/B 比较后选择 B。前节“尚未选择”是当时状态；当前 B 为已批准待实现方向，生产 App 尚未改为 B。本次只同步文档与治理规则，没有发布新的 App 或再次声称 UI 实机通过。
+
+- 新增 docs/ui-design.md、docs/data-design.md、docs/ui-design-b.md；重写 docs/design.md 为可重建入口，记录当前布局数值、数据协议、计量状态机、刷新偏好、生命周期、构建和验收边界。需求与 README / 比较页同步选择状态。
+- AGENTS.md managed block 外及 .trellis/spec/guides/design-first.md 规定：以后先更新需求和设计再实现；批准目标与已实现基线分开。
+- 本次最终机械核对 57 个本地链接和 Markdown 代码块闭合，0 错误；Sources / Tests / Scripts / Assets 的 40 个文件 SHA256 与本次修改前一致。未重新运行 Core、原生构建、安装或 UI 自动化，历史结果见前节。
+- 独立源码复核指出两个边界：会话详情缺 session_meta 时仍显示/复制内部文件名 ID；原生 owner 判断对比内部归组 ID，理论上缺元数据但 thread_id 等于文件名时可通过。当前文档明确这些差距，不冒称完整满足真实身份目标；本次没有改产品行为。
+
+本轮不清理用户安装、不修改日志或个人 memory、不完成仍在初始化的 bootstrap task；项目没有 Git，未虚构 commit。
+
+独立 Trellis 全范围文档复核 **PASS**；补正 owner 判断、会话身份展示及 compact 诊断高度等源码事实。对比页两张内嵌 PNG 解码有效，均为 1280×1076。
+
+
+## 2026-10-15 本地 Git 与目录规范（App 仍为 v0.2.9）
+
+按用户要求执行 `git init -b main`，仓库根为当前 codex-stats 目录；main 尚无首次提交，未暂存文件、未配置远端，未公开发布。先编写 docs/repository-layout.md，再更新忽略规则与贡献指南。保留 Sources/Tests 的 Swift Package 命名以及现有 Assets/Scripts 路径；仅用 rmdir 移除确认为空的根 Fixtures，Tests 内合成数据不变。
+
+- `xcrun swift package describe --type json` 成功：Core/App/Report/测试四个目标仍可识别。
+- 12 项生成物/个人状态忽略断言、7 项源码/合成 JSONL/共享规范保留断言通过；Git root/main/无提交/无暂存/无远端断言通过。
+- 本次检查 59 个项目文档本地链接有效；40 个产品文件与之前基线 SHA256 及文件清单一致。仅仓库元数据、规则及文档变化，未重复执行无关 App 构建/计量测试。
+
+本地测量 `.build` 约 581 MB、dist 约 18 MB，是构建/交付产物，并非产品源码体积或 App 运行内存。未删除这些产物。新增 CONTRIBUTING；许可证仍待维护者选择，历史任务和验证记录尚需公开前审阅，不将 Git 初始化等同于开源发布完成。
+
+独立 Trellis 全范围仓库规范复核 **PASS**，无阻塞项；未创建首次提交。
