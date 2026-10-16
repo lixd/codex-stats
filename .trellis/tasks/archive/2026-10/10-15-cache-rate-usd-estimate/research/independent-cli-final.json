@@ -1,0 +1,706 @@
+{
+  "derived" : {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 2800,
+      "state" : "incomplete"
+    },
+    "cost" : {
+      "amountUSD" : "0.00693",
+      "currency" : "USD",
+      "estimatedTokens" : 1830,
+      "priceVersion" : "openai-standard-short-2026-10-15",
+      "reasons" : {
+        "incompleteCachedInput" : 1,
+        "missingPrice" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 1310
+    }
+  },
+  "diagnostics" : [
+    {
+      "fileName" : "oracle-today.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "oracle-today",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "oracle-yesterday.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "oracle-yesterday",
+      "severity" : "warning"
+    }
+  ],
+  "files" : 2,
+  "invalidLines" : 0,
+  "models" : [
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : null,
+          "fraction" : null,
+          "input" : 2100,
+          "state" : "incomplete"
+        },
+        "cost" : {
+          "amountUSD" : "0.00178",
+          "currency" : "USD",
+          "estimatedTokens" : 1210,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+            "incompleteCachedInput" : 1
+          },
+          "state" : "partial",
+          "unestimatedTokens" : 1100
+        }
+      },
+      "model" : "gpt-6.1-sol",
+      "sessions" : 2,
+      "usage" : {
+        "cachedInput" : 800,
+        "cachedInputKnown" : false,
+        "input" : 2100,
+        "output" : 210,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 100,
+          "fraction" : 0.2,
+          "input" : 500,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : "0.0051",
+          "currency" : "USD",
+          "estimatedTokens" : 520,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+
+          },
+          "state" : "complete",
+          "unestimatedTokens" : 0
+        }
+      },
+      "model" : "gpt-6-astra",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 500,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 100,
+          "fraction" : 0.5,
+          "input" : 200,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : null,
+          "currency" : "USD",
+          "estimatedTokens" : 0,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+            "missingPrice" : 1
+          },
+          "state" : "unavailable",
+          "unestimatedTokens" : 210
+        }
+      },
+      "model" : "unpriced-test-model",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 200,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 0,
+          "fraction" : null,
+          "input" : 0,
+          "state" : "noInput"
+        },
+        "cost" : {
+          "amountUSD" : "0.00005",
+          "currency" : "USD",
+          "estimatedTokens" : 100,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+
+          },
+          "state" : "complete",
+          "unestimatedTokens" : 0
+        }
+      },
+      "model" : "gpt-6-luna",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 0,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "priceBasis" : "USD · Standard 短上下文参考价；所有历史统一按此快照折算，非实际扣费",
+  "priceExclusions" : "不含缓存写入单列费用、长上下文加价、Fast\/Ultrafast、Batch\/Flex、地域、税费及工具费用",
+  "priceSource" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+  "priceVerifiedOn" : "2026-10-15",
+  "recordDerived" : {
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 800,
+        "fraction" : 0.8,
+        "input" : 1000,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.00148",
+        "currency" : "USD",
+        "estimatedTokens" : 1100,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#1" : {
+      "cacheRate" : {
+        "cachedInput" : null,
+        "fraction" : null,
+        "input" : 1000,
+        "state" : "incomplete"
+      },
+      "cost" : {
+        "amountUSD" : null,
+        "currency" : "USD",
+        "estimatedTokens" : 0,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+          "incompleteCachedInput" : 1
+        },
+        "state" : "unavailable",
+        "unestimatedTokens" : 1100
+      }
+    },
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#2" : {
+      "cacheRate" : {
+        "cachedInput" : 100,
+        "fraction" : 0.2,
+        "input" : 500,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.0051",
+        "currency" : "USD",
+        "estimatedTokens" : 520,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#3" : {
+      "cacheRate" : {
+        "cachedInput" : 0,
+        "fraction" : null,
+        "input" : 0,
+        "state" : "noInput"
+      },
+      "cost" : {
+        "amountUSD" : "0.00005",
+        "currency" : "USD",
+        "estimatedTokens" : 100,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#4" : {
+      "cacheRate" : {
+        "cachedInput" : 100,
+        "fraction" : 0.5,
+        "input" : 200,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : null,
+        "currency" : "USD",
+        "estimatedTokens" : 0,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+          "missingPrice" : 1
+        },
+        "state" : "unavailable",
+        "unestimatedTokens" : 210
+      }
+    },
+    "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-yesterday.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 0,
+        "fraction" : 0,
+        "input" : 100,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.0003",
+        "currency" : "USD",
+        "estimatedTokens" : 110,
+        "priceVersion" : "openai-standard-short-2026-10-15",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    }
+  },
+  "records" : [
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-today.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#4",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 200,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "unpriced-test-model",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "requestID" : "oracle-today-4",
+      "sessionID" : "oracle-today",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:04Z",
+      "usage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 200,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-today.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#3",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 0,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-luna",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "requestID" : "oracle-today-3",
+      "sessionID" : "oracle-today",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:03Z",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 0,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-today.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#2",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 500,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-astra",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "requestID" : "oracle-today-2",
+      "sessionID" : "oracle-today",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:02Z",
+      "usage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 500,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-today.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#1",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6.1-sol",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "requestID" : "oracle-today-1",
+      "sessionID" : "oracle-today",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:01Z",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-today.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-today.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 800,
+        "cachedInputKnown" : true,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6.1-sol",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "requestID" : "oracle-today-0",
+      "sessionID" : "oracle-today",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:00Z",
+      "usage" : {
+        "cachedInput" : 800,
+        "cachedInputKnown" : true,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-14",
+      "evidence" : "responseRecord",
+      "fileName" : "oracle-yesterday.jsonl",
+      "id" : "\/tmp\/codex-stats-cache-usd-20261015\/oracle-input\/sessions\/oracle-yesterday.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6.1-sol",
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-yesterday",
+      "requestID" : "oracle-yesterday-0",
+      "sessionID" : "oracle-yesterday",
+      "source" : "Codex",
+      "timestamp" : "2026-10-14T01:00:00Z",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "sessions" : [
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : null,
+          "fraction" : null,
+          "input" : 2700,
+          "state" : "incomplete"
+        },
+        "cost" : {
+          "amountUSD" : "0.00663",
+          "currency" : "USD",
+          "estimatedTokens" : 1720,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+            "incompleteCachedInput" : 1,
+            "missingPrice" : 1
+          },
+          "state" : "partial",
+          "unestimatedTokens" : 1310
+        }
+      },
+      "id" : "oracle-today",
+      "models" : [
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : null,
+              "fraction" : null,
+              "input" : 2000,
+              "state" : "incomplete"
+            },
+            "cost" : {
+              "amountUSD" : "0.00148",
+              "currency" : "USD",
+              "estimatedTokens" : 1100,
+              "priceVersion" : "openai-standard-short-2026-10-15",
+              "reasons" : {
+                "incompleteCachedInput" : 1
+              },
+              "state" : "partial",
+              "unestimatedTokens" : 1100
+            }
+          },
+          "model" : "gpt-6.1-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 800,
+            "cachedInputKnown" : false,
+            "input" : 2000,
+            "output" : 200,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 100,
+              "fraction" : 0.2,
+              "input" : 500,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : "0.0051",
+              "currency" : "USD",
+              "estimatedTokens" : 520,
+              "priceVersion" : "openai-standard-short-2026-10-15",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-6-astra",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 100,
+            "cachedInputKnown" : true,
+            "input" : 500,
+            "output" : 20,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 100,
+              "fraction" : 0.5,
+              "input" : 200,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : null,
+              "currency" : "USD",
+              "estimatedTokens" : 0,
+              "priceVersion" : "openai-standard-short-2026-10-15",
+              "reasons" : {
+                "missingPrice" : 1
+              },
+              "state" : "unavailable",
+              "unestimatedTokens" : 210
+            }
+          },
+          "model" : "unpriced-test-model",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 100,
+            "cachedInputKnown" : true,
+            "input" : 200,
+            "output" : 10,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 0,
+              "fraction" : null,
+              "input" : 0,
+              "state" : "noInput"
+            },
+            "cost" : {
+              "amountUSD" : "0.00005",
+              "currency" : "USD",
+              "estimatedTokens" : 100,
+              "priceVersion" : "openai-standard-short-2026-10-15",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-6-luna",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 0,
+            "cachedInputKnown" : false,
+            "input" : 0,
+            "output" : 100,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        }
+      ],
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-today",
+      "usage" : {
+        "cachedInput" : 1000,
+        "cachedInputKnown" : false,
+        "input" : 2700,
+        "output" : 330,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 0,
+          "fraction" : 0,
+          "input" : 100,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : "0.0003",
+          "currency" : "USD",
+          "estimatedTokens" : 110,
+          "priceVersion" : "openai-standard-short-2026-10-15",
+          "reasons" : {
+
+          },
+          "state" : "complete",
+          "unestimatedTokens" : 0
+        }
+      },
+      "id" : "oracle-yesterday",
+      "models" : [
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 0,
+              "fraction" : 0,
+              "input" : 100,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : "0.0003",
+              "currency" : "USD",
+              "estimatedTokens" : 110,
+              "priceVersion" : "openai-standard-short-2026-10-15",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-6.1-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 0,
+            "cachedInputKnown" : true,
+            "input" : 100,
+            "output" : 10,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        }
+      ],
+      "project" : "independent-oracle",
+      "recordedSessionID" : "oracle-yesterday",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "total" : {
+    "cachedInput" : 1000,
+    "cachedInputKnown" : false,
+    "input" : 2800,
+    "output" : 340,
+    "reasoning" : 0,
+    "reasoningKnown" : false
+  },
+  "warnings" : [
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。"
+  ]
+}

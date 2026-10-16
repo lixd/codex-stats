@@ -1,0 +1,262 @@
+Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+[1 / 1]
+[1 / 9] CodexStatsCore
+[1 / 11] codex-stats-app-product
+[2 / 7] CodexStatsCoreTests-product
+[4 / 9] CodexStatsCoreTests-product
+[5 / 9] CodexStatsCoreTests-product
+[6 / 9] CodexStatsCoreTests-product
+[8 / 11] CodexStatsCoreTests-product
+[9 / 11] CodexStatsCoreTests-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[10 / 14] CodexStatsCoreTests-product
+[11 / 14] CodexStatsCoreTests-product
+[12 / 14] CodexStatsCoreTests-product
+[12 / 12] codex-stats-report-product
+Build complete! (61.79秒)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() started.
+◇ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() started.
+◇ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() started.
+◇ Test case passing 1 argument field → "reasoning" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument shape → "repeat-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument field → "both" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "reasoning-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:323:9: Expectation failed: row.usage.input == 10 && row.usage.output == 10
+↳ row.usage.input == 10 && row.usage.output == 10 → false
+↳   row.usage.input == 10 → false
+↳   row.usage.output == 10 → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:323:9: Expectation failed: row.usage.input == 10 && row.usage.output == 10
+↳ row.usage.input == 10 && row.usage.output == 10 → false
+↳   row.usage.input == 10 → false
+↳   row.usage.output == 10 → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 10
+↳   (invalidReason ? 0 : 5) → 0
+✘ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() recorded an issue at CodexLogScannerTests.swift:341:5: Expectation failed: row.usage.cachedInput == 0 && !row.usage.cachedInputKnown
+↳ row.usage.cachedInput == 0 && !row.usage.cachedInputKnown → false
+↳   row.usage.cachedInput == 0 → false
+↳   !row.usage.cachedInputKnown → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 50
+↳   (invalidCache ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 0
+↳   (invalidCache ? 0 : 5) → 5
+✘ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() recorded an issue at CodexLogScannerTests.swift:344:5: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 0
+↳   (invalidReason ? 0 : 5) → 5
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 50
+↳   (invalidReason ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 10
+↳   (invalidCache ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+◇ Test case passing 1 argument shape → "repeat-pair" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-notification" at CodexLogScannerTests.swift:292:5: Expectation failed: report.totals(in: .all).total == 110
+↳ report.totals(in: .all).total == 110 → false
+↳   report.totals(in: .all).total → 220
+◇ Test case passing 1 argument shape → "prior-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 10
+↳   (invalidCache ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 10
+↳   (invalidReason ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-notification" at CodexLogScannerTests.swift:293:5: Expectation failed: report.records(in: .all).count == 1
+↳ report.records(in: .all).count == 1 → false
+↳   report.records(in: .all).count → 2
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-notification" at CodexLogScannerTests.swift:294:5: Expectation failed: report.records(in: .all).first?.requestID == "response"
+↳ report.records(in: .all).first?.requestID == "response" → false
+↳   report.records(in: .all).first?.requestID → nil
+↳     some → "response"
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-notification" at CodexLogScannerTests.swift:295:5: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:328:9: Expectation failed: row.cumulativeSnapshot?.cachedInput == (after["cached_input_tokens"] as? Int).map(Int64.init)
+↳ row.cumulativeSnapshot?.cachedInput == (after["cached_input_tokens"] as? Int).map(Int64.init) → false
+↳   row.cumulativeSnapshot?.cachedInput → 0
+↳     some → 0
+↳   (after["cached_input_tokens"] as? Int).map(Int64.init) → 5
+↳     some → 5
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:329:9: Expectation failed: report.totals(in: .all).total == 220
+↳ report.totals(in: .all).total == 220 → false
+↳   report.totals(in: .all).total → 200
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:328:9: Expectation failed: row.cumulativeSnapshot?.cachedInput == (after["cached_input_tokens"] as? Int).map(Int64.init)
+↳ row.cumulativeSnapshot?.cachedInput == (after["cached_input_tokens"] as? Int).map(Int64.init) → false
+↳   row.cumulativeSnapshot?.cachedInput → 50
+↳     some → 50
+↳   (after["cached_input_tokens"] as? Int).map(Int64.init) → 20
+↳     some → 20
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 10
+↳   (invalidCache ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:329:9: Expectation failed: report.totals(in: .all).total == 220
+↳ report.totals(in: .all).total == 220 → false
+↳   report.totals(in: .all).total → 200
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 10
+↳   (invalidCache ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 10
+↳   (invalidReason ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "both" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+◇ Test case passing 1 argument shape → "cumulative-companion" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 10
+↳   (invalidReason ? 0 : 5) → 0
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✔ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() passed after 0.281 seconds.
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:323:9: Expectation failed: row.usage.input == 10 && row.usage.output == 10
+↳ row.usage.input == 10 && row.usage.output == 10 → false
+↳   row.usage.input == 10 → false
+↳   row.usage.output == 10 → <not evaluated>
+✘ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() failed after 0.281 seconds with 2 issues.
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:324:9: Expectation failed: row.usage.cachedInputKnown == !invalidCache
+↳ row.usage.cachedInputKnown == !invalidCache → false
+↳   row.usage.cachedInputKnown → true
+↳   !invalidCache → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:327:9: Expectation failed: row.usage.reasoning == (invalidReason ? 0 : 5)
+↳ row.usage.reasoning == (invalidReason ? 0 : 5) → false
+↳   row.usage.reasoning → 0
+↳   (invalidReason ? 0 : 5) → 5
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:329:9: Expectation failed: report.totals(in: .all).total == 220
+↳ report.totals(in: .all).total == 220 → false
+↳   report.totals(in: .all).total → 210
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "cache-reset" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:323:9: Expectation failed: row.usage.input == 10 && row.usage.output == 10
+↳ row.usage.input == 10 && row.usage.output == 10 → false
+↳   row.usage.input == 10 → false
+↳   row.usage.output == 10 → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:325:9: Expectation failed: row.usage.reasoningKnown == !invalidReason
+↳ row.usage.reasoningKnown == !invalidReason → false
+↳   row.usage.reasoningKnown → true
+↳   !invalidReason → false
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:326:9: Expectation failed: row.usage.cachedInput == (invalidCache ? 0 : 5)
+↳ row.usage.cachedInput == (invalidCache ? 0 : 5) → false
+↳   row.usage.cachedInput → 0
+↳   (invalidCache ? 0 : 5) → 5
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:329:9: Expectation failed: report.totals(in: .all).total == 220
+↳ report.totals(in: .all).total == 220 → false
+↳   report.totals(in: .all).total → 210
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-pair" at CodexLogScannerTests.swift:292:5: Expectation failed: report.totals(in: .all).total == 110
+↳ report.totals(in: .all).total == 110 → false
+↳   report.totals(in: .all).total → 220
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) recorded an issue with 1 argument field → "reasoning-reset" at CodexLogScannerTests.swift:330:9: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") } → <not evaluated>
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-pair" at CodexLogScannerTests.swift:293:5: Expectation failed: report.records(in: .all).count == 1
+↳ report.records(in: .all).count == 1 → false
+↳   report.records(in: .all).count → 2
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-pair" at CodexLogScannerTests.swift:294:5: Expectation failed: report.records(in: .all).first?.requestID == "response"
+↳ report.records(in: .all).first?.requestID == "response" → false
+↳   report.records(in: .all).first?.requestID → nil
+↳     some → "response"
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "repeat-pair" at CodexLogScannerTests.swift:295:5: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity } → <not evaluated>
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "cumulative-companion" at CodexLogScannerTests.swift:292:5: Expectation failed: report.totals(in: .all).total == 110
+↳ report.totals(in: .all).total == 110 → false
+↳   report.totals(in: .all).total → 220
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "cumulative-companion" at CodexLogScannerTests.swift:293:5: Expectation failed: report.records(in: .all).count == 1
+↳ report.records(in: .all).count == 1 → false
+↳   report.records(in: .all).count → 2
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "cumulative-companion" at CodexLogScannerTests.swift:294:5: Expectation failed: report.records(in: .all).first?.requestID == "response"
+↳ report.records(in: .all).first?.requestID == "response" → false
+↳   report.records(in: .all).first?.requestID → nil
+↳     some → "response"
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "cumulative-companion" at CodexLogScannerTests.swift:295:5: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity } → <not evaluated>
+✘ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) with 5 test cases failed after 0.289 seconds with 46 issues.
+✔ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() passed after 0.290 seconds.
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "prior-notification" at CodexLogScannerTests.swift:292:5: Expectation failed: report.totals(in: .all).total == 110
+↳ report.totals(in: .all).total == 110 → false
+↳   report.totals(in: .all).total → 220
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "prior-notification" at CodexLogScannerTests.swift:293:5: Expectation failed: report.records(in: .all).count == 1
+↳ report.records(in: .all).count == 1 → false
+↳   report.records(in: .all).count → 2
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "prior-notification" at CodexLogScannerTests.swift:294:5: Expectation failed: report.records(in: .all).first?.requestID == "response"
+↳ report.records(in: .all).first?.requestID == "response" → false
+↳   report.records(in: .all).first?.requestID → nil
+↳     some → "response"
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) recorded an issue with 1 argument shape → "prior-notification" at CodexLogScannerTests.swift:295:5: Expectation failed: report.diagnostics.contains { $0.kind == .counterAmbiguity }
+↳ report.diagnostics.contains { $0.kind == .counterAmbiguity } → <not evaluated>
+✘ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) with 4 test cases failed after 0.304 seconds with 16 issues.
+✘ Test run with 5 tests in 0 suites failed after 0.305 seconds with 64 issues.
+Note: Some test targets reported failures:
+  - CodexStatsCoreTests (Swift Testing)

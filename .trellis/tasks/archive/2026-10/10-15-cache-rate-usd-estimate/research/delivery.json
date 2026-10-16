@@ -1,0 +1,15 @@
+{
+  "version": "0.2.16",
+  "build": "18",
+  "minimumOS": "14.0",
+  "architecture": "arm64",
+  "signing": "ad-hoc; codesign --verify --deep --strict exit0",
+  "executableSHA256": "9b98a4ade44aa2c9c6e71b1199a5fe0611880f58179f8ab92def7af80bb16b27",
+  "sourceFiles": 15,
+  "sourceHashesMatchBuiltSources": true,
+  "app": "/tmp/codex-stats-cache-usd-20261015/native/Codex Stats.app",
+  "installed": false,
+  "launched": false,
+  "commit": "not created",
+  "push": "not performed"
+}

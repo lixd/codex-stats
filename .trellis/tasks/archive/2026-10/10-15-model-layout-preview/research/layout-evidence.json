@@ -1,0 +1,56 @@
+[
+  {
+    "cards": 5,
+    "contentOverflow": 0,
+    "contentWidth": 764,
+    "variant": "A",
+    "verticalScroll": true,
+    "windowOverflow": 0,
+    "windowWidth": 950
+  },
+  {
+    "cards": 5,
+    "contentOverflow": 0,
+    "contentWidth": 764,
+    "variant": "B",
+    "verticalScroll": true,
+    "windowOverflow": 0,
+    "windowWidth": 950
+  },
+  {
+    "cards": 1,
+    "contentOverflow": 0,
+    "contentWidth": 764,
+    "variant": "C",
+    "verticalScroll": false,
+    "windowOverflow": 0,
+    "windowWidth": 950
+  },
+  {
+    "cards": 5,
+    "contentOverflow": 0,
+    "contentWidth": 934,
+    "variant": "A",
+    "verticalScroll": true,
+    "windowOverflow": 0,
+    "windowWidth": 1120
+  },
+  {
+    "cards": 5,
+    "contentOverflow": 0,
+    "contentWidth": 934,
+    "variant": "B",
+    "verticalScroll": true,
+    "windowOverflow": 0,
+    "windowWidth": 1120
+  },
+  {
+    "cards": 1,
+    "contentOverflow": 0,
+    "contentWidth": 934,
+    "variant": "C",
+    "verticalScroll": false,
+    "windowOverflow": 0,
+    "windowWidth": 1120
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "head": "11f2a937971c40b29a2b4d69ff6bb79c5eaec91f",
+  "branch": "codex/small-beautiful-fixes",
+  "baselineSource": "/tmp/codex-stats-fixes-20261015/baseline",
+  "workDirectory": "/tmp/codex-stats-fixes-20261015",
+  "priorAudit": ".trellis/tasks/archive/2026-10/10-15-small-beautiful-audit",
+  "scope": "A01-A06 only; A07 deferred",
+  "authorization": "User explicitly requested implementation after review recommendations; no installation or commits."
+}

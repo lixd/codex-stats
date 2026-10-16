@@ -1,0 +1,6 @@
+{"timestamp": "2026-10-15T08:00:00+08:00", "type": "session_meta", "payload": {"id": "oracle-today", "cwd": "/synthetic/independent-oracle"}}
+{"timestamp": "2026-10-15T09:00:00+08:00", "type": "token_usage_record", "payload": {"thread_id": "oracle-today", "response_id": "oracle-today-0", "model": "gpt-6.1-sol", "usage": {"input_tokens": 1000, "cached_input_tokens": 800, "output_tokens": 100}}}
+{"timestamp": "2026-10-15T09:00:01+08:00", "type": "token_usage_record", "payload": {"thread_id": "oracle-today", "response_id": "oracle-today-1", "model": "gpt-6.1-sol", "usage": {"input_tokens": 1000, "output_tokens": 100}}}
+{"timestamp": "2026-10-15T09:00:02+08:00", "type": "token_usage_record", "payload": {"thread_id": "oracle-today", "response_id": "oracle-today-2", "model": "gpt-6-astra", "usage": {"input_tokens": 500, "cached_input_tokens": 100, "output_tokens": 20}}}
+{"timestamp": "2026-10-15T09:00:03+08:00", "type": "token_usage_record", "payload": {"thread_id": "oracle-today", "response_id": "oracle-today-3", "model": "gpt-6-luna", "usage": {"input_tokens": 0, "output_tokens": 100}}}
+{"timestamp": "2026-10-15T09:00:04+08:00", "type": "token_usage_record", "payload": {"thread_id": "oracle-today", "response_id": "oracle-today-4", "model": "unpriced-test-model", "usage": {"input_tokens": 200, "cached_input_tokens": 100, "output_tokens": 10}}}

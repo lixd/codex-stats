@@ -1,0 +1,763 @@
+{
+  "result": "PASS",
+  "cases": 126,
+  "comparison": "full CLI including raw usage, identities, diagnostics and optional timings",
+  "results": [
+    {
+      "case": "clean",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "clean",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "clean",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-4",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-4",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-4",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-11",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-11",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-None-11",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-turn-0-2-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-2-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-2-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-2-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-2-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-2-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-8-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-turn-0-12-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-None-4",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-None-4",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-None-4",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-None-11",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-None-11",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-None-11",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "counter-other-2-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-2-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-2-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-2-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-2-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-2-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-8-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-4",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-4",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-4",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-11",
+      "copy": "single",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-11",
+      "copy": "archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "counter-other-12-11",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 490
+    },
+    {
+      "case": "native-owner-False-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-False-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-False-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-False-2",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-2",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-2",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-8",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-8",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-8",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-12",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-12",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-False-12",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-True-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-True-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-owner-True-2",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-2",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-2",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-8",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-8",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-8",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-12",
+      "copy": "single",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-12",
+      "copy": "archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-owner-True-12",
+      "copy": "invalid-archived",
+      "records": 5,
+      "total": 600
+    },
+    {
+      "case": "native-foreign-False-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-2",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-2",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-2",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-8",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-8",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-8",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-12",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-12",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-False-12",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-2",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-2",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-2",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-8",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-8",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-8",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-12",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-12",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-foreign-True-12",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-2",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-2",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-2",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-8",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-8",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-8",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-12",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-12",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-False-12",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-None",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-None",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-None",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-2",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-2",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-2",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-8",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-8",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-8",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-12",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-12",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "native-None-True-12",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "aborted",
+      "copy": "single",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "aborted",
+      "copy": "archived",
+      "records": 4,
+      "total": 480
+    },
+    {
+      "case": "aborted",
+      "copy": "invalid-archived",
+      "records": 4,
+      "total": 480
+    }
+  ]
+}

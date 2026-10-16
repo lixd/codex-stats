@@ -1,0 +1,154 @@
+{
+  "checks": [
+    {
+      "variant": "A",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    },
+    {
+      "variant": "A",
+      "page": "requests",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 753,
+      "table": [
+        {
+          "width": 878,
+          "scrollWidth": 878
+        }
+      ]
+    },
+    {
+      "variant": "A",
+      "page": "models",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": [
+        {
+          "width": 878,
+          "scrollWidth": 878
+        }
+      ]
+    },
+    {
+      "variant": "A",
+      "page": "sessions",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    },
+    {
+      "variant": "B",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    },
+    {
+      "variant": "B",
+      "page": "requests",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 808,
+      "table": [
+        {
+          "width": 880,
+          "scrollWidth": 880
+        }
+      ]
+    },
+    {
+      "variant": "B",
+      "page": "models",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": [
+        {
+          "width": 880,
+          "scrollWidth": 880
+        }
+      ]
+    },
+    {
+      "variant": "B",
+      "page": "sessions",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    },
+    {
+      "variant": "C",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    },
+    {
+      "variant": "C",
+      "page": "requests",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 753,
+      "table": [
+        {
+          "width": 878,
+          "scrollWidth": 878
+        }
+      ]
+    },
+    {
+      "variant": "C",
+      "page": "models",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": [
+        {
+          "width": 878,
+          "scrollWidth": 878
+        }
+      ]
+    },
+    {
+      "variant": "C",
+      "page": "sessions",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587,
+      "table": []
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "passed": [
+    "12 page renders",
+    "variant and page URL",
+    "arrow cycle",
+    "input arrow preserved",
+    "model search",
+    "session search",
+    "reload persistence",
+    "no external request"
+  ]
+}

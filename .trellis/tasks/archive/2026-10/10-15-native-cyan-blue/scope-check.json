@@ -1,0 +1,23 @@
+{
+  "changed_existing": [
+    "Assets/Info.plist",
+    "Scripts/render-ui-previews.sh",
+    "Scripts/test-token-display.sh",
+    "Scripts/test-usage-store.sh",
+    "Sources/App/Components.swift",
+    "Sources/App/DashboardView.swift",
+    "Sources/App/MenuPanelView.swift",
+    "Sources/App/RequestsContent.swift",
+    "Sources/App/SessionsContent.swift",
+    "Sources/App/UsageStore.swift",
+    "Tests/MenuDesignPrototype/main.swift",
+    "Tests/UIPreview/main.swift",
+    "Tests/UsageStore/main.swift"
+  ],
+  "new_product_test_files": [
+    "Sources/App/Appearance.swift"
+  ],
+  "unchanged_core": true,
+  "unchanged_lifecycle": true,
+  "unchanged_delivery": true
+}

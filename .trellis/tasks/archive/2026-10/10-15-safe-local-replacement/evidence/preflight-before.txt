@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/lixueduan/17x/idea/codex-stats/Tests/Delivery/test_delivery.py", line 165, in <module>
+    nested_preflight(previous)
+  File "/Users/lixueduan/17x/idea/codex-stats/Tests/Delivery/test_delivery.py", line 127, in nested_preflight
+    assert before == after, f"Nested preflight wrote inside protected App: {before} != {after}"
+           ^^^^^^^^^^^^^^^
+AssertionError: Nested preflight wrote inside protected App: ('e018a084f5e59e8fcf4840350eecbcc085d4a71604619abfdb1ed4deb8d9ac90', 1792045085395145488) != ('e018a084f5e59e8fcf4840350eecbcc085d4a71604619abfdb1ed4deb8d9ac90', 1792045086637122398)

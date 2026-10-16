@@ -1,0 +1,254 @@
+[
+  {
+    "actual_total": 110,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 100,
+      "output": 10,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "single_native_notification_control",
+    "correct_total": 110,
+    "correct_total_matches": true,
+    "rows": [
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-1",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "actual_total": 220,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 200,
+      "output": 20,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "repeated_native_last_only",
+    "correct_total": 110,
+    "correct_total_matches": false,
+    "rows": [
+      {
+        "evidence": "lastUsage",
+        "requestID": null,
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      },
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-1",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "actual_total": 220,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 200,
+      "output": 20,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "repeated_last_only_after_native",
+    "correct_total": 110,
+    "correct_total_matches": false,
+    "rows": [
+      {
+        "evidence": "lastUsage",
+        "requestID": null,
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      },
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-1",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "actual_total": 220,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 200,
+      "output": 20,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "cumulative_growth_control",
+    "correct_total": 220,
+    "correct_total_matches": true,
+    "rows": [
+      {
+        "evidence": "lastUsage",
+        "requestID": null,
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      },
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-1",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "actual_total": 220,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 200,
+      "output": 20,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "distinct_response_equal_usage_control",
+    "correct_total": 220,
+    "correct_total_matches": true,
+    "rows": [
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-1",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      },
+      {
+        "evidence": "responseRecord",
+        "requestID": "response-2",
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 10,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "actual_total": 0,
+    "actual_usage": {
+      "cachedInput": 0,
+      "cachedInputKnown": true,
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "reasoningKnown": true
+    },
+    "case": "rejected_owner_replay_control",
+    "correct_total": 0,
+    "correct_total_matches": true,
+    "rows": [],
+    "warnings": [
+      "audit-se：最近用量通知与无法核验的原生请求重叠，未重新计入；统计可能不完整。"
+    ]
+  },
+  {
+    "actual_total": 220,
+    "actual_usage": {
+      "cachedInput": 10,
+      "cachedInputKnown": true,
+      "input": 110,
+      "output": 110,
+      "reasoning": 10,
+      "reasoningKnown": true
+    },
+    "case": "impossible_subset_delta",
+    "diagnostic_present": false,
+    "required_behavior": "Invalid subset delta must not become a known exact value silently",
+    "rows": [
+      {
+        "evidence": "cumulativeDelta",
+        "requestID": null,
+        "usage": {
+          "cachedInput": 10,
+          "cachedInputKnown": true,
+          "input": 10,
+          "output": 10,
+          "reasoning": 10,
+          "reasoningKnown": true
+        }
+      },
+      {
+        "evidence": "initialSnapshot",
+        "requestID": null,
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 100,
+          "output": 100,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "warnings": []
+  }
+]

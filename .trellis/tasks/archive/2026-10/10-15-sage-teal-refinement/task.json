@@ -1,0 +1,31 @@
+{
+  "id": "sage-teal-refinement",
+  "name": "sage-teal-refinement",
+  "title": "Refine Sage and Teal visual hierarchy",
+  "description": "Apply the approved Sage and Teal palette to native analytics surfaces while preserving statistics and interactions",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-15",
+  "completedAt": "2026-10-15",
+  "branch": "codex/small-beautiful-fixes",
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "docs/sage-teal-design.md",
+    "docs/ui-design.md",
+    "VERIFICATION.md",
+    ".trellis/spec/frontend/visual-system.md"
+  ],
+  "notes": "User approved Sage + Teal after research; design updated before code. All final checks passed with explicit actual-HC/interaction/platform limitations. User prohibits commits/push/install/user App operations; archive and journal use --no-commit. Prior audit fixes remain uncommitted and preserved.",
+  "meta": {}
+}

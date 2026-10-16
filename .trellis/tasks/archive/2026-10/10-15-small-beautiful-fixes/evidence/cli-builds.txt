@@ -1,0 +1,3 @@
+PASS compiled baseline
+PASS compiled before-index
+PASS compiled current

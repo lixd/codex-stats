@@ -1,0 +1,6 @@
+正在构建 Codex Stats (arm64, macOS 14+)…
+/tmp/codex-stats-fixes-20261015/native/.codexstats-build.nVcNqx/Codex Stats.app: replacing existing signature
+已发布：/tmp/codex-stats-fixes-20261015/native/Codex Stats.app，v0.2.11 / build 13
+构建成功：/tmp/codex-stats-fixes-20261015/native/Codex Stats.app
+直接运行：open "/tmp/codex-stats-fixes-20261015/native/Codex Stats.app"
+安全安装：./Scripts/install-local.sh --source "/tmp/codex-stats-fixes-20261015/native/Codex Stats.app"

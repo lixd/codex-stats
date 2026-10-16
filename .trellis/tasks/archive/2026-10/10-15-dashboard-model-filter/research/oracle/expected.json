@@ -1,0 +1,57 @@
+{
+  "note": "Fixed independent hand oracle before implementation. TZ Asia/Shanghai; now2026-10-15T16:00+08; accepted8records; no real logs.",
+  "all": {
+    "input": 5200,
+    "output": 350,
+    "total": 5550,
+    "records": 8,
+    "usd": "0.0113",
+    "estimated": 4910,
+    "unestimated": 640
+  },
+  "today": {
+    "input": 3900,
+    "output": 220,
+    "total": 4120,
+    "records": 6,
+    "usd": "0.00758",
+    "estimated": 3480,
+    "unestimated": 640
+  },
+  "sol6_all": {
+    "input": 2800,
+    "output": 260,
+    "total": 3060,
+    "records": 4,
+    "usd": "0.00528",
+    "estimated": 2530,
+    "unestimated": 530
+  },
+  "sol6_today": {
+    "input": 1500,
+    "output": 130,
+    "total": 1630,
+    "records": 2,
+    "usd": "0.00156",
+    "estimated": 1100,
+    "unestimated": 530
+  },
+  "sol56_all": {
+    "input": 2000,
+    "output": 60,
+    "total": 2060,
+    "records": 2,
+    "usd": "0.0056",
+    "estimated": 2060,
+    "unestimated": 0
+  },
+  "review_all": {
+    "input": 100,
+    "output": 10,
+    "total": 110,
+    "records": 1,
+    "usd": null,
+    "estimated": 0,
+    "unestimated": 110
+  }
+}

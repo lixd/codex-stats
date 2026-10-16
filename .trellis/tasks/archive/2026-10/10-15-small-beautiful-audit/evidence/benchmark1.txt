@@ -1,0 +1,19 @@
+{"bytes": 349964213, "files": 39, "lines": 65000, "records": 7020, "synthetic": "codex-stats-performance-v1", "usage": {"cached_input_tokens": 8064690, "input_tokens": 8766690, "output_tokens": 277090, "reasoning_output_tokens": 89965}}
+{
+  "appendSeconds" : 0.12733533332357183,
+  "bytes" : 349964213,
+  "coldSeconds" : 2.9182597500039265,
+  "files" : 39,
+  "filterSeconds" : {
+    "7 天" : 0.019809333374723792,
+    "30 天" : 0.020162833330687135,
+    "今天" : 0.0096154999919235706,
+    "全部" : 0.023288291704375297
+  },
+  "records" : 7020,
+  "total" : 9043780,
+  "warmSeconds" : 0.06335458334069699
+}
+maximum resident set size: 77.81 MiB
+peak memory footprint: 60.33 MiB
+Aggregate timings and synthetic correctness snapshot: /tmp/codex-stats-audit-20261015/performance/audit1-{metrics,snapshot}.json

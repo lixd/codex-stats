@@ -1,0 +1,67 @@
+{
+  "baseline": "11f2a937971c40b29a2b4d69ff6bb79c5eaec91f",
+  "buildExit": 1,
+  "previousMarkerSHA256": "d2f63185e0593d5a7ab7fb23637313ffce65d18f94bab18f504ef1b309497d27",
+  "previousMarkerSurvived": false,
+  "fixture": "isolated prior-build marker; real Swift syntax failure; no launch"
+}
+正在构建 Codex Stats (arm64, macOS 14+)…
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:1: error: expressions are not allowed at the top level
+1 | this is an intentional syntax error
+  | `- error: expressions are not allowed at the top level
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:11: error: consecutive statements on a line must be separated by ';'
+1 | this is an intentional syntax error
+  |           `- error: consecutive statements on a line must be separated by ';'
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:12: error: expressions are not allowed at the top level
+1 | this is an intentional syntax error
+  |            `- error: expressions are not allowed at the top level
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:23: error: consecutive statements on a line must be separated by ';'
+1 | this is an intentional syntax error
+  |                       `- error: consecutive statements on a line must be separated by ';'
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:24: error: expressions are not allowed at the top level
+1 | this is an intentional syntax error
+  |                        `- error: expressions are not allowed at the top level
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:30: error: consecutive statements on a line must be separated by ';'
+1 | this is an intentional syntax error
+  |                              `- error: consecutive statements on a line must be separated by ';'
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:31: error: expressions are not allowed at the top level
+1 | this is an intentional syntax error
+  |                               `- error: expressions are not allowed at the top level
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:1: error: cannot find 'this' in scope
+1 | this is an intentional syntax error
+  | `- error: cannot find 'this' in scope
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:9: error: cannot find type 'an' in scope
+1 | this is an intentional syntax error
+  |         `- error: cannot find type 'an' in scope
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:12: error: cannot find 'intentional' in scope
+1 | this is an intentional syntax error
+  |            `- error: cannot find 'intentional' in scope
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:24: error: cannot find 'syntax' in scope
+1 | this is an intentional syntax error
+  |                        `- error: cannot find 'syntax' in scope
+2 | 
+
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-delivery-baseline.pwyotrmb/Sources/Core/failure.swift:1:31: error: expansion of macro 'error' requires leading '#'
+1 | this is an intentional syntax error
+  |                               `- error: expansion of macro 'error' requires leading '#'
+2 | 

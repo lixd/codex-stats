@@ -1,0 +1,3 @@
+{"file": "docs/dashboard-model-filter-design.md", "reason": "Current overview candidates, count and selection contract"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Native menu identity and bounded scope"}
+{"file": ".trellis/spec/backend/overview-query.md", "reason": "Existing current-period model counts; no model-filtered count distortion"}

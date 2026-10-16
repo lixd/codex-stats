@@ -1,0 +1,1 @@
+PASS final source: six accepted synthetic records; total3140=input2800+output340; exactUSD0.00693; coverage1830/1310; total/model/session/session-model/record sums identical; unavailable amount/null and incomplete cachedInput/fraction null; output-only USD0.00005 and noInput cache state.

@@ -1,0 +1,68 @@
+{
+  "checks": [
+    {
+      "variant": "A",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    },
+    {
+      "variant": "B",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    },
+    {
+      "variant": "C",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    },
+    {
+      "variant": "D",
+      "page": "overview",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    },
+    {
+      "variant": "D",
+      "page": "requests",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 753
+    },
+    {
+      "variant": "D",
+      "page": "models",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    },
+    {
+      "variant": "D",
+      "page": "sessions",
+      "width": 934,
+      "height": 587,
+      "scrollWidth": 934,
+      "scrollHeight": 587
+    }
+  ],
+  "errors": [],
+  "passed": [
+    "four variants",
+    "D four pages",
+    "D/A keyboard wrap",
+    "page retained",
+    "reload"
+  ]
+}

@@ -1,0 +1,10 @@
+{"file": ".trellis/spec/guides/design-first.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/backend/token-accounting.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/backend/scan-performance.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/backend/turn-performance.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/backend/request-estimates.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/frontend/menu-lifecycle.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/tasks/archive/2026-10/10-15-small-beautiful-fixes/research/audit-context.md", "reason": "Approved contracts and audit context for scoped fixes"}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "Concrete cross-layer contract captured during approved fix"}
+{"file": ".trellis/spec/backend/local-delivery.md", "reason": "Concrete cross-layer contract captured during approved fix"}

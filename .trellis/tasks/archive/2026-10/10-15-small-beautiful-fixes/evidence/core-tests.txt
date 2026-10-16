@@ -1,0 +1,300 @@
+Building for debugging...
+[Using on-disk description]
+[1 / 6] CodexStats_CodexStatsCoreTests
+Build complete! (0.54秒)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test incompleteInheritedOrCorruptHistoryCannotClaimCoveredMean() started.
+◇ Test foreignOrMissingOwnerCannotContaminatePerformance() started.
+◇ Test inferredTurnCannotAcquirePerformanceMembership() started.
+◇ Test divergentLegacyStreamsAreNotSummed() started.
+◇ Test compactionResponseCopiesDoNotDuplicateTurnOutput() started.
+◇ Test unknownModelIsNeverBackfilled() started.
+◇ Test archivedOnlyHomeAndMultipleRoots() started.
+◇ Test turnCompletedEventIDIsNotPresentedAsResponseID() started.
+◇ Test remoteCompactionIsAddedOnceWithoutChangingBaseline() started.
+◇ Test localTimezoneMidnightIsCorrect() started.
+◇ Test timestampParsingPreservesMillisecondFormatterContract() started.
+◇ Test repeatedSnapshotsAndModelSwitch() started.
+◇ Test missingNativeOwnerIsNeverInferredFromContainingSession() started.
+◇ Test trailingSameFlushOutputCannotBorrowNextToolBoundary() started.
+◇ Test anonymousAbortAlsoInvalidatesEarlierRequestEstimates() started.
+◇ Test localCompactionSnapshotIsNotAddedTwice() started.
+◇ Test explicitSessionIDCannotCollideWithAllocatedUnknownInternalKey() started.
+◇ Test missingTimestampIsNotFileModificationDate() started.
+◇ Test lastOnlyDuplicatesAreConservative() started.
+◇ Test turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test malformedOwnedIdentityDoesNotEraseIndependentValidLegacyCounter() started.
+◇ Test canonicalFractionalTimestampsPreserveOrderingAndDayBuckets() started.
+◇ Test unresolvedLegacyUsageCannotAcquireTurnPerformance() started.
+◇ Test unidentifiedCopyCannotPoisonVerifiedResponseOrCompaction() started.
+◇ Test hourlyBucketsKeepRepeatedDSTHoursDistinct() started.
+◇ Test identitylessAbortDoesNotRetainSuccessfulTiming() started.
+◇ Test requestDurationBoundsAreNotClamped(end:) started.
+◇ Test foreignNativeNotificationDoesNotBecomeChildLegacyUsage() started.
+◇ Test recordedZeroTTFTIsDifferentFromMissing() started.
+◇ Test requestIdentitySuppressesSnapshotsAndDuplicateRecords() started.
+◇ Test globalResponseConflictDiagnosesEveryAffectedSource() started.
+◇ Test timestampRejectsFoundationCalendarAndOffsetNormalization() started.
+◇ Test unknownTurnAndTimestampInPhysicalCopyCannotProveMeanCoverage() started.
+◇ Test foreignRequestHistoryIsExcluded() started.
+◇ Test malformedForeignNativeIdentityRetainsOwnershipProvenance() started.
+◇ Test requestEstimateFreezesFirstOutputBoundaryAndUsesToolReturnForNextModel() started.
+◇ Test physicalNativeSnapshotsNeverCrossDifferenceOrDoubleNotifications() started.
+◇ Test laterCompactionMarkerNormalizesRetainedPrefixCopies() started.
+◇ Test cumulativeAndInitialSnapshotsNeverGetPerRequestEstimates() started.
+◇ Test generatedUnknownKeyCannotResolveDeclaredParentIdentity() started.
+◇ Test symbolicLinksAreNotReadAsLogs() started.
+◇ Test crossDayDeltasUseEventDate() started.
+◇ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test equalBasenamesWithDifferentSessionsAreRetained() started.
+◇ Test initialUnobservedHistoryIsExcluded() started.
+◇ Test unidentifiedTurnResponseInPhysicalCopiesInvalidatesWholeTurnMean() started.
+◇ Test resetWithoutLastIsNotInvented() started.
+◇ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() started.
+◇ Test metadataSessionIDAliasRemainsVerifiedIdentity() started.
+◇ Test usageTimestampAloneCannotStartNextRequest() started.
+◇ Test notificationFirstThenLegacyCounterKeepsBaseline() started.
+◇ Test distinctThreadAndContextCountersAfterCompactionDoNotDoubleCount() started.
+◇ Test missingSessionMetadataIsNotPresentedAsRecordedIdentity() started.
+◇ Test zeroParentSubsetCorrectionWarnsWithoutInventingAnAccountingRow() started.
+◇ Test requestRowsRespectPeriodsAndSwitches() started.
+◇ Test estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test missingContextModelClearsPriorModel() started.
+◇ Test unchangedCacheAppendAndDeletion() started.
+◇ Test hourlyTotalsMatchDeduplicatedDailyUsage() started.
+◇ Test excludedPhysicalCumulativeFrameCannotProveMeanCoverage() started.
+◇ Test localCompactionNotificationBeforeRecordDoesNotDoubleCount() started.
+◇ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() started.
+◇ Test sessionProjectionAggregatesModelsUnknownFieldsAndAllDates() started.
+◇ Test exactOneSecondEstimateCanShowRateAndDifferentTurnCannotBorrowBoundary() started.
+◇ Test requestRowsExcludeArchiveReplayAndMarkCompaction() started.
+◇ Test requestEstimateIncludesWaitingAndEndsAtNativeUsageBeforeDelayedNotification() started.
+◇ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() started.
+◇ Test execFallbackDoesNotDoubleCountRolloutUsage() started.
+◇ Test requestAfterSnapshotIsNotCountedTwice() started.
+◇ Test legacyReplayMatchesEquivalentMillisecondTimestampForms() started.
+◇ Test emptyOrDamagedCopyDoesNotProveAncestor() started.
+◇ Test missingRequiredAndIllegalFieldsAreVisible() started.
+◇ Test corruptSuffixDoesNotInvalidateValidReferencedPrefix() started.
+◇ Test cacheInvalidatesSameSizedRewriteAndRootChange() started.
+◇ Test ambiguousNativeOwnerCannotReappearViaUnpairedCounter() started.
+◇ Test legacyAccountingRowsDoNotInventRequestIdentity() started.
+◇ Test physicalGenerationsRetainIndependentNativeExpenditure() started.
+◇ Test invalidCompletionInPhysicalCopyInvalidatesOtherwiseCompleteTiming() started.
+◇ Test requestRowsRetainUnknownFields() started.
+◇ Test missingStartOrDurationCannotBorrowRequestOrItemLatency() started.
+◇ Test abortAndTaskStartDiscardUnfinishedRequestOrigin() started.
+◇ Test damagedAndPartialLinesRecoverOnAppend() started.
+◇ Test inheritedPrefixAndResetAreCountedOnce() started.
+◇ Test exactNativeCopyIsInformationRatherThanWarning() started.
+◇ Test sessionProjectionUsesCapturedTimeZoneAndKeepsInputOrder() started.
+◇ Test unnotifiedRequestThenLegacyUsageIsNotSubtractedTwice() started.
+◇ Test compactionCopiesUseUnambiguousExplicitModelButRejectContradictions() started.
+◇ Test missingSubsetFieldsAreUnknownInsteadOfZero() started.
+◇ Test invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test emptyRootIsAnError() started.
+◇ Test missingAndInvalidHistoryBoundariesRemainWarnings() started.
+◇ Test missingMetadataFilenameCannotAdmitNativeOrCompanionUsage() started.
+◇ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() started.
+◇ Test sessionsWithoutUsageRemainVisible() started.
+◇ Test timestampOutOfRangeClockComponentsStayInvalid() started.
+◇ Test additionalPhysicalResponsesInvalidateWholeTurnMean() started.
+◇ Test nonconsecutiveOldSnapshotsDoNotReplayUsage() started.
+◇ Test emptyReferencedPrefixDoesNotTraverseTargetAncestry() started.
+◇ Test abortedCopyInvalidatesOtherwiseCompleteTimer() started.
+◇ Test counterResetUsesLastRequest() started.
+◇ Test compactionResponseDoesNotReceiveRequestSpeed() started.
+◇ Test abortedAndFailedTurnsCannotShowSuccessfulPerformance() started.
+◇ Test circularPhysicalHistoryIsNotClaimedComplete() started.
+◇ Test malformedLineInvalidatesPendingEstimateWithoutDroppingUsage() started.
+◇ Test sessionProjectionPreservesActiveEmptySessionsAcrossDST() started.
+◇ Test archiveIdentityDuplicatesCountOnce() started.
+◇ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() started.
+◇ Test completeTurnUsesWholeDeduplicatedOutputAcrossDateFilters() started.
+◇ Test conflictingNativeResponseIsNotArbitrarilySelected() started.
+◇ Test sameCounterWithDifferentTimestampIsNotReplayProof() started.
+◇ Test validPhysicalHistoryReferenceIsResolvedLocally() started.
+◇ Test invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test unattributedCumulativeFrameInsideTurnInvalidatesMean() started.
+◇ Test unidentifiedLegacyFilenameDoesNotShareVerifiedSessionGroup() started.
+◇ Test corruptHugeCountersCannotOverflowAggregation() started.
+◇ Test singleModelAndSubsetCounters() started.
+◇ Test longerArchiveIsNotDiscarded() started.
+◇ Test outOfRangeTimestampNeverAssignsConsumptionToNormalizedDay() started.
+◇ Test case passing 1 argument shape → "time-start" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test missingOwnerResponseInvalidatesMeanWithoutInventingMembership() started.
+◇ Test duplicateCompletionStatusAndTimersAreValidated() started.
+◇ Test case passing 1 argument shape → "time-end" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test itemEnvelopeDurationCannotBeUsedAsRequestEstimate() started.
+◇ Test validLaterSubsetDeltaCannotEraseEarlierUnknownEvidence() started.
+◇ Test case passing 1 argument shape → "frame-range" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test responseConflictChecksAttributionNotJustTotal() started.
+◇ Test checkedInFixtureIsReproducible() started.
+◇ Test mixedLegacyAndNativeCopiesExposeUnprovableOverlap() started.
+◇ Test case passing 1 argument shape → "same-turn" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test operationBoundsRespectCalendarDaysFutureAndDST() started.
+◇ Test physicalFilenameUsesImmutableSuffixNotStableThreadUUID() started.
+◇ Test conflictingCompleteTimersRemainUnknown() started.
+◇ Test case passing 1 argument shape → "unknown-time" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test hourlyBucketsRespectLocalMidnight() started.
+◇ Test duplicateCopiesPreserveEstimateButConflictingBoundariesInvalidateIt() started.
+◇ Test unidentifiedLegacyArchiveCopiesRetainOneConservativeStream() started.
+◇ Test case passing 1 argument shape → "irrelevant" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test requestRecordsPreserveIdentityAndConfirmedUsage() started.
+◇ Test case passing 1 argument end → "00:00:00.050" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test case passing 1 argument end → "01:00:00.001" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test case passing 1 argument end → "00:00:00.100" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test case passing 1 argument field → "cache" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "reasoning" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "both" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "reasoning-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument output → 199 to estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test case passing 1 argument shape → "repeat-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "repeat-pair" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument output → 200 to estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test case passing 1 argument shape → "prior-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "cumulative-companion" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+✔ Test unknownModelIsNeverBackfilled() passed after 0.075 seconds.
+✔ Test compactionResponseCopiesDoNotDuplicateTurnOutput() passed after 0.075 seconds.
+✔ Test inferredTurnCannotAcquirePerformanceMembership() passed after 0.075 seconds.
+✔ Test turnCompletedEventIDIsNotPresentedAsResponseID() passed after 0.077 seconds.
+✔ Test divergentLegacyStreamsAreNotSummed() passed after 0.078 seconds.
+✔ Test foreignOrMissingOwnerCannotContaminatePerformance() passed after 0.081 seconds.
+✔ Test archivedOnlyHomeAndMultipleRoots() passed after 0.081 seconds.
+✔ Test incompleteInheritedOrCorruptHistoryCannotClaimCoveredMean() passed after 0.082 seconds.
+◇ Test case passing 1 argument duration → 0 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test case passing 1 argument duration → -1 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test case passing 1 argument duration → 1 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+✔ Test anonymousAbortAlsoInvalidatesEarlierRequestEstimates() passed after 0.085 seconds.
+✔ Test localTimezoneMidnightIsCorrect() passed after 0.087 seconds.
+✔ Test repeatedSnapshotsAndModelSwitch() passed after 0.087 seconds.
+✔ Test trailingSameFlushOutputCannotBorrowNextToolBoundary() passed after 0.092 seconds.
+◇ Test case passing 1 argument kind → "invalid" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test case passing 1 argument kind → "true" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test case passing 1 argument kind → "negative" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+✔ Test remoteCompactionIsAddedOnceWithoutChangingBaseline() passed after 0.101 seconds.
+✔ Test missingTimestampIsNotFileModificationDate() passed after 0.101 seconds.
+✔ Test localCompactionSnapshotIsNotAddedTwice() passed after 0.103 seconds.
+✔ Test missingNativeOwnerIsNeverInferredFromContainingSession() passed after 0.103 seconds.
+✔ Test timestampParsingPreservesMillisecondFormatterContract() passed after 0.104 seconds.
+✔ Test unresolvedLegacyUsageCannotAcquireTurnPerformance() passed after 0.105 seconds.
+✔ Test malformedOwnedIdentityDoesNotEraseIndependentValidLegacyCounter() passed after 0.106 seconds.
+✔ Test lastOnlyDuplicatesAreConservative() passed after 0.109 seconds.
+✔ Test turnCoverageRetainsEveryCounterRelevancePath(shape:) with 6 test cases passed after 0.112 seconds.
+✔ Test explicitSessionIDCannotCollideWithAllocatedUnknownInternalKey() passed after 0.114 seconds.
+✔ Test canonicalFractionalTimestampsPreserveOrderingAndDayBuckets() passed after 0.114 seconds.
+✔ Test hourlyBucketsKeepRepeatedDSTHoursDistinct() passed after 0.116 seconds.
+✔ Test identitylessAbortDoesNotRetainSuccessfulTiming() passed after 0.116 seconds.
+✔ Test requestDurationBoundsAreNotClamped(end:) with 3 test cases passed after 0.116 seconds.
+✔ Test globalResponseConflictDiagnosesEveryAffectedSource() passed after 0.116 seconds.
+✔ Test unidentifiedCopyCannotPoisonVerifiedResponseOrCompaction() passed after 0.116 seconds.
+✔ Test foreignNativeNotificationDoesNotBecomeChildLegacyUsage() passed after 0.116 seconds.
+✔ Test requestIdentitySuppressesSnapshotsAndDuplicateRecords() passed after 0.116 seconds.
+✔ Test unknownTurnAndTimestampInPhysicalCopyCannotProveMeanCoverage() passed after 0.116 seconds.
+✔ Test recordedZeroTTFTIsDifferentFromMissing() passed after 0.116 seconds.
+✔ Test foreignRequestHistoryIsExcluded() passed after 0.116 seconds.
+✔ Test requestEstimateFreezesFirstOutputBoundaryAndUsesToolReturnForNextModel() passed after 0.116 seconds.
+✔ Test symbolicLinksAreNotReadAsLogs() passed after 0.116 seconds.
+✔ Test timestampRejectsFoundationCalendarAndOffsetNormalization() passed after 0.116 seconds.
+✔ Test malformedForeignNativeIdentityRetainsOwnershipProvenance() passed after 0.116 seconds.
+✔ Test physicalNativeSnapshotsNeverCrossDifferenceOrDoubleNotifications() passed after 0.116 seconds.
+✔ Test generatedUnknownKeyCannotResolveDeclaredParentIdentity() passed after 0.116 seconds.
+✔ Test cumulativeAndInitialSnapshotsNeverGetPerRequestEstimates() passed after 0.116 seconds.
+✔ Test laterCompactionMarkerNormalizesRetainedPrefixCopies() passed after 0.116 seconds.
+✔ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) with 5 test cases passed after 0.116 seconds.
+✔ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() passed after 0.116 seconds.
+✔ Test equalBasenamesWithDifferentSessionsAreRetained() passed after 0.116 seconds.
+✔ Test usageTimestampAloneCannotStartNextRequest() passed after 0.116 seconds.
+✔ Test crossDayDeltasUseEventDate() passed after 0.116 seconds.
+✔ Test resetWithoutLastIsNotInvented() passed after 0.116 seconds.
+✔ Test notificationFirstThenLegacyCounterKeepsBaseline() passed after 0.116 seconds.
+✔ Test metadataSessionIDAliasRemainsVerifiedIdentity() passed after 0.116 seconds.
+✔ Test initialUnobservedHistoryIsExcluded() passed after 0.116 seconds.
+✔ Test unidentifiedTurnResponseInPhysicalCopiesInvalidatesWholeTurnMean() passed after 0.116 seconds.
+✔ Test zeroParentSubsetCorrectionWarnsWithoutInventingAnAccountingRow() passed after 0.116 seconds.
+✔ Test distinctThreadAndContextCountersAfterCompactionDoNotDoubleCount() passed after 0.116 seconds.
+✔ Test missingSessionMetadataIsNotPresentedAsRecordedIdentity() passed after 0.116 seconds.
+✔ Test missingContextModelClearsPriorModel() passed after 0.116 seconds.
+✔ Test localCompactionNotificationBeforeRecordDoesNotDoubleCount() passed after 0.116 seconds.
+✔ Test estimatedSpeedRequiresEnoughOutput(output:) with 2 test cases passed after 0.116 seconds.
+✔ Test hourlyTotalsMatchDeduplicatedDailyUsage() passed after 0.116 seconds.
+✔ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() passed after 0.116 seconds.
+✔ Test unchangedCacheAppendAndDeletion() passed after 0.116 seconds.
+✔ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) with 4 test cases passed after 0.116 seconds.
+✔ Test excludedPhysicalCumulativeFrameCannotProveMeanCoverage() passed after 0.116 seconds.
+✔ Test sessionProjectionAggregatesModelsUnknownFieldsAndAllDates() passed after 0.116 seconds.
+✔ Test requestRowsRespectPeriodsAndSwitches() passed after 0.116 seconds.
+✔ Test exactOneSecondEstimateCanShowRateAndDifferentTurnCannotBorrowBoundary() passed after 0.116 seconds.
+✔ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() passed after 0.116 seconds.
+✔ Test requestEstimateIncludesWaitingAndEndsAtNativeUsageBeforeDelayedNotification() passed after 0.116 seconds.
+✔ Test requestRowsExcludeArchiveReplayAndMarkCompaction() passed after 0.116 seconds.
+✔ Test requestAfterSnapshotIsNotCountedTwice() passed after 0.116 seconds.
+✔ Test execFallbackDoesNotDoubleCountRolloutUsage() passed after 0.116 seconds.
+✔ Test legacyAccountingRowsDoNotInventRequestIdentity() passed after 0.116 seconds.
+✔ Test corruptSuffixDoesNotInvalidateValidReferencedPrefix() passed after 0.116 seconds.
+✔ Test ambiguousNativeOwnerCannotReappearViaUnpairedCounter() passed after 0.116 seconds.
+✔ Test legacyReplayMatchesEquivalentMillisecondTimestampForms() passed after 0.116 seconds.
+✔ Test missingRequiredAndIllegalFieldsAreVisible() passed after 0.116 seconds.
+✔ Test requestRowsRetainUnknownFields() passed after 0.096 seconds.
+✔ Test physicalGenerationsRetainIndependentNativeExpenditure() passed after 0.116 seconds.
+✔ Test emptyOrDamagedCopyDoesNotProveAncestor() passed after 0.116 seconds.
+✔ Test cacheInvalidatesSameSizedRewriteAndRootChange() passed after 0.116 seconds.
+✔ Test exactNativeCopyIsInformationRatherThanWarning() passed after 0.096 seconds.
+✔ Test sessionProjectionUsesCapturedTimeZoneAndKeepsInputOrder() passed after 0.096 seconds.
+✔ Test abortAndTaskStartDiscardUnfinishedRequestOrigin() passed after 0.096 seconds.
+✔ Test inheritedPrefixAndResetAreCountedOnce() passed after 0.096 seconds.
+✔ Test unnotifiedRequestThenLegacyUsageIsNotSubtractedTwice() passed after 0.095 seconds.
+✔ Test invalidOrContradictoryTimingRemainsUnknown(duration:) with 3 test cases passed after 0.093 seconds.
+✔ Test missingSubsetFieldsAreUnknownInsteadOfZero() passed after 0.094 seconds.
+✔ Test emptyRootIsAnError() passed after 0.093 seconds.
+✔ Test missingStartOrDurationCannotBorrowRequestOrItemLatency() passed after 0.097 seconds.
+✔ Test invalidCompletionInPhysicalCopyInvalidatesOtherwiseCompleteTiming() passed after 0.097 seconds.
+✔ Test timestampOutOfRangeClockComponentsStayInvalid() passed after 0.092 seconds.
+✔ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() passed after 0.093 seconds.
+✔ Test sessionsWithoutUsageRemainVisible() passed after 0.093 seconds.
+✔ Test compactionCopiesUseUnambiguousExplicitModelButRejectContradictions() passed after 0.095 seconds.
+✔ Test emptyReferencedPrefixDoesNotTraverseTargetAncestry() passed after 0.092 seconds.
+✔ Test compactionResponseDoesNotReceiveRequestSpeed() passed after 0.092 seconds.
+✔ Test abortedCopyInvalidatesOtherwiseCompleteTimer() passed after 0.092 seconds.
+✔ Test damagedAndPartialLinesRecoverOnAppend() passed after 0.096 seconds.
+✔ Test additionalPhysicalResponsesInvalidateWholeTurnMean() passed after 0.092 seconds.
+✔ Test malformedLineInvalidatesPendingEstimateWithoutDroppingUsage() passed after 0.091 seconds.
+✔ Test nonconsecutiveOldSnapshotsDoNotReplayUsage() passed after 0.092 seconds.
+✔ Test abortedAndFailedTurnsCannotShowSuccessfulPerformance() passed after 0.092 seconds.
+✔ Test counterResetUsesLastRequest() passed after 0.092 seconds.
+✔ Test circularPhysicalHistoryIsNotClaimedComplete() passed after 0.092 seconds.
+✔ Test missingAndInvalidHistoryBoundariesRemainWarnings() passed after 0.094 seconds.
+✔ Test archiveIdentityDuplicatesCountOnce() passed after 0.091 seconds.
+✔ Test sessionProjectionPreservesActiveEmptySessionsAcrossDST() passed after 0.091 seconds.
+✔ Test sameCounterWithDifferentTimestampIsNotReplayProof() passed after 0.091 seconds.
+✔ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() passed after 0.091 seconds.
+✔ Test validPhysicalHistoryReferenceIsResolvedLocally() passed after 0.091 seconds.
+✔ Test completeTurnUsesWholeDeduplicatedOutputAcrossDateFilters() passed after 0.091 seconds.
+✔ Test conflictingNativeResponseIsNotArbitrarilySelected() passed after 0.091 seconds.
+✔ Test corruptHugeCountersCannotOverflowAggregation() passed after 0.089 seconds.
+✔ Test invalidDuplicateTTFTCannotEqualMissing(kind:) with 3 test cases passed after 0.091 seconds.
+✔ Test unattributedCumulativeFrameInsideTurnInvalidatesMean() passed after 0.089 seconds.
+✔ Test singleModelAndSubsetCounters() passed after 0.089 seconds.
+✔ Test missingOwnerResponseInvalidatesMeanWithoutInventingMembership() passed after 0.088 seconds.
+✔ Test longerArchiveIsNotDiscarded() passed after 0.089 seconds.
+✔ Test unidentifiedLegacyFilenameDoesNotShareVerifiedSessionGroup() passed after 0.089 seconds.
+✔ Test validLaterSubsetDeltaCannotEraseEarlierUnknownEvidence() passed after 0.086 seconds.
+✔ Test outOfRangeTimestampNeverAssignsConsumptionToNormalizedDay() passed after 0.089 seconds.
+✔ Test mixedLegacyAndNativeCopiesExposeUnprovableOverlap() passed after 0.086 seconds.
+✔ Test physicalFilenameUsesImmutableSuffixNotStableThreadUUID() passed after 0.085 seconds.
+✔ Test conflictingCompleteTimersRemainUnknown() passed after 0.085 seconds.
+✔ Test responseConflictChecksAttributionNotJustTotal() passed after 0.086 seconds.
+✔ Test requestRecordsPreserveIdentityAndConfirmedUsage() passed after 0.083 seconds.
+✔ Test duplicateCompletionStatusAndTimersAreValidated() passed after 0.088 seconds.
+✔ Test checkedInFixtureIsReproducible() passed after 0.086 seconds.
+✔ Test operationBoundsRespectCalendarDaysFutureAndDST() passed after 0.085 seconds.
+✔ Test itemEnvelopeDurationCannotBeUsedAsRequestEstimate() passed after 0.086 seconds.
+✔ Test missingMetadataFilenameCannotAdmitNativeOrCompanionUsage() passed after 0.094 seconds.
+✔ Test hourlyBucketsRespectLocalMidnight() passed after 0.085 seconds.
+✔ Test duplicateCopiesPreserveEstimateButConflictingBoundariesInvalidateIt() passed after 0.086 seconds.
+✔ Test unidentifiedLegacyArchiveCopiesRetainOneConservativeStream() passed after 0.086 seconds.
+✔ Test run with 133 tests in 0 suites passed after 0.120 seconds.

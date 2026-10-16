@@ -1,0 +1,17 @@
+{
+  "Sources/Core/CodexLogScanner.swift": "d21fd29ec5bedb3ae0657182f93afcc79b6edbe024ad4bdc1d4fe45ccc599b09",
+  "Sources/Core/UsageValuation.swift": "e157e1c1d25297ec19a4be470239329010c0f6429fe84fcf8c18a88f0716dc09",
+  "Sources/Core/Models.swift": "926a6e2c65a1b8fd94dab5dd6d6663c6a3fbc591254d4118e3710ff4aa9abee8",
+  "Sources/App/DashboardView.swift": "3c4b39248c5e92a0d7d6c4cab893d0dbe980f8c0ebc4cc1788a636b6ceae63fb",
+  "Sources/App/CodexStatsApp.swift": "ea4325d284d9b088198f13a2820bf47157b41feaa33e3e0ccfe55840bf2bd7bf",
+  "Sources/App/AppLifecycle.swift": "5eeb3e92e6c62c818c96959dc3e3d38e72611dd7885be24f4b75de3453645992",
+  "Sources/App/UsageStore.swift": "6253cac25d36303bf717c3c2f0d0aeede49f1f2bc10ef0adb1ef2669a5b31047",
+  "Sources/App/SessionsContent.swift": "465e343718af70f572621850adbb3ce45687bdaccff1955feb6309b1e7b993a6",
+  "Sources/App/MenuPanelView.swift": "c823cafa8603a13818c15a39057b8c4d54e786d43fc842b8dc5a1577450e6cb6",
+  "Sources/App/RequestsContent.swift": "cda1b7b681adcc09cb9d8f8cebe375fb78a1901f0acfd005def27ac0959865fa",
+  "Sources/App/Components.swift": "d2dd97719613e078310ba165508373c69159f37c027895ebe0dce745d4f2b681",
+  "Sources/App/Appearance.swift": "9abb14ad6d64122a2c85a80cb993a7ec9ea16811c53be8b38175dd6e69dc1b3f",
+  "Sources/Report/main.swift": "162e4342b29801eda7753afa8abb2a2ba674f5ef2e1d0312af08b14610824865",
+  "Assets/CodexStats-1024.png": "c32d6597840edee48a6ddf48acffffc5b169a7ac6d2103bb20dc2ea779cf73f5",
+  "Assets/Info.plist": "f93cacbe65ea66163953ee6b4ebd6aeb8f54c38ae667a94120283e01634f3c0c"
+}

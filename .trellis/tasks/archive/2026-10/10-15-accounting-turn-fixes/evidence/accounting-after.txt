@@ -1,0 +1,86 @@
+Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+[1 / 1]
+[1 / 10] CodexStatsCoreTests-product
+[2 / 13] CodexStatsCore
+[2 / 14] CodexStatsCore
+[5 / 16] CodexStatsCore
+[6 / 16] CodexStatsCore
+[7 / 20] CodexStatsCore
+[10 / 20] CodexStatsCore
+[10 / 23] codex-stats-app-product
+[10 / 25] codex-stats-report-product
+[12 / 26] CodexStatsCore
+[13 / 26] CodexStatsCore
+[14 / 26] codex-stats-report-product
+[16 / 28] codex-stats-app-product
+[16 / 29] codex-stats-app-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCore: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[21 / 36] CodexStatsCore
+[22 / 36] codex-stats-app-product
+[24 / 36] codex-stats-app-product
+[25 / 36] codex-stats-app-product
+[25 / 36] codex-stats-report-product
+[26 / 34] codex-stats-report-product
+[27 / 35] CodexStatsCoreTests-product
+[28 / 35] CodexStatsCore-product
+[28 / 35] codex-stats-report-product/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+
+[28 / 36] codex-stats-report-product
+[29 / 36] codex-stats-report-product
+[29 / 36] CodexStatsCoreTests-product
+[29 / 37] CodexStatsCoreTests-product
+[35 / 42] CodexStatsCoreTests-product
+[35 / 42] codex-stats-app-product
+[36 / 42] CodexStatsCoreTests-product
+[37 / 42] codex-stats-app-product
+[38 / 42] CodexStatsCoreTests-product
+[40 / 44] codex-stats-report-product
+[40 / 45] codex-stats-app-product
+[41 / 45] codex-stats-app-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[42 / 45] codex-stats-app-product
+[42 / 45] CodexStatsCoreTests-product
+[43 / 45] CodexStatsCoreTests-product
+[43 / 46] CodexStatsCoreTests-product
+[44 / 48] CodexStatsCoreTests-product/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+
+[44 / 48]
+[45 / 48] CodexStatsCoreTests-product
+[46 / 48] CodexStatsCoreTests-product
+[46 / 46]
+[46 / 47]
+[47 / 47] codex-stats-report-product
+[48 / 48] codex-stats-report-product
+[48 / 50]
+[49 / 50] codex-stats-app-product
+Build complete! (124.58秒)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() started.
+◇ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() started.
+◇ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() started.
+◇ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() started.
+◇ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument shape → "prior-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "cumulative-companion" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "repeat-pair" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "repeat-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument field → "reasoning" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "both" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "reasoning-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+✔ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() passed after 0.216 seconds.
+✔ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() passed after 0.219 seconds.
+✔ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() passed after 0.219 seconds.
+✔ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() passed after 0.219 seconds.
+✔ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) with 4 test cases passed after 0.216 seconds.
+✔ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) with 5 test cases passed after 0.231 seconds.
+✔ Test run with 6 tests in 0 suites passed after 0.233 seconds.

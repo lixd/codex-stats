@@ -1,0 +1,18 @@
+[
+  "Assets/Info.plist",
+  "Scripts/render-price-management.sh",
+  "Sources/App/Components.swift",
+  "Sources/App/DashboardView.swift",
+  "Sources/App/PriceManagementContent.swift",
+  "Sources/App/RequestsContent.swift",
+  "Sources/App/SessionsContent.swift",
+  "Sources/App/UsageStore.swift",
+  "Sources/Core/PriceCatalog.swift",
+  "Sources/Core/UsageValuation.swift",
+  "Sources/Report/main.swift",
+  "Tests/CodexStatsCoreTests/PriceCatalogTests.swift",
+  "Tests/PriceManagement/main.swift",
+  "Tests/TokenDisplay/main.swift",
+  "Tests/UIPreview/main.swift",
+  "Tests/UsageStore/main.swift"
+]

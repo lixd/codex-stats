@@ -1,0 +1,3 @@
+PASS: 16 numeric boundaries, shared chart formatting, unknown fields and exact values; locale=en_US
+PASS: 16 numeric boundaries, shared chart formatting, unknown fields and exact values; locale=zh_CN
+PASS: 16 numeric boundaries, shared chart formatting, unknown fields and exact values; locale=fr_FR

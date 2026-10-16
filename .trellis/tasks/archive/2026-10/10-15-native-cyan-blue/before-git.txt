@@ -1,0 +1,51 @@
+ M .trellis/spec/backend/index.md
+ M .trellis/spec/backend/scan-performance.md
+ M .trellis/spec/backend/token-accounting.md
+ M .trellis/spec/backend/turn-performance.md
+ M .trellis/spec/frontend/index.md
+ M .trellis/spec/guides/design-first.md
+ M Assets/Info.plist
+ M Scripts/build-macos.sh
+ M Scripts/install-local.sh
+ M Sources/App/Components.swift
+ M Sources/App/DashboardView.swift
+ M Sources/App/MenuPanelView.swift
+ M Sources/App/RequestsContent.swift
+ M Sources/App/SessionsContent.swift
+ M Sources/App/UsageStore.swift
+ M Sources/Core/CodexLogScanner.swift
+ M Sources/Core/Models.swift
+ M Tests/CodexStatsCoreTests/CodexLogScannerTests.swift
+ M Tests/CodexStatsCoreTests/DateFilteringTests.swift
+ M Tests/CodexStatsCoreTests/TurnPerformanceTests.swift
+ M Tests/UIPreview/main.swift
+ M Tests/UsageStore/main.swift
+ M VERIFICATION.md
+ M docs/data-design.md
+ M docs/design.md
+ M docs/development.md
+ M docs/requirements.md
+ M docs/statistics.md
+ M docs/ui-design-b.md
+ M docs/ui-design.md
+ M docs/usage.md
+?? .trellis/spec/backend/local-delivery.md
+?? .trellis/spec/frontend/scan-status.md
+?? .trellis/spec/frontend/visual-system.md
+?? .trellis/tasks/10-15-native-cyan-blue/
+?? .trellis/tasks/archive/2026-10/10-15-accounting-turn-fixes/
+?? .trellis/tasks/archive/2026-10/10-15-light-appearance-preview/
+?? .trellis/tasks/archive/2026-10/10-15-safe-local-replacement/
+?? .trellis/tasks/archive/2026-10/10-15-sage-teal-refinement/
+?? .trellis/tasks/archive/2026-10/10-15-session-status-fixes/
+?? .trellis/tasks/archive/2026-10/10-15-small-beautiful-audit/
+?? .trellis/tasks/archive/2026-10/10-15-small-beautiful-fixes/
+?? Scripts/app-delivery.swift
+?? Scripts/test-app-delivery.sh
+?? Tests/Delivery/
+?? docs/audit-fixes-design.md
+?? docs/light-appearance-proposals.md
+?? docs/prototypes/
+?? docs/sage-teal-design.md
+?? docs/small-beautiful-audit.md
+11f2a937971c40b29a2b4d69ff6bb79c5eaec91f

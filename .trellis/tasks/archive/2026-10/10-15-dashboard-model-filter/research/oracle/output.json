@@ -1,0 +1,220 @@
+[
+  {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 5200,
+      "state" : "incomplete"
+    },
+    "case" : "all",
+    "cost" : {
+      "amountUSD" : "0.0113",
+      "currency" : "USD",
+      "estimatedTokens" : 4910,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "incompleteCachedInput" : 1,
+        "missingPrice" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 640
+    },
+    "dailySum" : 5550,
+    "hourlySum" : 0,
+    "input" : 5200,
+    "modelCount" : 4,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 4,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 350,
+    "records" : 8,
+    "total" : 5550
+  },
+  {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 3900,
+      "state" : "incomplete"
+    },
+    "case" : "today",
+    "cost" : {
+      "amountUSD" : "0.00758",
+      "currency" : "USD",
+      "estimatedTokens" : 3480,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "incompleteCachedInput" : 1,
+        "missingPrice" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 640
+    },
+    "dailySum" : 4120,
+    "hourlySum" : 4120,
+    "input" : 3900,
+    "modelCount" : 4,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 2,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 220,
+    "records" : 6,
+    "total" : 4120
+  },
+  {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 2800,
+      "state" : "incomplete"
+    },
+    "case" : "sol6_all",
+    "cost" : {
+      "amountUSD" : "0.00528",
+      "currency" : "USD",
+      "estimatedTokens" : 2530,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "incompleteCachedInput" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 530
+    },
+    "dailySum" : 3060,
+    "hourlySum" : 0,
+    "input" : 2800,
+    "modelCount" : 1,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 4,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 260,
+    "records" : 4,
+    "total" : 3060
+  },
+  {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 1500,
+      "state" : "incomplete"
+    },
+    "case" : "sol6_today",
+    "cost" : {
+      "amountUSD" : "0.00156",
+      "currency" : "USD",
+      "estimatedTokens" : 1100,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "incompleteCachedInput" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 530
+    },
+    "dailySum" : 1630,
+    "hourlySum" : 1630,
+    "input" : 1500,
+    "modelCount" : 1,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 2,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 130,
+    "records" : 2,
+    "total" : 1630
+  },
+  {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 2000,
+      "state" : "incomplete"
+    },
+    "case" : "sol56_all",
+    "cost" : {
+      "amountUSD" : "0.0056",
+      "currency" : "USD",
+      "estimatedTokens" : 2060,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+
+      },
+      "state" : "complete",
+      "unestimatedTokens" : 0
+    },
+    "dailySum" : 2060,
+    "hourlySum" : 0,
+    "input" : 2000,
+    "modelCount" : 1,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 4,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 60,
+    "records" : 2,
+    "total" : 2060
+  },
+  {
+    "cacheRate" : {
+      "cachedInput" : 50,
+      "fraction" : 0.5,
+      "input" : 100,
+      "state" : "known"
+    },
+    "case" : "review_all",
+    "cost" : {
+      "amountUSD" : null,
+      "currency" : "USD",
+      "estimatedTokens" : 0,
+      "priceSources" : [
+
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "missingPrice" : 1
+      },
+      "state" : "unavailable",
+      "unestimatedTokens" : 110
+    },
+    "dailySum" : 110,
+    "hourlySum" : 0,
+    "input" : 100,
+    "modelCount" : 1,
+    "modelRecordCounts" : {
+      "codex-auto-review" : 1,
+      "gpt-5.6-sol" : 2,
+      "gpt-6-sol" : 4,
+      "gpt-6.1-sol" : 1
+    },
+    "output" : 10,
+    "records" : 1,
+    "total" : 110
+  }
+]

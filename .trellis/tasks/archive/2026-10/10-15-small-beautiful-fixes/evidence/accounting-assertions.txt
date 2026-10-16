@@ -1,0 +1,1 @@
+PASS: all six explicit total oracles plus retained 220 parent tokens, both subsets unknown and diagnostic present.

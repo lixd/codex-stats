@@ -1,0 +1,7 @@
+{"file": "docs/native-cyan-blue-design.md", "reason": "Approved ordered stages, geometry, palettes, persistence and acceptance."}
+{"file": "docs/requirements.md", "reason": "R/T contracts; no statistics changes."}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Existing native roles and Table checks; approved target supersedes Sage roles."}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "Preserve explicit errors, warnings, unknown and recovery."}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "K/M and exact values preserve."}
+{"file": ".trellis/spec/frontend/menu-lifecycle.md", "reason": "288pt B menu and exact window dismissal."}
+{"file": ".trellis/spec/guides/design-first.md", "reason": "Design-first and evidence boundaries."}

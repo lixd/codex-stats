@@ -1,0 +1,14 @@
+{
+  "version": "0.2.19",
+  "build": "21",
+  "frozenInputCount": 57,
+  "unchangedFrozenInputs": true,
+  "changedSinceTaskStart": [
+    "Sources/App/DashboardView.swift",
+    "Tests/UIPreview/main.swift",
+    "Scripts/render-ui-previews.sh",
+    "Assets/Info.plist"
+  ],
+  "CoreAndStoreUnchanged": true,
+  "executableSHA256": "63cbfa00b873cefbdf73a6a1ac235fb1faaa9fe783f3ef38361bb3d9d498b0c3"
+}

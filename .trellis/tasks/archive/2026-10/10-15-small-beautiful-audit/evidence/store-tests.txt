@@ -1,0 +1,1 @@
+PASS: real scanner states; bounded summary reuse, range/day/timezone/report/root invalidation, value consistency and unknown field flags

@@ -1,0 +1,31 @@
+{
+  "note": "Independent hand-derived values; includes a model older than30days, no real logs. Values fixed before Core integration.",
+  "input": 5300,
+  "output": 400,
+  "total": 5700,
+  "baseline": {
+    "usd": "0.00686625",
+    "estimatedTokens": 1830,
+    "unestimatedTokens": 3870
+  },
+  "add_new_local_model": {
+    "prices": [
+      "3",
+      "0.3",
+      "12"
+    ],
+    "usd": "0.01280625",
+    "estimatedTokens": 4980,
+    "unestimatedTokens": 720
+  },
+  "override_sol": {
+    "prices": [
+      "4",
+      "0.2",
+      "20"
+    ],
+    "usd": "0.01428625",
+    "estimatedTokens": 4980,
+    "unestimatedTokens": 720
+  }
+}

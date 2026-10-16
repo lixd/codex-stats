@@ -1,0 +1,2 @@
+PASS SIGKILL before publication preserves previous bundle; owned staging remains
+PASS focused interruption check; no App process was signalled

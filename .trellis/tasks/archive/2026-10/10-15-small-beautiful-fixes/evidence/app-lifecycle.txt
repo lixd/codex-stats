@@ -1,0 +1,1 @@
+PASS: real app launch, duplicate-instance rejection, normal AppKit termination

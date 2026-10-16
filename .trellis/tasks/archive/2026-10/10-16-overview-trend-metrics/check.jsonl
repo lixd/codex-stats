@@ -1,0 +1,6 @@
+{"file": "docs/overview-trend-design.md", "reason": "R23/T16 trend implementation contract"}
+{"file": ".trellis/spec/backend/overview-query.md", "reason": "R23/T16 trend implementation contract"}
+{"file": ".trellis/spec/backend/derived-usage.md", "reason": "R23/T16 trend implementation contract"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "R23/T16 trend implementation contract"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "R23/T16 trend implementation contract"}
+{"file": ".trellis/spec/guides/design-first.md", "reason": "R23/T16 trend implementation contract"}

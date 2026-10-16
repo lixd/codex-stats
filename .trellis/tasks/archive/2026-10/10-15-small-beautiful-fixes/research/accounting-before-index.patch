@@ -1,0 +1,164 @@
+--- a/Sources/Core/Models.swift
++++ b/Sources/Core/Models.swift
+@@ -37,16 +37,17 @@
+         lhs = lhs + rhs
+     }
+ 
+-    /// Returns nil on a counter reset rather than silently creating a negative delta.
++    /// Parent resets cannot be differenced; inconsistent subsets remain unknown.
+     public func difference(from previous: TokenUsage) -> TokenUsage? {
+         guard input >= previous.input, output >= previous.output else { return nil }
+-        let cacheKnown = cachedInputKnown && previous.cachedInputKnown
+-        let reasonKnown = reasoningKnown && previous.reasoningKnown
+-        guard !cacheKnown || cachedInput >= previous.cachedInput,
+-              !reasonKnown || reasoning >= previous.reasoning else { return nil }
+-        return TokenUsage(input: input - previous.input,
++        let inputDelta = input - previous.input, outputDelta = output - previous.output
++        let cacheKnown = cachedInputKnown && previous.cachedInputKnown &&
++            cachedInput >= previous.cachedInput && cachedInput - previous.cachedInput <= inputDelta
++        let reasonKnown = reasoningKnown && previous.reasoningKnown &&
++            reasoning >= previous.reasoning && reasoning - previous.reasoning <= outputDelta
++        return TokenUsage(input: inputDelta,
+                           cachedInput: cacheKnown ? cachedInput - previous.cachedInput : 0,
+-                          output: output - previous.output,
++                          output: outputDelta,
+                           reasoning: reasonKnown ? reasoning - previous.reasoning : 0,
+                           cachedInputKnown: cacheKnown, reasoningKnown: reasonKnown)
+     }
+@@ -194,6 +195,14 @@
+     }
+ }
+ 
++/// One session's range projection; ordering belongs to the caller.
++public struct SessionUsageRow: Identifiable, Sendable {
++    public let session: SessionUsage
++    public let usage: TokenUsage
++    public let models: [ModelUsage]
++    public var id: String { session.id }
++}
++
+ public enum UsagePeriod: String, CaseIterable, Identifiable, Sendable {
+     case today = "今天"
+     case sevenDays = "7 天"
+@@ -204,9 +213,15 @@
+     struct DayBounds {
+         let first: String?
+         let last: String?
++        var start: Date? = nil
++        var end: Date? = nil
+         func includes(_ day: String) -> Bool {
+             guard let first, let last else { return true }
+             return day >= first && day <= last
++        }
++        func includes(_ date: Date) -> Bool {
++            guard let start, let end else { return true }
++            return date >= start && date < end
+         }
+     }
+ 
+@@ -215,7 +230,9 @@
+         var calendar = Calendar(identifier: .gregorian)
+         calendar.timeZone = timeZone
+         let daysBack = self == .today ? 0 : (self == .sevenDays ? 6 : 29)
+-        guard let threshold = calendar.date(byAdding: .day, value: -daysBack, to: calendar.startOfDay(for: now)) else {
++        let today = calendar.startOfDay(for: now)
++        guard let threshold = calendar.date(byAdding: .day, value: -daysBack, to: today),
++              let end = calendar.date(byAdding: .day, value: 1, to: today) else {
+             return DayBounds(first: nil, last: nil)
+         }
+         let formatter = DateFormatter()
+@@ -223,7 +240,7 @@
+         formatter.locale = Locale(identifier: "en_US_POSIX")
+         formatter.timeZone = timeZone
+         formatter.dateFormat = "yyyy-MM-dd"
+-        return DayBounds(first: formatter.string(from: threshold), last: formatter.string(from: now))
++        return DayBounds(first: formatter.string(from: threshold), last: formatter.string(from: now), start: threshold, end: end)
+     }
+ 
+     public func includes(day: String, now: Date = Date()) -> Bool {
+@@ -295,8 +312,25 @@
+ 
+     public func recentSessions(in period: UsagePeriod, now: Date = Date()) -> [SessionUsage] {
+         let bounds = period.bounds(now: now)
+-        return sessions.filter { period == .all || !$0.usage(in: bounds).isZero || bounds.includes(UsagePeriod.dateString($0.lastActivity)) || bounds.includes(UsagePeriod.dateString($0.firstActivity)) }
++        return sessions.filter { period == .all || !$0.usage(in: bounds).isZero || bounds.includes($0.lastActivity) || bounds.includes($0.firstActivity) }
+             .sorted { $0.lastActivity > $1.lastActivity }
++    }
++
++    public func sessionRows(in period: UsagePeriod, now: Date = Date(), timeZone: TimeZone = .current) -> [SessionUsageRow] {
++        let bounds = period.bounds(now: now, timeZone: timeZone)
++        return sessions.compactMap { session in
++            var usage = TokenUsage()
++            var models: [String: TokenUsage] = [:]
++            for item in session.dailyModel where bounds.includes(item.day) {
++                usage += item.usage
++                models[item.model, default: TokenUsage()] += item.usage
++            }
++            guard period == .all || !usage.isZero || bounds.includes(session.lastActivity)
++                || bounds.includes(session.firstActivity) else { return nil }
++            let details = models.map { ModelUsage(model: $0.key, usage: $0.value, sessionCount: 1) }
++                .sorted { $0.usage.total > $1.usage.total }
++            return SessionUsageRow(session: session, usage: usage, models: details)
++        }
+     }
+ 
+     public func dailyTotals(in period: UsagePeriod, now: Date = Date()) -> [(day: String, usage: TokenUsage)] {
+--- a/Sources/Core/CodexLogScanner.swift
++++ b/Sources/Core/CodexLogScanner.swift
+@@ -776,6 +776,17 @@
+         func warn(_ kind: DiagnosticKind, _ message: String) {
+             diagnostics.insert(.init(severity: .warning, kind: kind, sessionID: log.id, fileName: log.fileName, message: "\(log.id.prefix(8))：\(message)"))
+         }
++        func counterDifference(_ total: TokenUsage, from previous: TokenUsage) -> TokenUsage? {
++            guard let difference = total.difference(from: previous) else { return nil }
++            if (total.cachedInputKnown && previous.cachedInputKnown && !difference.cachedInputKnown) ||
++                (total.reasoningKnown && previous.reasoningKnown && !difference.reasoningKnown) {
++                warn(.counterAmbiguity, "累计计数器无法核对：保留输入/输出增量，异常缓存或推理子项标为未完整记录。")
++            }
++            return difference
++        }
++        func lastOnlySignature(_ frame: Frame, _ last: TokenUsage) -> String {
++            frame.responseID ?? "\(frame.turn ?? "no-turn")|\(frame.model)|\(last.input)|\(last.cachedInput)|\(last.output)|\(last.reasoning)"
++        }
+         var previous: TokenUsage?
+         var previousFrame: Frame?
+         var lastOnlySignatures = Set<String>()
+@@ -799,6 +810,11 @@
+                 if let total = frame.cumulative { previous = total; previousFrame = frame }
+                 continue
+             }
++            // Covered notifications are still evidence against a later anonymous
++            // replay, whether the companion carried a cumulative snapshot or not.
++            if coveredCounts.contains(position), let last = frame.last {
++                lastOnlySignatures.insert(lastOnlySignature(frame, last))
++            }
+             var delta: TokenUsage?
+             var usingLastRequest = false
+             var initialSnapshot = false
+@@ -834,7 +850,7 @@
+                     continue
+                 }
+                 if let previous {
+-                    if let difference = total.difference(from: previous) {
++                    if let difference = counterDifference(total, from: previous) {
+                         delta = difference
+                         if let last = frame.last, difference != last,
+                            (frame.model != previousFrame?.model || frame.timestamp.map { formatter.string(from: $0) } != previousFrame?.timestamp.map { formatter.string(from: $0) }) {
+@@ -857,7 +873,7 @@
+                     if delta == nil { warn(.counterAmbiguity, "缺少历史基线，首个累计快照未纳入统计。") }
+                 } else { delta = total; initialSnapshot = true }
+                 if !usingLastRequest, !requestsSinceCounter.isZero, let value = delta {
+-                    if let remainder = value.difference(from: requestsSinceCounter) { delta = remainder }
++                    if let remainder = counterDifference(value, from: requestsSinceCounter) { delta = remainder }
+                     else {
+                         delta = nil
+                         warn(.counterAmbiguity, "请求记录与累计通知无法核对，仅统计独立请求，跳过可能重复的累计通知。")
+@@ -877,7 +893,7 @@
+                 // Without a request identity an identical usage value might be either
+                 // a retransmission or a new request. Conservatively suppress repeated
+                 // equal values within one turn and disclose that ambiguity.
+-                let signature = frame.responseID ?? "\(frame.turn ?? "no-turn")|\(frame.model)|\(last.input)|\(last.cachedInput)|\(last.output)|\(last.reasoning)"
++                let signature = lastOnlySignature(frame, last)
+                 if !lastOnlySignatures.insert(signature).inserted {
+                     warn(.counterAmbiguity, "无累计快照/请求 ID 的相同用量无法区分重发，已保守去重，可能少计。")
+                     continue

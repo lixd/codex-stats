@@ -1,0 +1,1021 @@
+{
+  "derived" : {
+    "cacheRate" : {
+      "cachedInput" : null,
+      "fraction" : null,
+      "input" : 5200,
+      "state" : "incomplete"
+    },
+    "cost" : {
+      "amountUSD" : "0.0113",
+      "currency" : "USD",
+      "estimatedTokens" : 4910,
+      "priceSources" : [
+        "builtIn"
+      ],
+      "priceVersion" : "openai-standard-short-2026-10-15-r2",
+      "reasons" : {
+        "incompleteCachedInput" : 1,
+        "missingPrice" : 1
+      },
+      "state" : "partial",
+      "unestimatedTokens" : 640
+    }
+  },
+  "diagnostics" : [
+    {
+      "fileName" : "row-2.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-3.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-4.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-5.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-6.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-7.jsonl",
+      "kind" : "mergedPhysicalHistory",
+      "message" : "filter-o：已计入不同物理历史中的独立请求，按 response_id 去重。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "information"
+    },
+    {
+      "fileName" : "row-0.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-1.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-2.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-3.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-4.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-5.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-6.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-0",
+      "severity" : "warning"
+    },
+    {
+      "fileName" : "row-7.jsonl",
+      "kind" : "incompleteFields",
+      "message" : "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+      "sessionID" : "filter-oracle-1",
+      "severity" : "warning"
+    }
+  ],
+  "files" : 8,
+  "invalidLines" : 0,
+  "models" : [
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : null,
+          "fraction" : null,
+          "input" : 2800,
+          "state" : "incomplete"
+        },
+        "cost" : {
+          "amountUSD" : "0.00528",
+          "currency" : "USD",
+          "estimatedTokens" : 2530,
+          "priceSources" : [
+            "builtIn"
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+            "incompleteCachedInput" : 1
+          },
+          "state" : "partial",
+          "unestimatedTokens" : 530
+        }
+      },
+      "model" : "gpt-6-sol",
+      "sessions" : 2,
+      "usage" : {
+        "cachedInput" : 900,
+        "cachedInputKnown" : false,
+        "input" : 2800,
+        "output" : 260,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : null,
+          "fraction" : null,
+          "input" : 2000,
+          "state" : "incomplete"
+        },
+        "cost" : {
+          "amountUSD" : "0.0056",
+          "currency" : "USD",
+          "estimatedTokens" : 2060,
+          "priceSources" : [
+            "builtIn"
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+
+          },
+          "state" : "complete",
+          "unestimatedTokens" : 0
+        }
+      },
+      "model" : "gpt-5.6-sol",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 1000,
+        "cachedInputKnown" : false,
+        "input" : 2000,
+        "output" : 60,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 200,
+          "fraction" : 0.6666666666666666,
+          "input" : 300,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : "0.00042",
+          "currency" : "USD",
+          "estimatedTokens" : 320,
+          "priceSources" : [
+            "builtIn"
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+
+          },
+          "state" : "complete",
+          "unestimatedTokens" : 0
+        }
+      },
+      "model" : "gpt-6.1-sol",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 200,
+        "cachedInputKnown" : true,
+        "input" : 300,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 50,
+          "fraction" : 0.5,
+          "input" : 100,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : null,
+          "currency" : "USD",
+          "estimatedTokens" : 0,
+          "priceSources" : [
+
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+            "missingPrice" : 1
+          },
+          "state" : "unavailable",
+          "unestimatedTokens" : 110
+        }
+      },
+      "model" : "codex-auto-review",
+      "sessions" : 1,
+      "usage" : {
+        "cachedInput" : 50,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "priceBasis" : "本地参考价（内置标准价）；USD \/ 百万 Token；所有历史按当前价表折算，非实际扣费",
+  "priceCatalog" : {
+    "entries" : [
+      {
+        "cachedInput" : "0.175",
+        "input" : "1.75",
+        "model" : "gpt-5.3-codex",
+        "output" : "14",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+        "verifiedOn" : "2026-10-15"
+      },
+      {
+        "cachedInput" : "0.4",
+        "input" : "4",
+        "model" : "gpt-5.6-sol",
+        "output" : "20",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+        "verifiedOn" : "2026-10-15"
+      },
+      {
+        "cachedInput" : "1",
+        "input" : "10",
+        "model" : "gpt-6-astra",
+        "output" : "50",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+        "verifiedOn" : "2026-10-15"
+      },
+      {
+        "cachedInput" : "0.01",
+        "input" : "0.1",
+        "model" : "gpt-6-luna",
+        "output" : "0.5",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+        "verifiedOn" : "2026-10-15"
+      },
+      {
+        "cachedInput" : "0.2",
+        "input" : "2",
+        "model" : "gpt-6-sol",
+        "output" : "10",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/changelog",
+        "verifiedOn" : "2026-10-15"
+      },
+      {
+        "cachedInput" : "0.1",
+        "input" : "2",
+        "model" : "gpt-6.1-sol",
+        "output" : "10",
+        "source" : "builtIn",
+        "sourceURL" : "https:\/\/developers.openai.com\/api\/docs\/pricing",
+        "verifiedOn" : "2026-10-15"
+      }
+    ],
+    "revision" : "openai-standard-short-2026-10-15-r2",
+    "schemaVersion" : 1
+  },
+  "priceExclusions" : "不含缓存写入单列费用、长上下文加价、Fast\/Ultrafast、Batch\/Flex、地域、税费及工具费用",
+  "priceSource" : "来源见 priceCatalog.entries；自定义价格未经官方核验",
+  "priceVerifiedOn" : "内置行核验日期见 priceCatalog.entries",
+  "recordDerived" : {
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-0.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 800,
+        "fraction" : 0.8,
+        "input" : 1000,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.00156",
+        "currency" : "USD",
+        "estimatedTokens" : 1100,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-1.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 1000,
+        "fraction" : 0.5,
+        "input" : 2000,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.0054",
+        "currency" : "USD",
+        "estimatedTokens" : 2050,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-2.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 200,
+        "fraction" : 0.6666666666666666,
+        "input" : 300,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.00042",
+        "currency" : "USD",
+        "estimatedTokens" : 320,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-3.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 100,
+        "fraction" : 0.25,
+        "input" : 400,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.00102",
+        "currency" : "USD",
+        "estimatedTokens" : 440,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-4.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 50,
+        "fraction" : 0.5,
+        "input" : 100,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : null,
+        "currency" : "USD",
+        "estimatedTokens" : 0,
+        "priceSources" : [
+
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+          "missingPrice" : 1
+        },
+        "state" : "unavailable",
+        "unestimatedTokens" : 110
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-5.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : null,
+        "fraction" : null,
+        "input" : 500,
+        "state" : "incomplete"
+      },
+      "cost" : {
+        "amountUSD" : null,
+        "currency" : "USD",
+        "estimatedTokens" : 0,
+        "priceSources" : [
+
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+          "incompleteCachedInput" : 1
+        },
+        "state" : "unavailable",
+        "unestimatedTokens" : 530
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-6.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 0,
+        "fraction" : 0,
+        "input" : 900,
+        "state" : "known"
+      },
+      "cost" : {
+        "amountUSD" : "0.0027",
+        "currency" : "USD",
+        "estimatedTokens" : 990,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    },
+    "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-7.jsonl#0" : {
+      "cacheRate" : {
+        "cachedInput" : 0,
+        "fraction" : null,
+        "input" : 0,
+        "state" : "noInput"
+      },
+      "cost" : {
+        "amountUSD" : "0.0002",
+        "currency" : "USD",
+        "estimatedTokens" : 10,
+        "priceSources" : [
+          "builtIn"
+        ],
+        "priceVersion" : "openai-standard-short-2026-10-15-r2",
+        "reasons" : {
+
+        },
+        "state" : "complete",
+        "unestimatedTokens" : 0
+      }
+    }
+  },
+  "records" : [
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-7.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-7.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 0,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-5.6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-1",
+      "requestID" : "filter-response-7",
+      "sessionID" : "filter-oracle-1",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T06:00:00Z",
+      "turnID" : "turn-7",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 0,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-5.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-5.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 500,
+        "output" : 30,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-1",
+      "requestID" : "filter-response-5",
+      "sessionID" : "filter-oracle-1",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T05:00:00Z",
+      "turnID" : "turn-5",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : false,
+        "input" : 500,
+        "output" : 30,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-4.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-4.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 50,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "codex-auto-review",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-0",
+      "requestID" : "filter-response-4",
+      "sessionID" : "filter-oracle-0",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T04:00:00Z",
+      "turnID" : "turn-4",
+      "usage" : {
+        "cachedInput" : 50,
+        "cachedInputKnown" : true,
+        "input" : 100,
+        "output" : 10,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-2.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-2.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 200,
+        "cachedInputKnown" : true,
+        "input" : 300,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6.1-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-0",
+      "requestID" : "filter-response-2",
+      "sessionID" : "filter-oracle-0",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T03:00:00Z",
+      "turnID" : "turn-2",
+      "usage" : {
+        "cachedInput" : 200,
+        "cachedInputKnown" : true,
+        "input" : 300,
+        "output" : 20,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-1.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-1.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 1000,
+        "cachedInputKnown" : true,
+        "input" : 2000,
+        "output" : 50,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-5.6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-1",
+      "requestID" : "filter-response-1",
+      "sessionID" : "filter-oracle-1",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T02:00:00Z",
+      "turnID" : "turn-1",
+      "usage" : {
+        "cachedInput" : 1000,
+        "cachedInputKnown" : true,
+        "input" : 2000,
+        "output" : 50,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-15",
+      "evidence" : "responseRecord",
+      "fileName" : "row-0.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-0.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 800,
+        "cachedInputKnown" : true,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-0",
+      "requestID" : "filter-response-0",
+      "sessionID" : "filter-oracle-0",
+      "source" : "Codex",
+      "timestamp" : "2026-10-15T01:00:00Z",
+      "turnID" : "turn-0",
+      "usage" : {
+        "cachedInput" : 800,
+        "cachedInputKnown" : true,
+        "input" : 1000,
+        "output" : 100,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-10-14",
+      "evidence" : "responseRecord",
+      "fileName" : "row-6.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-6.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : true,
+        "input" : 900,
+        "output" : 90,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-0",
+      "requestID" : "filter-response-6",
+      "sessionID" : "filter-oracle-0",
+      "source" : "Codex",
+      "timestamp" : "2026-10-14T01:00:00Z",
+      "turnID" : "turn-6",
+      "usage" : {
+        "cachedInput" : 0,
+        "cachedInputKnown" : true,
+        "input" : 900,
+        "output" : 90,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "day" : "2026-09-01",
+      "evidence" : "responseRecord",
+      "fileName" : "row-3.jsonl",
+      "id" : "\/tmp\/codex-stats-dashboard-filter-20261015\/oracle-input\/sessions\/row-3.jsonl#0",
+      "isCompaction" : false,
+      "lastReportedUsage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 400,
+        "output" : 40,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      },
+      "model" : "gpt-6-sol",
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-1",
+      "requestID" : "filter-response-3",
+      "sessionID" : "filter-oracle-1",
+      "source" : "Codex",
+      "timestamp" : "2026-09-01T01:00:00Z",
+      "turnID" : "turn-3",
+      "usage" : {
+        "cachedInput" : 100,
+        "cachedInputKnown" : true,
+        "input" : 400,
+        "output" : 40,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "sessions" : [
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : null,
+          "fraction" : null,
+          "input" : 2900,
+          "state" : "incomplete"
+        },
+        "cost" : {
+          "amountUSD" : "0.00662",
+          "currency" : "USD",
+          "estimatedTokens" : 2500,
+          "priceSources" : [
+            "builtIn"
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+            "incompleteCachedInput" : 1
+          },
+          "state" : "partial",
+          "unestimatedTokens" : 530
+        }
+      },
+      "id" : "filter-oracle-1",
+      "models" : [
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : null,
+              "fraction" : null,
+              "input" : 2000,
+              "state" : "incomplete"
+            },
+            "cost" : {
+              "amountUSD" : "0.0056",
+              "currency" : "USD",
+              "estimatedTokens" : 2060,
+              "priceSources" : [
+                "builtIn"
+              ],
+              "priceVersion" : "openai-standard-short-2026-10-15-r2",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-5.6-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 1000,
+            "cachedInputKnown" : false,
+            "input" : 2000,
+            "output" : 60,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : null,
+              "fraction" : null,
+              "input" : 900,
+              "state" : "incomplete"
+            },
+            "cost" : {
+              "amountUSD" : "0.00102",
+              "currency" : "USD",
+              "estimatedTokens" : 440,
+              "priceSources" : [
+                "builtIn"
+              ],
+              "priceVersion" : "openai-standard-short-2026-10-15-r2",
+              "reasons" : {
+                "incompleteCachedInput" : 1
+              },
+              "state" : "partial",
+              "unestimatedTokens" : 530
+            }
+          },
+          "model" : "gpt-6-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 100,
+            "cachedInputKnown" : false,
+            "input" : 900,
+            "output" : 70,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        }
+      ],
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-1",
+      "usage" : {
+        "cachedInput" : 1100,
+        "cachedInputKnown" : false,
+        "input" : 2900,
+        "output" : 130,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    },
+    {
+      "derived" : {
+        "cacheRate" : {
+          "cachedInput" : 1050,
+          "fraction" : 0.45652173913043476,
+          "input" : 2300,
+          "state" : "known"
+        },
+        "cost" : {
+          "amountUSD" : "0.00468",
+          "currency" : "USD",
+          "estimatedTokens" : 2410,
+          "priceSources" : [
+            "builtIn"
+          ],
+          "priceVersion" : "openai-standard-short-2026-10-15-r2",
+          "reasons" : {
+            "missingPrice" : 1
+          },
+          "state" : "partial",
+          "unestimatedTokens" : 110
+        }
+      },
+      "id" : "filter-oracle-0",
+      "models" : [
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 800,
+              "fraction" : 0.42105263157894735,
+              "input" : 1900,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : "0.00426",
+              "currency" : "USD",
+              "estimatedTokens" : 2090,
+              "priceSources" : [
+                "builtIn"
+              ],
+              "priceVersion" : "openai-standard-short-2026-10-15-r2",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-6-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 800,
+            "cachedInputKnown" : true,
+            "input" : 1900,
+            "output" : 190,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 200,
+              "fraction" : 0.6666666666666666,
+              "input" : 300,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : "0.00042",
+              "currency" : "USD",
+              "estimatedTokens" : 320,
+              "priceSources" : [
+                "builtIn"
+              ],
+              "priceVersion" : "openai-standard-short-2026-10-15-r2",
+              "reasons" : {
+
+              },
+              "state" : "complete",
+              "unestimatedTokens" : 0
+            }
+          },
+          "model" : "gpt-6.1-sol",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 200,
+            "cachedInputKnown" : true,
+            "input" : 300,
+            "output" : 20,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        },
+        {
+          "derived" : {
+            "cacheRate" : {
+              "cachedInput" : 50,
+              "fraction" : 0.5,
+              "input" : 100,
+              "state" : "known"
+            },
+            "cost" : {
+              "amountUSD" : null,
+              "currency" : "USD",
+              "estimatedTokens" : 0,
+              "priceSources" : [
+
+              ],
+              "priceVersion" : "openai-standard-short-2026-10-15-r2",
+              "reasons" : {
+                "missingPrice" : 1
+              },
+              "state" : "unavailable",
+              "unestimatedTokens" : 110
+            }
+          },
+          "model" : "codex-auto-review",
+          "sessions" : 1,
+          "usage" : {
+            "cachedInput" : 50,
+            "cachedInputKnown" : true,
+            "input" : 100,
+            "output" : 10,
+            "reasoning" : 0,
+            "reasoningKnown" : false
+          }
+        }
+      ],
+      "project" : "filter",
+      "recordedSessionID" : "filter-oracle-0",
+      "usage" : {
+        "cachedInput" : 1050,
+        "cachedInputKnown" : true,
+        "input" : 2300,
+        "output" : 220,
+        "reasoning" : 0,
+        "reasoningKnown" : false
+      }
+    }
+  ],
+  "total" : {
+    "cachedInput" : 2150,
+    "cachedInputKnown" : false,
+    "input" : 5200,
+    "output" : 350,
+    "reasoning" : 0,
+    "reasoningKnown" : false
+  },
+  "warnings" : [
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。",
+    "缓存\/推理字段未完整记录：相关明细显示未完整记录，不将缺失值当作零。"
+  ]
+}

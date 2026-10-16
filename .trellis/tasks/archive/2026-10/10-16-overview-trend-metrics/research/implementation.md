@@ -1,0 +1,17 @@
+# R23/T16 Implementation evidence
+
+Changed only task-owned source/test projections: OverviewIndex daily/hourly record counts; ValuationIndex daily/hourly CostEstimate projections (price each accepted record once); DashboardView local three-state native segmented Picker, exact-model/range paired summaries, explicit partial/unavailable/zero UI and USD/integer/Token axes; Overview and Store and Core tests. UsageStore production plumbing did not require modification.
+
+No record arrays duplicated, no scanner/CLI/counting policy changed; original one-item summary caches reused. Hour identity remains absolute Date, local day filtering unchanged; hourly valuation construction accepts injected timezone for DST tests.
+
+Commands (2026-10-16, synthetic data only):
+- Scripts/test.sh -> /tmp/codex-stats-trend-20261016/logs/core.log: 146 tests passed (including new trend unknown/zero/micro test and extended range/model/DST projection tests).
+- Scripts/test-usage-store.sh -> logs/store.log: all Store checks passed including unavailable→imported→edited hourly/daily revaluation with unchanged record buckets and no rescan.
+- Scripts/test-token-display.sh -> logs/formatter.log: 16 numeric boundaries plus derived tests passed for en_US/zh_CN/fr_FR.
+- Scripts/render-overview.sh -> overview-final, logs/overview-before-density.log: four isolated processes cyan/blue × startup normal/legacy, each72 standard mode screenshots + request handoff/large value/free/micro/dense/retained-error. All document<=clip assertions pass; visual dense30 dates caught x-label and marker-word crowding despite geometry pass. Fix and fresh evidence pending.
+
+No production App run/installed/terminated/replaced, no real logs/prices/defaults read or written. No source archive/commit/push. Native seeded mode captures are rendering evidence, not actual mouse/keyboard or VoiceOver interaction. Root owns independent build/version/signature and final evidence classification.
+
+Review fixes: tiny USD axis ticks use three significant digits (`$0.00001` and `$0.00002` stay distinct), unavailable state uses an actual168pt VStack, orphan DailyPoint removed. Dense marker annotations switch above12buckets to triangles=subtotal and diamonds=unpriced with persistent text legend. Native screenshots caught categorical Charts ignoring explicit AxisMarks(values:ticks); the actual label closure now conditionally emits only selected first/last ~6ticks. Sparse annotations have per-bucket hover help; dense markers retain exact per-bucket AX plus visible overall coverage, no unimplemented chart hover overlay is claimed. An intermediate argument-placement compile failure was corrected; failed intermediate builds are not final evidence.
+
+Latest matrix command: Scripts/render-overview.sh /tmp/codex-stats-trend-20261016/overview-axis-final, logs/overview-axis-final.log. Each of four processes produces80PNG+80TXT (72 scenario/mode/width/scheme plus8 extra cases),320PNG total when complete. Final run completed exit0, four PASS process lines and320PNG/320TXT verified. Implementer/root/reviewer directly inspected latest cyan950 dense30date screenshot: six readable first/last-inclusive date labels, distinct triangle/diamond symbols and visible legend, no overlapping date/annotation text. Both palettes/light-dark950/1120 startup overlay/legacy all pass document<=clip assertions. Sources/Tests/Scripts frozen after this actual compile + image verification.

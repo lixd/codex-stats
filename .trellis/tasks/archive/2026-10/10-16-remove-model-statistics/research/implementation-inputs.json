@@ -1,0 +1,12 @@
+{
+  "changed": [
+    "Sources/App/DashboardView.swift",
+    "Tests/UIPreview/main.swift",
+    "Scripts/render-ui-previews.sh"
+  ],
+  "frozen_inputs": {
+    "Sources/App/DashboardView.swift": "94ed01289c7690128dca64c8c866e9074a94bed7429f81e09c6407839ca09d5f",
+    "Tests/UIPreview/main.swift": "95bbbfd230152c2654a5e1b96b1d86b5e88b80bf3600ae6359c406688e024480",
+    "Scripts/render-ui-previews.sh": "cedcf7675021b3e529ff689326ee116abccdb5728d4cd06c85b0ba93d05d1a29"
+  }
+}

@@ -1,0 +1,1 @@
+{"cases": [{"bytes": 144123, "directory": "turns-250", "turns": 250}, {"bytes": 288123, "directory": "turns-500", "turns": 500}, {"bytes": 576123, "directory": "turns-1000", "turns": 1000}, {"bytes": 1152123, "directory": "turns-2000", "turns": 2000}], "synthetic": "codex-stats-review-scale-v1"}

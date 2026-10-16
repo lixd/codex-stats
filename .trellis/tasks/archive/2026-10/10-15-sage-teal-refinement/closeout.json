@@ -1,0 +1,21 @@
+{
+  "changed_from_task_start": [
+    "Sources/App/DashboardView.swift",
+    "Sources/App/SessionsContent.swift",
+    "Sources/App/MenuPanelView.swift",
+    "Sources/App/RequestsContent.swift",
+    "Sources/App/Components.swift",
+    "Tests/UIPreview/main.swift",
+    "Assets/Info.plist",
+    "docs/requirements.md",
+    "docs/ui-design.md",
+    "docs/design.md",
+    "docs/ui-design-b.md",
+    "VERIFICATION.md"
+  ],
+  "local_links_checked": 79,
+  "broken_links": 0,
+  "core_store_lifecycle_delivery_unchanged": true,
+  "head_unchanged": "11f2a937971c40b29a2b4d69ff6bb79c5eaec91f",
+  "index_empty": true
+}

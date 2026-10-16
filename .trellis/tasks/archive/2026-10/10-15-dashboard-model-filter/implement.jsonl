@@ -1,0 +1,7 @@
+{"file": "docs/dashboard-model-filter-design.md", "reason": "Approved combined UI/query/pricing contract"}
+{"file": ".trellis/spec/backend/derived-usage.md", "reason": "Exact Decimal catalog, coverage and no-merge snapshot lifecycle"}
+{"file": ".trellis/spec/backend/scan-performance.md", "reason": "Date bounds, bounded summary reuse and performance evidence"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Native roles, fit, palette identity and synthetic UI verification"}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "Visible errors/retained success"}
+{"file": ".trellis/tasks/archive/2026-10/10-15-dashboard-model-filter/research/pricing.md", "reason": "Two primary official model prices and explicit unknown"}
+{"file": ".trellis/spec/backend/overview-query.md", "reason": "Implemented exact-model scalar query, bounded overview cache and explicit new defaults contract"}

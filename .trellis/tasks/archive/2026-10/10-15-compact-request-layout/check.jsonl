@@ -1,0 +1,5 @@
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend quality checks"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Native table and palette contracts"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Unknown and exact values"}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "Keep observable error state"}
+{"file": ".trellis/spec/guides/design-first.md", "reason": "Design before product edits"}

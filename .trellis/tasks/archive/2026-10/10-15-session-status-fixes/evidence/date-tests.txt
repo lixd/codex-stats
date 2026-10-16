@@ -1,0 +1,42 @@
+Building for debugging...
+[Using on-disk description]
+[2 / 16]
+[3 / 17] CodexStatsCore
+[6 / 20] CodexStatsCore
+[11 / 25] codex-stats-report-product
+[13 / 27] codex-stats-report-product
+[19 / 36] codex-stats-app-product
+[19 / 36] CodexStatsCore
+[22 / 36] codex-stats-app-product
+[23 / 36] codex-stats-app-product
+[23 / 36] CodexStatsCore
+[25 / 36] codex-stats-app-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCore: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[25 / 36] CodexStatsCoreTests-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[31 / 36] codex-stats-report-product
+[32 / 37] CodexStatsCoreTests-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[39 / 44] codex-stats-app-product
+[40 / 45] CodexStatsCoreTests-product
+[44 / 47] CodexStatsCoreTests-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[46 / 50] CodexStatsCoreTests-product
+[48 / 50] CodexStatsCoreTests-product
+[52 / 52] codex-stats-app-product
+Build complete! (13.29秒)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test sessionProjectionPreservesActiveEmptySessionsAcrossDST() started.
+◇ Test sessionProjectionAggregatesModelsUnknownFieldsAndAllDates() started.
+◇ Test sessionProjectionUsesCapturedTimeZoneAndKeepsInputOrder() started.
+◇ Test operationBoundsRespectCalendarDaysFutureAndDST() started.
+✔ Test sessionProjectionUsesCapturedTimeZoneAndKeepsInputOrder() passed after 0.013 seconds.
+✔ Test sessionProjectionAggregatesModelsUnknownFieldsAndAllDates() passed after 0.013 seconds.
+✔ Test operationBoundsRespectCalendarDaysFutureAndDST() passed after 0.014 seconds.
+✔ Test sessionProjectionPreservesActiveEmptySessionsAcrossDST() passed after 0.015 seconds.
+✔ Test run with 4 tests in 0 suites passed after 0.016 seconds.

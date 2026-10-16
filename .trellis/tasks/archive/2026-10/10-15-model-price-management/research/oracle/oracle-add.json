@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "revision": "oracle-add",
+  "entries": [
+    {
+      "model": "gpt-6.1-sol",
+      "input": "2",
+      "cachedInput": "0.1",
+      "output": "10",
+      "source": "builtIn",
+      "sourceURL": "https://developers.openai.com/api/docs/pricing",
+      "verifiedOn": "2026-10-15"
+    },
+    {
+      "model": "gpt-6-astra",
+      "input": "10",
+      "cachedInput": "1",
+      "output": "50",
+      "source": "builtIn",
+      "sourceURL": "https://developers.openai.com/api/docs/pricing",
+      "verifiedOn": "2026-10-15"
+    },
+    {
+      "model": "gpt-6-luna",
+      "input": "0.1",
+      "cachedInput": "0.01",
+      "output": "0.5",
+      "source": "builtIn",
+      "sourceURL": "https://developers.openai.com/api/docs/pricing",
+      "verifiedOn": "2026-10-15"
+    },
+    {
+      "model": "gpt-5.3-codex",
+      "input": "1.75",
+      "cachedInput": "0.175",
+      "output": "14",
+      "source": "builtIn",
+      "sourceURL": "https://developers.openai.com/api/docs/pricing",
+      "verifiedOn": "2026-10-15"
+    },
+    {
+      "model": "new-local-model",
+      "input": "3",
+      "cachedInput": "0.3",
+      "output": "12",
+      "source": "custom"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"kind":"environment","note":"release underlying computation; no UI frame or current footprint measurement","processorCount":8,"system":"Version 27.0.1 (Build 26A434)","timeZone":"Asia\/Shanghai"}
+{"bytes":820123,"coldSeconds":0.09172974998364225,"invariants":"all tokens, identities, timing and unchanged rows passed","kind":"withoutCompletion","total":240000,"turns":2000,"warm":{"medianSeconds":0.0096278333221562207,"minSeconds":0.009329041640739888,"samplesSeconds":[0.0098443750175647438,0.0096278333221562207,0.009329041640739888]}}

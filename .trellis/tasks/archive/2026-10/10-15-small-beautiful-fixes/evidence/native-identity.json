@@ -1,0 +1,8 @@
+{
+  "version": "0.2.11",
+  "build": "13",
+  "app": "/tmp/codex-stats-fixes-20261015/native/Codex Stats.app",
+  "lifecycleTestIdentity": "dev.codexstats.integration-test.a53529ca-883e-43c2-bf72-2a101d693869",
+  "lifecycleApp": "/tmp/codex-stats-fixes-20261015/lifecycle/Codex Stats.app",
+  "syntheticRoot": "/tmp/codex-stats-fixes-20261015/standard/fixture"
+}

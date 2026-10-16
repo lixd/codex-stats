@@ -1,0 +1,154 @@
+2026-10-16 10:52:48.796 preview[26792:6510199] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+2026-10-16 10:52:49.445 preview[26792:6510199] TISFileInterrogator updateSystemInputSources false but old data invalid: currentCacheHeaderPtr nonNULL? 0, ->cacheFormatVersion 0, ->magicCookie 00000000, inputSourceTableCountSys 0
+2026-10-16 10:52:49.477 preview[26792:6510221] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-10-16 10:52:49.477 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.481 preview[26792:6510199] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -17410.
+Keyboard Layouts: keyboard layout identifier -17410 has been replaced with -28673.
+2026-10-16 10:52:49.500 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.502 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.516 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.522 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.524 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.533 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.536 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.544 preview[26792:6510199] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -30769.
+Keyboard Layouts: keyboard layout identifier -30769 has been replaced with -28674.
+Keyboard Layouts: duplicate keyboard layout identifier -14934.
+Keyboard Layouts: keyboard layout identifier -14934 has been replaced with -28675.
+2026-10-16 10:52:49.565 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:49.565 preview[26792:6510199] Error received in message reply handler: Connection invalid
+2026-10-16 10:52:50.907 preview[26792:6510199] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'ClientCallsAuxiliary': Connection invalid
+2026-10-16 10:52:50.911 preview[26792:6510254] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:52:53.240 preview[26792:6510299] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:52:55.063 preview[26792:6510222] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:52:57.572 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:00.111 preview[26792:6510255] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:01.787 preview[26792:6510299] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:03.016 preview[26792:6510254] Spell server connection invalidated
+2026-10-16 10:53:03.018 preview[26792:6510254] Spell server connection invalidated
+2026-10-16 10:53:03.018 preview[26792:6510254] dataFromCheckingGrammarInString received error Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.naturallanguaged was invalidated: Connection init failed at lookup with error 159 - Sandbox restriction." UserInfo={NSDebugDescription=The connection to service named com.apple.naturallanguaged was invalidated: Connection init failed at lookup with error 159 - Sandbox restriction.}
+2026-10-16 10:53:11.608 preview[26792:6510254] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:12.807 preview[26792:6510299] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:14.597 preview[26792:6511133] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:16.511 preview[26792:6510299] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:18.051 preview[26792:6511134] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:18.839 preview[26792:6511133] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:19.655 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:20.403 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:21.390 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:29.168 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:30.131 preview[26792:6511134] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:31.593 preview[26792:6511134] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:32.312 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+PASS: cyan/blue light/dark environment roles, text/action/risk >=4.5:1; intended HC swatches >=3:1 (actual OS preference unverified)
+PASS: same-host palette redraw and native search/selection/unsaved settings retention, no scan or summary invalidation
+Menu layout: menu-loading-light.png (288.0, 270.0)
+Menu layout: menu-light.png (288.0, 522.0)
+Menu layout: menu-7days-light.png (288.0, 522.0)
+Menu layout: menu-30days-light.png (288.0, 522.0)
+Menu layout: menu-all-light.png (288.0, 522.0)
+REQUEST GEOMETRY requests-1120-light.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY inspector-1120-light.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+PASS actual attached request sheet (420.0, 600.0), parent table retains full width
+Programmatic AppKit dismissal only; production close/Escape remain manual
+REQUEST GEOMETRY requests-950-light.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY inspector-950-light.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+PASS actual attached request sheet (420.0, 600.0), parent table retains full width
+Programmatic AppKit dismissal only; production close/Escape remain manual
+REQUEST GEOMETRY requests-resize-1050-light.png: host=(1050.0, 760.0), tableTop=189.0, tableHeight=538.0, document=833.0, clip=833.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1116-light.png: host=(1116.0, 760.0), tableTop=189.0, tableHeight=538.0, document=899.0, clip=899.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1117-light.png: host=(1117.0, 760.0), tableTop=189.0, tableHeight=538.0, document=900.0, clip=900.0, columns=[60.0, 91.0, 110.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1118-light.png: host=(1118.0, 760.0), tableTop=189.0, tableHeight=538.0, document=901.0, clip=901.0, columns=[60.0, 91.0, 111.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1280-light.png: host=(1280.0, 760.0), tableTop=189.0, tableHeight=538.0, document=1063.0, clip=1063.0, columns=[60.0, 100.0, 130.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+Menu layout: menu-loading-dark.png (288.0, 270.0)
+Menu layout: menu-dark.png (288.0, 522.0)
+Menu layout: menu-7days-dark.png (288.0, 522.0)
+Menu layout: menu-30days-dark.png (288.0, 522.0)
+Menu layout: menu-all-dark.png (288.0, 522.0)
+REQUEST GEOMETRY requests-1120-dark.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY inspector-1120-dark.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+PASS actual attached request sheet (420.0, 600.0), parent table retains full width
+Programmatic AppKit dismissal only; production close/Escape remain manual
+REQUEST GEOMETRY requests-950-dark.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY inspector-950-dark.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+PASS actual attached request sheet (420.0, 602026-10-16 10:53:33.791 preview[26792:6511134] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:34.470 preview[26792:6511134] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:35.249 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:35.971 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:37.012 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:40.864 preview[26792:6511965] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:42.483 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:43.512 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:44.353 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:45.164 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:46.253 preview[26792:6511135] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:47.521 preview[26792:6511135] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:48.782 preview[26792:6511135] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:50.075 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:58.261 preview[26792:6511964] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+0.0), parent table retains full width
+Programmatic AppKit dismissal only; production close/Escape remain manual
+REQUEST GEOMETRY requests-resize-1050-dark.png: host=(1050.0, 760.0), tableTop=189.0, tableHeight=538.0, document=833.0, clip=833.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1116-dark.png: host=(1116.0, 760.0), tableTop=189.0, tableHeight=538.0, document=899.0, clip=899.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1117-dark.png: host=(1117.0, 760.0), tableTop=189.0, tableHeight=538.0, document=900.0, clip=900.0, columns=[60.0, 91.0, 110.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1118-dark.png: host=(1118.0, 760.0), tableTop=189.0, tableHeight=538.0, document=901.0, clip=901.0, columns=[60.0, 91.0, 111.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-resize-1280-dark.png: host=(1280.0, 760.0), tableTop=189.0, tableHeight=538.0, document=1063.0, clip=1063.0, columns=[60.0, 100.0, 130.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=6, visibleRows={0, 6}
+REQUEST GEOMETRY requests-many-1120-light.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-many-950-light.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=80, visibleRows={0, 10}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-many-1120-dark.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=903.0, clip=903.0, columns=[60.0, 92.0, 112.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-many-950-dark.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=80, visibleRows={0, 10}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-legacy-950-light.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=716.0, clip=716.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=80, visibleRows={0, 10}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-legacy-1116-light.png: host=(1116.0, 760.0), tableTop=189.0, tableHeight=538.0, document=882.0, clip=882.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-legacy-1117-light.png: host=(1117.0, 760.0), tableTop=189.0, tableHeight=538.0, document=883.0, clip=883.0, columns=[60.0, 82.0, 102.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-legacy-1118-light.png: host=(1118.0, 760.0), tableTop=189.0, tableHeight=538.0, document=884.0, clip=884.0, columns=[60.0, 82.0, 103.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY requests-legacy-1120-light.png: host=(1120.0, 760.0), tableTop=189.0, tableHeight=538.0, document=886.0, clip=886.0, columns=[60.0, 83.0, 104.0, 72.0, 48.0, 72.0, 58.0, 58.0, 80.0, 66.0], rows=80, visibleRows={0, 13}
+PASS request native scrolling: 80 real records; last row reached and returned to first
+REQUEST GEOMETRY status-warning-list.bullet.rectangle-l2026-10-16 10:53:59.004 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:53:59.649 preview[26792:6511964] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:01.552 preview[26792:6511966] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:02.173 preview[26792:6512480] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:02.763 preview[26792:6511966] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:08.043 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:08.964 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:11.679 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:15.297 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:15.980 preview[26792:6511964] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:16.594 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:19.049 preview[26792:6512467] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:19.679 preview[26792:6512467] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:20.261 preview[26792:6512467] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:23.214 preview[26792:6511739] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:24.024 preview[26792:6511966] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:24.617 preview[26792:6510297] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:29.709 preview[26792:6512467] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:30.338 preview[26792:6511740] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:35.884 preview[26792:6513362] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:36.504 preview[26792:6511964] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:46.367 preview[26792:6513721] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+2026-10-16 10:54:55.018 preview[26792:6513721] +[NSXPCSharedListener endpointForReply:withListenerName:replyErrorCode:]: an error occurred while attempting to obtain endpoint for listener 'com.apple.view-bridge': Connection invalid
+ight.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+REQUEST GEOMETRY status-warning-list.bullet.rectangle-dark.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+REQUEST GEOMETRY status-failed-refresh-list.bullet.rectangle-light.png: host=(950.0, 630.0), tableTop=210.0, tableHeight=387.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+REQUEST GEOMETRY status-failed-refresh-list.bullet.rectangle-dark.png: host=(950.0, 630.0), tableTop=210.0, tableHeight=387.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+REQUEST GEOMETRY status-recovered-info-list.bullet.rectangle-light.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+REQUEST GEOMETRY status-recovered-info-list.bullet.rectangle-dark.png: host=(950.0, 630.0), tableTop=189.0, tableHeight=408.0, document=733.0, clip=733.0, columns=[60.0, 100.0, 150.0, 72.0, 48.0, 58.0, 78.0], rows=1, visibleRows={0, 1}
+Menu layout: valuation-menu-light.png (288.0, 536.0)
+Menu layout: valuation-menu-dark.png (288.0, 536.0)
+PASS: valuation native full/partial/unavailable/micro fixtures, weighted cache semantics, exact hand oracle, overview at two widths and schemes
+Menu layout: menu-unknown-model-known-fields-light.png (288.0, 471.0)
+Menu layout: menu-unknown-model-known-fields-dark.png (288.0, 471.0)
+Menu layout: menu-empty-light.png (288.0, 448.0)
+Menu layout: menu-error-light.png (288.0, 306.0)
+Menu layout: menu-empty-dark.png (288.0, 448.0)
+Menu layout: menu-error-dark.png (288.0, 306.0)
+PASS: native light/dark overview, four-range/loading/unknown-model/fitting-width menu, requests/inspector at 1120 and 950, known/unknown timing, grouped diagnostics, pending/real empty/error fixtures; all pages at 950x630 with warnings, retained-data failure, info-only recovery and status-sheet content; resolved light/dark palette contrast, four remaining dashboard pages and 80-record native request scrolling. Actual system high contrast remains unverified.

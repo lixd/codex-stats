@@ -1,0 +1,11 @@
+{
+  "version": "0.2.20",
+  "build": "22",
+  "changedSinceTaskStart": [
+    "Sources/App/DashboardView.swift",
+    "Assets/Info.plist"
+  ],
+  "frozenInputCount": 57,
+  "frozenInputsUnchanged": true,
+  "executableSHA256": "f6fb872431ebc00c3765d5f7a67963564a15e7efa3043cbc7b9c6d90f6066e10"
+}

@@ -1,0 +1,1 @@
+2026-10-15: cua.getState returned: Native apps: Error: The Mac is locked and automatic unlock could not unlock it. No native app targets were available. No production UI clicks/Esc/search-preservation claim made. Static previews and native lifecycle harness remain separate evidence. No UI action or system preference change was performed.

@@ -1,0 +1,5 @@
+正在构建 Codex Stats (arm64, macOS 14+)…
+/tmp/codex-stats-audit-20261015/build/Codex Stats.app: replacing existing signature
+构建成功：/tmp/codex-stats-audit-20261015/build/Codex Stats.app
+直接运行：open "/tmp/codex-stats-audit-20261015/build/Codex Stats.app"
+安装到当前用户应用目录：mkdir -p "/Users/lixueduan/Applications"; ditto "/tmp/codex-stats-audit-20261015/build/Codex Stats.app" "/Users/lixueduan/Applications/Codex Stats.app"

@@ -1,0 +1,28 @@
+{
+  "id": "small-beautiful-audit",
+  "name": "small-beautiful-audit",
+  "title": "Small and Beautiful evidence-based audit",
+  "description": "Audit current v0.2.10 accounting, resources, native UX and delivery; add evidence-ranked report only, without product changes, installation, commits or pushes.",
+  "status": "completed",
+  "dev_type": null,
+  "scope": "review-only",
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-15",
+  "completedAt": "2026-10-15",
+  "branch": "main",
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "docs/small-beautiful-audit.md"
+  ],
+  "notes": "Review delivered only. No implementation approval; future scope awaits user confirmation and design-first updates. No commits or pushes; no dedicated PR branch required for this documentation-only audit.",
+  "meta": {}
+}

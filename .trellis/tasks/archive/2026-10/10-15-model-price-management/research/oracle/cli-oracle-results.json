@@ -1,0 +1,102 @@
+[
+  {
+    "case": "baseline",
+    "cost": {
+      "amountUSD": "0.00686625",
+      "currency": "USD",
+      "estimatedTokens": 1830,
+      "priceSources": [
+        "builtIn"
+      ],
+      "priceVersion": "oracle-baseline",
+      "reasons": {
+        "missingPrice": 4
+      },
+      "state": "partial",
+      "unestimatedTokens": 3870
+    },
+    "tokenTotal": 5700,
+    "allHierarchyChecks": true
+  },
+  {
+    "case": "add",
+    "cost": {
+      "amountUSD": "0.01280625",
+      "currency": "USD",
+      "estimatedTokens": 4980,
+      "priceSources": [
+        "builtIn",
+        "custom"
+      ],
+      "priceVersion": "oracle-add",
+      "reasons": {
+        "incompleteCachedInput": 1,
+        "missingPrice": 1
+      },
+      "state": "partial",
+      "unestimatedTokens": 720
+    },
+    "tokenTotal": 5700,
+    "allHierarchyChecks": true
+  },
+  {
+    "case": "override",
+    "cost": {
+      "amountUSD": "0.01428625",
+      "currency": "USD",
+      "estimatedTokens": 4980,
+      "priceSources": [
+        "builtIn",
+        "custom"
+      ],
+      "priceVersion": "oracle-override",
+      "reasons": {
+        "incompleteCachedInput": 1,
+        "missingPrice": 1
+      },
+      "state": "partial",
+      "unestimatedTokens": 720
+    },
+    "tokenTotal": 5700,
+    "allHierarchyChecks": true
+  },
+  {
+    "case": "empty",
+    "cost": {
+      "amountUSD": null,
+      "currency": "USD",
+      "estimatedTokens": 0,
+      "priceSources": [],
+      "priceVersion": "oracle-empty",
+      "reasons": {
+        "missingPrice": 8
+      },
+      "state": "unavailable",
+      "unestimatedTokens": 5700
+    },
+    "tokenTotal": 5700,
+    "allHierarchyChecks": true
+  },
+  {
+    "case": [
+      "--prices",
+      "/tmp/codex-stats-price-management-20261015/oracle-invalid.json"
+    ],
+    "exit": 1,
+    "stderr": "价格配置无法读写：The data couldn’t be read because it isn’t in the correct format."
+  },
+  {
+    "case": [
+      "--prices"
+    ],
+    "exit": 1,
+    "stderr": "价格配置无效：--prices 需要文件路径"
+  },
+  {
+    "case": [
+      "--invalid"
+    ],
+    "exit": 1,
+    "stderr": "价格配置无效：未知或重复参数：--invalid"
+  }
+]

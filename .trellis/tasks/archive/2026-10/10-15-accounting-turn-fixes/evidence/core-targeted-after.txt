@@ -1,0 +1,196 @@
+Another instance of SwiftPM (PID: 17270) is already running using '/Users/lixueduan/17x/idea/codex-stats/.build', waiting until that process has finished execution...Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+[2 / 16]
+[3 / 16] CodexStatsCore
+[5 / 18] CodexStatsCore
+[7 / 17] CodexStatsCore
+[9 / 20] CodexStatsCoreTests-product
+[11 / 20] codex-stats-app-product
+[11 / 21] CodexStatsCoreTests-product
+[20 / 31] CodexStatsCoreTests-product
+[21 / 31] codex-stats-app-product
+[23 / 31] codex-stats-app-product
+[25 / 31] CodexStatsCoreTests-product
+[26 / 36] CodexStatsCoreTests-product
+[28 / 36] codex-stats-app-product
+[29 / 36] codex-stats-app-product
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-report-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[30 / 38] CodexStatsCoreTests-product
+[32 / 40] CodexStatsCoreTests-product
+[34 / 40] CodexStatsCoreTests-product
+[34 / 40] codex-stats-app-product
+[34 / 40] CodexStatsCoreTests-product
+[34 / 40] codex-stats-report-product
+[35 / 40] codex-stats-report-product
+[36 / 41] codex-stats-app-product
+[36 / 41] CodexStatsCoreTests-product
+[37 / 41] CodexStatsCoreTests-product
+[38 / 41] CodexStatsCoreTests-product
+[38 / 44] codex-stats-app-product
+[40 / 44] CodexStatsCoreTests-product/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: CodexStatsCoreTests-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+/Users/lixueduan/17x/idea/codex-stats/Package.swift: codex-stats-app-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[41 / 44] codex-stats-app-product
+[41 / 44] CodexStatsCoreTests-product
+[42 / 44] CodexStatsCoreTests-product
+[43 / 43] codex-stats-report-product
+[44 / 44] codex-stats-report-product
+[45 / 46] codex-stats-app-product
+Build complete! (45.26秒)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test recordedZeroTTFTIsDifferentFromMissing() started.
+◇ Test missingMetadataFilenameCannotAdmitNativeOrCompanionUsage() started.
+◇ Test usageTimestampAloneCannotStartNextRequest() started.
+◇ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() started.
+◇ Test requestRowsRespectPeriodsAndSwitches() started.
+◇ Test compactionResponseCopiesDoNotDuplicateTurnOutput() started.
+◇ Test invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test anonymousAbortAlsoInvalidatesEarlierRequestEstimates() started.
+◇ Test requestDurationBoundsAreNotClamped(end:) started.
+◇ Test requestIdentitySuppressesSnapshotsAndDuplicateRecords() started.
+◇ Test unidentifiedTurnResponseInPhysicalCopiesInvalidatesWholeTurnMean() started.
+◇ Test excludedPhysicalCumulativeFrameCannotProveMeanCoverage() started.
+◇ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test foreignRequestHistoryIsExcluded() started.
+◇ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() started.
+◇ Test abortAndTaskStartDiscardUnfinishedRequestOrigin() started.
+◇ Test foreignOrMissingOwnerCannotContaminatePerformance() started.
+◇ Test abortedCopyInvalidatesOtherwiseCompleteTimer() started.
+◇ Test additionalPhysicalResponsesInvalidateWholeTurnMean() started.
+◇ Test malformedLineInvalidatesPendingEstimateWithoutDroppingUsage() started.
+◇ Test conflictingCompleteTimersRemainUnknown() started.
+◇ Test duplicateCopiesPreserveEstimateButConflictingBoundariesInvalidateIt() started.
+◇ Test identitylessAbortDoesNotRetainSuccessfulTiming() started.
+◇ Test invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test exactOneSecondEstimateCanShowRateAndDifferentTurnCannotBorrowBoundary() started.
+◇ Test requestAfterSnapshotIsNotCountedTwice() started.
+◇ Test requestEstimateFreezesFirstOutputBoundaryAndUsesToolReturnForNextModel() started.
+◇ Test requestRecordsPreserveIdentityAndConfirmedUsage() started.
+◇ Test trailingSameFlushOutputCannotBorrowNextToolBoundary() started.
+◇ Test unknownTurnAndTimestampInPhysicalCopyCannotProveMeanCoverage() started.
+◇ Test requestEstimateIncludesWaitingAndEndsAtNativeUsageBeforeDelayedNotification() started.
+◇ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() started.
+◇ Test missingOwnerResponseInvalidatesMeanWithoutInventingMembership() started.
+◇ Test estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test incompleteInheritedOrCorruptHistoryCannotClaimCoveredMean() started.
+◇ Test legacyAccountingRowsDoNotInventRequestIdentity() started.
+◇ Test requestRowsExcludeArchiveReplayAndMarkCompaction() started.
+◇ Test cumulativeAndInitialSnapshotsNeverGetPerRequestEstimates() started.
+◇ Test unnotifiedRequestThenLegacyUsageIsNotSubtractedTwice() started.
+◇ Test missingStartOrDurationCannotBorrowRequestOrItemLatency() started.
+◇ Test completeTurnUsesWholeDeduplicatedOutputAcrossDateFilters() started.
+◇ Test compactionResponseDoesNotReceiveRequestSpeed() started.
+◇ Test turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test itemEnvelopeDurationCannotBeUsedAsRequestEstimate() started.
+◇ Test unresolvedLegacyUsageCannotAcquireTurnPerformance() started.
+◇ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() started.
+◇ Test invalidCompletionInPhysicalCopyInvalidatesOtherwiseCompleteTiming() started.
+◇ Test counterResetUsesLastRequest() started.
+◇ Test case passing 1 argument duration → 0 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test inferredTurnCannotAcquirePerformanceMembership() started.
+◇ Test unattributedCumulativeFrameInsideTurnInvalidatesMean() started.
+◇ Test case passing 1 argument duration → -1 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test case passing 1 argument duration → 1 to invalidOrContradictoryTimingRemainsUnknown(duration:) started.
+◇ Test case passing 1 argument end → "00:00:00.050" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test duplicateCompletionStatusAndTimersAreValidated() started.
+◇ Test abortedAndFailedTurnsCannotShowSuccessfulPerformance() started.
+◇ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() started.
+◇ Test case passing 1 argument end → "01:00:00.001" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test requestRowsRetainUnknownFields() started.
+◇ Test case passing 1 argument end → "00:00:00.100" to requestDurationBoundsAreNotClamped(end:) started.
+◇ Test case passing 1 argument shape → "repeat-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "repeat-pair" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "prior-notification" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument shape → "cumulative-companion" to pairedNotificationsSeedLastOnlyReplayEvidence(shape:) started.
+◇ Test case passing 1 argument kind → "invalid" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test case passing 1 argument kind → "true" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test case passing 1 argument field → "cache" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument kind → "negative" to invalidDuplicateTTFTCannotEqualMissing(kind:) started.
+◇ Test case passing 1 argument field → "reasoning" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "both" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "cache-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument field → "reasoning-reset" to invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) started.
+◇ Test case passing 1 argument output → 199 to estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test case passing 1 argument output → 200 to estimatedSpeedRequiresEnoughOutput(output:) started.
+◇ Test case passing 1 argument shape → "time-start" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test case passing 1 argument shape → "time-end" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test case passing 1 argument shape → "frame-range" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test case passing 1 argument shape → "same-turn" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test case passing 1 argument shape → "unknown-time" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+◇ Test case passing 1 argument shape → "irrelevant" to turnCoverageRetainsEveryCounterRelevancePath(shape:) started.
+✔ Test anonymousAbortAlsoInvalidatesEarlierRequestEstimates() passed after 0.464 seconds.
+✔ Test usageTimestampAloneCannotStartNextRequest() passed after 0.464 seconds.
+✔ Test invalidOrContradictoryTimingRemainsUnknown(duration:) with 3 test cases passed after 0.464 seconds.
+✔ Test compactionResponseCopiesDoNotDuplicateTurnOutput() passed after 0.465 seconds.
+✔ Test missingMetadataFilenameCannotAdmitNativeOrCompanionUsage() passed after 0.459 seconds.
+✘ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() recorded an issue at TurnPerformanceTests.swift:308:5: Expectation failed: child.records.count == 1
+↳ child.records.count == 1 → false
+↳   child.records.count → 2
+✔ Test recordedZeroTTFTIsDifferentFromMissing() passed after 0.469 seconds.
+✔ Test missingSubsetDifferenceDoesNotInventValuesOrAnomaly() passed after 0.469 seconds.
+✔ Test requestDurationBoundsAreNotClamped(end:) with 3 test cases passed after 0.469 seconds.
+✔ Test excludedPhysicalCumulativeFrameCannotProveMeanCoverage() passed after 0.469 seconds.
+✔ Test requestIdentitySuppressesSnapshotsAndDuplicateRecords() passed after 0.469 seconds.
+✔ Test foreignRequestHistoryIsExcluded() passed after 0.469 seconds.
+✔ Test pairedNotificationsSeedLastOnlyReplayEvidence(shape:) with 4 test cases passed after 0.470 seconds.
+✔ Test nativeDeductionDoesNotClampInconsistentSubsetRemainders() passed after 0.470 seconds.
+✔ Test unidentifiedTurnResponseInPhysicalCopiesInvalidatesWholeTurnMean() passed after 0.470 seconds.
+✔ Test abortedCopyInvalidatesOtherwiseCompleteTimer() passed after 0.470 seconds.
+✔ Test malformedLineInvalidatesPendingEstimateWithoutDroppingUsage() passed after 0.470 seconds.
+✔ Test abortAndTaskStartDiscardUnfinishedRequestOrigin() passed after 0.470 seconds.
+✔ Test conflictingCompleteTimersRemainUnknown() passed after 0.470 seconds.
+✔ Test requestRowsRespectPeriodsAndSwitches() passed after 0.470 seconds.
+✔ Test foreignOrMissingOwnerCannotContaminatePerformance() passed after 0.470 seconds.
+✔ Test invalidDuplicateTTFTCannotEqualMissing(kind:) with 3 test cases passed after 0.470 seconds.
+✔ Test additionalPhysicalResponsesInvalidateWholeTurnMean() passed after 0.470 seconds.
+✔ Test exactOneSecondEstimateCanShowRateAndDifferentTurnCannotBorrowBoundary() passed after 0.470 seconds.
+✔ Test identitylessAbortDoesNotRetainSuccessfulTiming() passed after 0.470 seconds.
+✔ Test duplicateCopiesPreserveEstimateButConflictingBoundariesInvalidateIt() passed after 0.470 seconds.
+✔ Test requestRecordsPreserveIdentityAndConfirmedUsage() passed after 0.470 seconds.
+✔ Test requestAfterSnapshotIsNotCountedTwice() passed after 0.470 seconds.
+✔ Test unknownTurnAndTimestampInPhysicalCopyCannotProveMeanCoverage() passed after 0.470 seconds.
+✔ Test requestEstimateFreezesFirstOutputBoundaryAndUsesToolReturnForNextModel() passed after 0.470 seconds.
+✔ Test missingOwnerResponseInvalidatesMeanWithoutInventingMembership() passed after 0.470 seconds.
+✔ Test trailingSameFlushOutputCannotBorrowNextToolBoundary() passed after 0.471 seconds.
+✔ Test requestEstimateIncludesWaitingAndEndsAtNativeUsageBeforeDelayedNotification() passed after 0.471 seconds.
+✔ Test estimatedSpeedRequiresEnoughOutput(output:) with 2 test cases passed after 0.470 seconds.
+✔ Test legacyAccountingRowsDoNotInventRequestIdentity() passed after 0.470 seconds.
+✔ Test unnotifiedRequestThenLegacyUsageIsNotSubtractedTwice() passed after 0.470 seconds.
+✔ Test requestRowsExcludeArchiveReplayAndMarkCompaction() passed after 0.471 seconds.
+✔ Test cumulativeAndInitialSnapshotsNeverGetPerRequestEstimates() passed after 0.471 seconds.
+✔ Test compactionResponseDoesNotReceiveRequestSpeed() passed after 0.470 seconds.
+✔ Test incompleteInheritedOrCorruptHistoryCannotClaimCoveredMean() passed after 0.471 seconds.
+✔ Test missingStartOrDurationCannotBorrowRequestOrItemLatency() passed after 0.471 seconds.
+✔ Test completeTurnUsesWholeDeduplicatedOutputAcrossDateFilters() passed after 0.471 seconds.
+✔ Test itemEnvelopeDurationCannotBeUsedAsRequestEstimate() passed after 0.471 seconds.
+✔ Test unresolvedLegacyUsageCannotAcquireTurnPerformance() passed after 0.471 seconds.
+✔ Test turnCoverageRetainsEveryCounterRelevancePath(shape:) with 6 test cases passed after 0.471 seconds.
+✔ Test duplicateRequestRecordDoesNotConsumeANewEqualSizedRequest() passed after 0.471 seconds.
+✔ Test unattributedCumulativeFrameInsideTurnInvalidatesMean() passed after 0.116 seconds.
+✔ Test inferredTurnCannotAcquirePerformanceMembership() passed after 0.116 seconds.
+✔ Test counterResetUsesLastRequest() passed after 0.471 seconds.
+✔ Test invalidCompletionInPhysicalCopyInvalidatesOtherwiseCompleteTiming() passed after 0.471 seconds.
+✔ Test invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field:) with 5 test cases passed after 0.473 seconds.
+✘ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() recorded an issue at TurnPerformanceTests.swift:310:5: Expectation failed: child.records.first?.turnPerformance?.outputTokens == 20
+↳ child.records.first?.turnPerformance?.outputTokens == 20 → false
+↳   child.records.first?.turnPerformance?.outputTokens → nil
+↳     some → 20
+✘ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() recorded an issue at TurnPerformanceTests.swift:311:5: Expectation failed: child.records.first?.turnPerformance?.responseCount == 1
+↳ child.records.first?.turnPerformance?.responseCount == 1 → false
+↳   child.records.first?.turnPerformance?.responseCount → nil
+↳     some → 1
+✘ Test inheritedCompanionStillCountsAsPairedCoverageEvidence() failed after 0.475 seconds with 3 issues.
+✔ Test requestRowsRetainUnknownFields() passed after 0.102 seconds.
+✔ Test pairedReplayEvidencePreservesIndependentResponsesAndTurns() passed after 0.103 seconds.
+✔ Test abortedAndFailedTurnsCannotShowSuccessfulPerformance() passed after 0.104 seconds.
+✔ Test duplicateCompletionStatusAndTimersAreValidated() passed after 0.108 seconds.
+✘ Test run with 55 tests in 0 suites failed after 0.482 seconds with 3 issues.
+Note: Some test targets reported failures:
+  - CodexStatsCoreTests (Swift Testing)

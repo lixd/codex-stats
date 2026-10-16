@@ -1,0 +1,9 @@
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T//codexstats-memory.EKME8s/Codex Stats.app: replacing existing signature
+sandbox_extension_issue_file_to_process failed for /var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codexstats-memory.EKME8s/Codex Stats.app: 1 (Operation not permitted)
+cold-10s:
+Physical footprint:         25.8M
+Physical footprint (peak):  30.3M
+after-refresh-35s:
+Physical footprint:         27.2M
+Physical footprint (peak):  34.8M
+PASS: built native App measured at 10/35 seconds; only the test-owned instance terminated

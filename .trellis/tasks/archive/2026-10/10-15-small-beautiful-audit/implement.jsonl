@@ -1,0 +1,4 @@
+{"file":".trellis/spec/guides/design-first.md","reason":"Review only; preserve baseline and require a separate approved implementation"}
+{"file":"docs/design.md","reason":"Implemented architecture and lifecycle"}
+{"file":"docs/data-design.md","reason":"Accounting contracts"}
+{"file":"docs/ui-design.md","reason":"Native UI contract and evidence boundaries"}

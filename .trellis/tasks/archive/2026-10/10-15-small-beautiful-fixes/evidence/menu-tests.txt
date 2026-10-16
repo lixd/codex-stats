@@ -1,0 +1,2 @@
+/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T//codexstats-menu-lifecycle.beTFBZ/MenuLifecycle.app: replacing existing signature
+PASS: exact-window handoff order, dashboard ownership, reused/replaced menu, resident policy, explicit termination

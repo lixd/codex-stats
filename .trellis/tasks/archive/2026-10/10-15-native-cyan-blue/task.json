@@ -1,0 +1,30 @@
+{
+  "id": "native-cyan-blue",
+  "name": "native-cyan-blue",
+  "title": "原生 D 布局与浅青晴蓝配色",
+  "description": "按用户批准先完成并验证 D 浅青原生布局，然后增加 A 晴蓝配色及设置切换；同一布局、跟随系统明暗、保留页面状态，不改统计和安装中的 App。",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-15",
+  "completedAt": "2026-10-15",
+  "branch": "codex/small-beautiful-fixes",
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "docs/native-cyan-blue-design.md",
+    "Sources/App/Appearance.swift",
+    "VERIFICATION.md"
+  ],
+  "notes": "按先D门禁再A实现；v0.2.13/build15独立构建及本轮自动验证通过。人工Picker/sheet/VoiceOver/系统HC/跨平台仍按verification.md待验收。用户禁止提交/安装，使用--no-commit归档。",
+  "meta": {}
+}

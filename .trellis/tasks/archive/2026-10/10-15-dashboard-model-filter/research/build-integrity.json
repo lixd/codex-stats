@@ -1,0 +1,27 @@
+{
+  "version": "0.2.18",
+  "build": "20",
+  "executableSHA256": "31058b98219941c24b7d77d13b0d45ab7b026e5631049f02e11b04491e24ec2d",
+  "frozenInputsCount": 57,
+  "unchangedFrozenInputs": true,
+  "protectedAccountingLifecycleUnchanged": [
+    "Sources/Core/CodexLogScanner.swift",
+    "Sources/Core/Models.swift",
+    "Sources/App/CodexStatsApp.swift",
+    "Sources/App/AppLifecycle.swift"
+  ],
+  "changedExistingTaskStartPaths": [
+    "Sources/Core/UsageValuation.swift",
+    "Sources/Core/PriceCatalog.swift",
+    "Sources/App/DashboardView.swift",
+    "Sources/App/PriceManagementContent.swift",
+    "Sources/App/UsageStore.swift",
+    "Sources/App/RequestsContent.swift",
+    "Sources/App/Appearance.swift",
+    "Tests/UsageStore/main.swift",
+    "Tests/PriceManagement/main.swift",
+    "Tests/CodexStatsCoreTests/UsageValuationTests.swift",
+    "Tests/UIPreview/main.swift",
+    "Assets/Info.plist"
+  ]
+}

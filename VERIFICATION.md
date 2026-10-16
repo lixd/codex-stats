@@ -1,6 +1,6 @@
 # Codex Stats v0.2 验证记录
 
-历史记录自2026-10-14起；最新v0.2.10验证见文末。工作环境：macOS 27.0.1、Apple Silicon、Apple Swift 6.4、macOS SDK 27.0；构建部署目标为 macOS 14.0。
+历史记录自2026-10-14起；最新v0.2.17验证见文末。工作环境：macOS 27.0.1、Apple Silicon、Apple Swift 6.4、macOS SDK 27.0；构建部署目标为 macOS 14.0。
 
 ## 初始源码评审
 
@@ -332,3 +332,216 @@ A/B尚未选定，正式版只缩窄现有设计。静态原生预览不证明�
 `./Scripts/measure-app-memory.sh` 对最终构建的临时UUID身份App及同一合成fixture执行：10秒当前footprint25.4MiB、峰值30.0MiB；35秒当前26.8MiB、峰值34.3MiB，正常终止仅自己的实例。系统输出一次sandbox extension权限提示，进程启动/两次vmmap/正常退出均成功。采样不证明所有页面已打开、扫描完成时刻或长期运行；不是用户真实日志的实时占用。完整UI内存与CLI扫描峰值不可混用。
 
 未新增实际MenuBarExtra鼠标操作、macOS14/Intel实机、睡眠唤醒/长期常驻、VoiceOver验收、Developer ID签名或公证。系统时区切换后需重启重建扫描日期桶。分析窗口布局大改、详情自适应、持久/追加缓存均未实施。无安装新副本，交付临时构建App与dist中的DMG/源码包。
+
+
+## v0.2.11 / build 13 审查修复（2026-10-15）
+
+先更新需求与设计，再按用户批准的A01–A06实施：配对通知重发去重、异常子项差分标unknown、完整Turn索引、批量会话投影、跨页统一状态与详情、构建安装暂存校验和原子替换。A07窄窗口布局延期。当前源码与临时原生构建为v0.2.11/build13；未安装、退出或替换用户App，未提交、推送、制作发布包或公开发布。
+
+本轮全部使用合成数据，与历史测试分开。宿主macOS27.0.1 / arm64 / Apple Swift6.4 / SDK27。完整命令、原始证据、异常尝试与限制见[集成验证](.trellis/tasks/archive/2026-10/10-15-small-beautiful-fixes/verification.md)，设计契约见[修复设计](docs/audit-fixes-design.md)。
+
+| 当前执行 | 结果 |
+|---|---|
+| `Scripts/test.sh` | 133 Core tests、0 failures；含新增计量/Turn/日期边界，App目标编译成功 |
+| 数字格式 / 真实Store / 菜单宿主 harness | 3×16格式边界及unknown/exact、重试保留错误与旧数据、信息级恢复、准确宿主关闭与驻留均通过 |
+| 独立计量复现 / 全JSON差分 | 原审查总量与unknown问题修正；126组pre-index/current明细、身份、诊断及可选计时完全相同 |
+| `Scripts/test-app-delivery.sh` | 18项真实检查通过；含v1→v2进程内回执、失败保留旧包、运行实例拒绝、嵌套预检零写入和受控中断 |
+| `Scripts/render-ui-previews.sh` | 82张原生合成预览，重点深浅色/异常/恢复样本目视复核；不是点击证明 |
+| 优化原生构建、签名、部署目标、依赖检查 | v0.2.11/build13；strict codesign、plist、minOS14.0、仅系统框架/Swift运行库通过 |
+| 独立UUID实际产品生命周期 | LaunchServices启动、拒绝重复实例保留原PID、正常AppKit退出通过；仅合成路径 |
+
+串行同输入受控基准，baseline为Git `11f2a937971c40b29a2b4d69ff6bb79c5eaec91f`，并非已安装App。完整Turn每组3次warm取中位数；会话投影每组5次中位数。
+
+| 指标 | 修改前 | 当前 |
+|---|---:|---:|
+| 2,000完整Turn重复扫描 | 4,110.49ms | 15.49ms |
+| 5,000会话“今天”底层投影+排序 | 1,568.90ms | 4.58ms |
+| 350MB常规新进程扫描 | 2.654s | 2.679s |
+| 同常规输入未变重扫 / 追加重读 | 55.32 / 120.21ms | 56.09 / 122.39ms |
+| 同常规输入最大RSS / 峰值footprint | 83.70 / 59.56MiB | 83.80 / 59.69MiB |
+
+常规349,964,213字节、39文件、7,020记录、9,043,780Tokens的完整计量快照前后相同，当前四档筛选10.03–18.56ms；该形状没有完整Turn，作为无回退对照。常规为单次配对，新进程不清系统磁盘缓存，不能据此声称普通冷扫描提速。Turn规模250/500/1000/2000均断言完整计量、身份与计时；126组差分另核对否决边界。会话数值是主线程底层计算耗时，不是实际SwiftUI帧耗时。完整scale harness最大RSS85.92→29.41MiB、峰值footprint80.16→19.45MiB，含投影数据构造，不能当成完整App当前内存。
+
+实际优化App的UUID副本在相同350MB合成输入下：10秒当前footprint25.2MiB、生命周期峰值29.8MiB；35秒当前26.6MiB、峰值34.2MiB。vmmap与正常退出成功，保留一次sandbox-extension警告。未用RSS、虚拟地址空间或生命周期峰值冒充当前footprint；也未断言所有页面已打开或长期稳定性。
+
+独立复核发现并修复安装预检前会临时写入嵌套旧App的问题，增加目录mtime与内容散列回归，最终18项交付检查重新通过。静态索引复核确认保留frame/Turn/time/unknown-time的OR覆盖规则及全部物理证据。
+
+当前Mac锁定，CUA无法取得原生目标；详情sheet实际点击/Esc/搜索保留、真实菜单鼠标与VoiceOver仍待验收。macOS14/Intel、睡眠唤醒/长期驻留、正式签名/公证未执行。安装验证仅限当前宿主同卷原语，不承诺外部启动竞态锁或断电持久性；生产版本没有额外IPC就绪握手。用户应用未操作，独立测试实例均已退出。
+
+
+## v0.2.12 / build 14 青灰与青绿精修（2026-10-15）
+
+先更新需求/设计并记录用户批准，再实现青灰底、内容卡分层、青绿趋势/导航/选中态、独立白字操作底和模型原生表格去空斑马纹。菜单保持B，统计、刷新、窗口几何与生命周期不变。当前源码及独立临时构建v0.2.12/build14；没有安装、退出或替换用户App，没有提交、推送或公开发布。
+
+本轮使用合成日志、独立偏好域，宿主macOS27.0.1/arm64/AppleSwift6.4/SDK27。完整过程与失败尝试见 [任务验证](.trellis/tasks/archive/2026-10/10-15-sage-teal-refinement/verification.md)，独立复核见 [review](.trellis/tasks/archive/2026-10/10-15-sage-teal-refinement/review.md)，当前颜色契约见 [设计](docs/sage-teal-design.md)。
+
+| 本轮执行 | 结果 |
+|---|---|
+| Core及App编译 | 133tests通过、0失败；初次受限环境SwiftPM失败/运行器未结束，完整宿主重跑通过 |
+| 数字格式、真实Store、UUID菜单宿主 | 三区域设置各16边界；summary/unknown/诊断/失败重试恢复；准确菜单关闭、复用/替换、驻留和显式退出通过 |
+| 原生深浅色预览 | 88张，覆盖五页/菜单/950与1120点/未知/空/失败/恢复；已目视复核关键样本 |
+| 真实NSTableView | 3行和80行均无交替底纹、保留原生NSScrollView；80行程序滚动到末行通过；请求仍保留原生交替行色 |
+| 实际动态颜色对比 | 普通自有文字角色最低4.511:1，白字操作4.563:1，风险半透明底最低4.858:1 |
+| 优化App构建与包检查 | v0.2.12/build14、arm64、macOS14.0目标、strict codesign、仅系统框架/Swift运行库通过 |
+| 独立Trellis复核 | 未发现本轮新增产品缺陷；统计/Store/生命周期/交付脚本与任务起点散列相同 |
+
+构建：`/tmp/codex-stats-sage-teal-20261015/native/Codex Stats.app`；可执行文件SHA256 `13f8d57d85fc634d6fb86c057b0b3499f9c4902b527749719fabcdc298ae8977`。包检查与原始日志保留在同目录上层。本轮没有重新测量性能或内存，不将旧基准写成新配色的收益。
+
+增强对比度的预设描边色数学对比最低3.660:1，**不是系统增强对比度验收**：SDK明确HC名称仅用于bestMatch，不能通过appearanceNamed构造有效外观。已移除误导性HC截图，未改变用户系统偏好。实际系统增强对比度切换/重绘、VoiceOver、鼠标/键盘筛选排序复制与sheet关闭仍待人工验收；macOS14/Intel、正式签名/公证亦未完成。原生表格程序滚动和静态预览不等于上述实际交互。A07全面窄窗口布局保持延期。
+
+
+## v0.2.13 / build 15 D 布局与双配色（2026-10-15）
+
+按用户要求先完成并验证D布局固定浅青，再加入A晴蓝配色。两种颜色共用D布局，默认浅青、外观跟随系统，设置选择保存。菜单B几何、真实身份/未知字段/风险提示和计量保持。设计先于实现，[阶段与完整验证](.trellis/tasks/archive/2026-10/10-15-native-cyan-blue/verification.md)、[独立复核](.trellis/tasks/archive/2026-10/10-15-native-cyan-blue/review.md)、[当前契约](docs/native-cyan-blue-design.md)。
+
+| 本轮执行 | 结果 |
+|---|---|
+| Core及App/CLI编译 | 最终133 tests通过、0失败 |
+| Store / 数字格式 / 菜单生命周期 | 两配色默认/未知/恢复/切换无扫描或摘要失效，三区域格式、阶段D临时菜单宿主均通过 |
+| 两色原生矩阵 | 各120张PNG（88状态/页面矩阵+32同宿主图），浅/深色、1120/950及原生3/80行Table检查通过 |
+| 同宿主状态/重绘 | 实际编辑原生文本字段，搜索结果/选中请求/目录草稿保留；Store绑定浅青→晴蓝→浅青使Dashboard/Menu背景像素同步变化；摘要身份/成功时间/路径/范围不变 |
+| 对比度 | 自有文字最低4.605:1，白字操作5.418:1，风险合成底4.792:1；预期HC描边数学3.366:1，非实际系统HC验收 |
+| 优化构建与包检查 | v0.2.13/build15、arm64、minOS14、strict codesign、仅系统框架/Swift库通过 |
+| 独立复核及范围 | 修复旧菜单原型两处Color→ShapeStyle兼容调用；Core/Report/AppLifecycle/交付脚本起始hash未变 |
+
+App：`/tmp/codex-stats-native-cyan-blue-20261015/native/Codex Stats.app`；可执行SHA256 `daf704d1b2c6d774eedcaa20ba264d1701458aeda41cd9f46d3499f8625eb9ef`。本轮全用合成日志/隔离偏好；未安装、启动、退出或替换用户App，未提交、推送或公开发布。没有重新测内存/性能。
+
+自动化通过Store绑定切换，不代表实际鼠标操作了配色Picker、非默认模型/排序Picker或非首项会话；跨进程产品偏好恢复、打开的sheet换色/关闭、复制、系统按钮激活着色和VoiceOver仍待人工验收。macOS14/Intel/长期驻留/实际增强对比度/正式签名公证未执行。初次沙箱失败、像素色彩空间测试修正及不成立的NSPopUpButton尝试均记录在任务验证中，没有当作通过或产品收益。
+
+同目录 `CodexStats-v0.2.13-source.zip` 为本轮更新的源码包（474文件，CRC检查通过，排除个人journal/运行状态/构建缓存/认证文件）。Trellis任务已无提交归档，journal session13已记录；此前脏工作保留。
+
+## v0.2.14 / build 16 请求日志紧凑布局（2026-10-15）
+
+本轮仅针对请求页留白和横向滚动。先更新需求/[紧凑设计](docs/request-density-design.md)，后实现请求页单行头部、16/12边距、8pt间距、原生十列/七列自适应；全部十项字段保留。详情统一为420×600原生sheet，不再挤压列表。其他页/颜色/计量/扫描/生命周期未改。
+
+| 本轮原生测量 | 修改前 | 修改后 |
+|---|---:|---:|
+|1120×760表文档宽/可视宽|962/887（横向超出75）|903/903|
+|950×630表文档宽/可视宽|962/717（横向超出245）|733/733|
+|1120表格top/高度|254/459|189/538|
+|950表格top/高度|254/329|189/408|
+|常显纵向条80行：950 /1117 /1120|本轮未测旧版|文档与可视宽均分别716 /883 /886|
+
+表格上移65pt、可用高度增加79pt。950/1050/1116/1117/1118/1120/1280普通尺寸和950/1116/1117/1118/1120常显条均无横向溢出，实际末列可见。宽度900pt为界十列/七列组合；未知缓存、真实身份和≈含义保留。两配色各147张原生PNG、33请求几何文件；每套9次真实80行末行可达。真实NSPanel的sheetParent为自身宿主，配色切换保留查询/选中行/sheet且无扫描/摘要失效。测试未更改用户系统滚动条/主题偏好。
+
+本轮Scripts/test.sh：133 Core tests通过；App/CLI编译、三个区域真实格式测试、两个独立完整App macOS14 typecheck及优化构建通过。签名/plist/minOS14/仅系统依赖核验通过；最终可执行SHA256为`c1827ce141e7e474f4949f8168b8d0210dbd5421e763ba6902913cd5993e7ac2`。新App路径`/tmp/codex-stats-compact-requests-20261015/native/Codex Stats.app`；未安装、启动、退出或替换用户App，未提交推送。原始日志和PNG在相同/tmp根目录。
+
+[任务最终证据](.trellis/tasks/archive/2026-10/10-15-compact-request-layout/verification.md)与[独立复核](.trellis/tasks/archive/2026-10/10-15-compact-request-layout/review.md)保留本轮范围与中间失败。修复了测试宿主presenter/尺寸及合成NSPanel外观设置；不能把宿主失败算产品缺陷。离屏AX关闭按钮查找失败，未弱化为假成功：实际close/Esc/复制、非默认Picker、鼠标/触控板/VoiceOver与系统增强对比度仍需人工；原生几何/程序滚动不代替这些验收。无本轮内存/帧时间基准，旧性能结果不作为本轮收益。
+
+另用临时真实原生宿主验证请求空态：950×630、浅青/晴蓝×深浅色4图通过，真实Store为空成功报告；所有控件、空提示和底注同屏。证据在同根empty-requests/和empty-requests.log。
+
+## v0.2.15 / build 17 模型 A 分组列表（2026-10-15）
+
+用户选择[A分组列表](docs/model-layout-proposals.md)，先更新需求和原生契约，后将模型八列Table替换为纵向LazyVStack分组。模型名/会话/总量与输入输出/从属缓存推理分层；完整字段、现有六种排序/搜索、共享范围/错误和两配色保持。没有Core/Store/其他页面/生命周期变更。
+
+本轮133 Core测试、三个区域设置各16格式边界、独立完整App和UIPreview macOS14 typecheck、优化构建/strict签名/plist/minOS14/仅系统依赖均通过。最终构建v0.2.15/build17，可执行SHA256 `055eea77f6f6f9da21ab7a9026728b6f032854b266becdbc724a213693f3d42a`；构建后Sources/Assets hash匹配。
+
+| 本轮原生模型测量 | 950×630 document/clip | 1120×760 document/clip |
+|---|---:|---:|
+|普通样式，两配色×明暗|717/717|887/887|
+|legacy启动样式，每配色浅色|700/700|870/870|
+
+cyan/blue各159PNG、14模型几何记录，两脚本均exit0并含普通/legacy两PASS。28份几何均无横向溢出；每配色6张80模型底图独立复核，synthetic-model-0完整可见。192字符模型名、大Token、known0/unknown完整；真实原生输入框搜索→无匹配→恢复与配色往返状态通过。legacy只测两个浅色尺寸，不冒充其深浅色全矩阵。
+
+[本轮任务证据](.trellis/tasks/archive/2026-10/10-15-model-layout-preview/verification.md)、[独立复核](.trellis/tasks/archive/2026-10/10-15-model-layout-preview/research/review.md)记录范围、几何及失败校准。原始产物在`/tmp/codex-stats-model-groups-20261015/`，新App为`native/Codex Stats.app`。用户运行中的App未安装/启动/退出/替换，无真实日志修改、Git提交或推送。
+
+受限SwiftPM manifest/运行器和iconutil分别失败后，在完整宿主重跑通过；没有把失败当通过。滚动条须通过独立测试进程启动参数创建preferred legacy，挂载后强改样式不是同一场景。虚拟AX树不可枚举，精确值语义仅源码复核；实际悬停/非默认Picker键盘/VoiceOver、触控板流畅度、实际增强对比度、macOS14/Intel实机与公证仍待人工。本轮未测内存或帧时间，不声称性能收益。
+
+本轮Trellis已无提交归档，journal session15。相同/tmp目录的`CodexStats-v0.2.15-source.zip`为最终源码包，CRC及产品hash核验通过，排除个人journal/运行态/构建缓存；未覆盖旧dist。
+
+## v0.2.16 / build18：缓存率与离线美元参考估算（2026-10-15）
+
+用户确认官方API标准参考价等值口径并授权自行review后执行。先更新R18/R19、T12/T13设计，主Agent复核后将金额聚合放入后台标量索引，先完成缓存率门禁再接金额，独立checker最终未发现阻塞缺陷。设计见[当前指标契约](docs/cache-rate-cost-design.md)，[本轮任务与完整证据](.trellis/tasks/archive/2026-10/10-15-cache-rate-usd-estimate/research/verification.md)。
+
+**本轮实际执行**：最终宿主`Scripts/test.sh` exit0，**138 tests passed**；真实App格式器en_US/zh_CN/fr_FR、Store扫描/快照原子配对/范围/失败保留/路径重置检查均通过。独立macOS14目标全App typecheck通过。全部输入为合成数据，无真实日志扫描。
+
+根会话另建6条已接受日志作手算核对：输入2800、输出340、总量3140，USD精确**0.00693**，已估1830/未估1310Token。最终源码重编译的Report CLI在总量、模型、会话、会话模型与逐条记录上求和一致；无价格金额null，非完整缓存的计数和比例null，output-only估算USD0.00005且比例状态noInput。预期值先手算，不从产品算法生成。记录与脚本保留在任务research。
+
+原生检查分清时点：缓存阶段双配色完整矩阵、金额双配色完整矩阵均exit0；金额最后移动到模型总量下后，冻结源码再执行**64张专项PNG**，覆盖两配色深浅色、950/1120、overlay/legacy、完整/部分/全未知/微小非零金额及420×600请求详情底部。16份最终模型几何document==clip（717/887或700/870pt），无横向溢出；前面完整矩阵的44份几何由checker独立复核。请求表本轮不改列，纵滚保留。
+
+优化合成100000已接受记录、100会话/10天/4模型：4000桶，新索引构建一次**0.318323583s**，全范围合并一次**0.003881917s**，USD281.2。只测索引时间，**未测本轮RSS、footprint、峰值、虚拟内存或滚动帧耗时**，不能据此宣称完整App内存/流畅度改善。
+
+最终独立构建`Scripts/build-macos.sh /tmp/codex-stats-cache-usd-20261015/native` exit0；Info.plist=0.2.16/build18、arm64、最低macOS14；codesign strict/deep验证通过，链接仅系统库。构建前后15份Sources/Assets哈希一致；可执行SHA256：`9b98a4ade44aa2c9c6e71b1199a5fe0611880f58179f8ab92def7af80bb16b27`。初次构建遇到最后AX修改并发，exit1；冻结后重建结果才是最终成功证据。受限Core runner曾停滞并终止自身进程，不计通过；宿主最终138测试为实际通过结果。
+
+产物：`/tmp/codex-stats-cache-usd-20261015/native/Codex Stats.app`，完整源码包`/tmp/codex-stats-cache-usd-20261015/CodexStats-v0.2.16-source.zip`。未安装、启动、退出或替换用户App，未提交推送；ad-hoc签名不是Developer ID/公证。实际鼠标/悬停、VoiceOver、Picker键盘、系统增强对比度、macOS14/Intel运行和长期驻留仍需人工验收。
+
+
+## v0.2.17 / build19：离线模型价格管理（2026-10-15）
+
+需求R20/T14及R19/T13/R17，设计先于实现获批。设置内子页管理三项USD/百万Token价格，添加候选来自当前根全部历史已接受记录减已有价。内置/自定义同样可编辑；有历史记录或扫描不确定时禁止删除。完整表原子持久化到`~/Library/Application Support/Codex Stats/prices.json`，默认只在无文件时使用，删除内置行重启不补回。App/CLI同Core/配置，价格变更后台重估而不重扫日志，不改Token。源码计量/Scanner/Models哈希与任务开始一致；大量既有脏改动保留，未归入本轮。
+
+**最终冻结源码实际执行**：宿主`Scripts/test.sh` exit0，**142 tests passed**（`validation/core-frozen.log`）；`Scripts/test-usage-store.sh`和真实App格式器`Scripts/test-token-display.sh`均exit0（`validation/store-frozen.log`、`display-frozen.log`）。后者覆盖en_US/zh_CN/fr_FR。Store验证全历史候选、两种来源保护删除、警告阻删/信息可删、持久删除、添加/改价/0价/非法输入、不重扫、扫描与改价交叠、修订配对、真实保存失败保留及坏配置金额不可估。独立trellis-check复核数据流并对最终Sources进行macOS14 arm64优化typecheck，exit0无诊断、前后哈希一致；脚本语法与diff检查通过。
+
+**独立手算CLI**：使用8条合成请求加metadata-only空会话，不读真实日志或价表。初始USD0.00686625（已估1830/未估3870 Token）；给`new-local-model`添加3/0.3/12后USD0.01280625（4980/720）；改sol为4/0.2/20后USD0.01428625（4980/720）；持久空表金额null、5700全部未估。四种情况输入5300/输出400/总5700不变，逐记录/模型/会话/会话模型/总量精确相等；空会话带本次revision。坏JSON、缺少--prices参数及未知参数均非零stderr，无成功输出。最终优化Core和CLI重新编译后重复此oracle通过；fixture/预期/结果保留在任务research/oracle。
+
+**原生布局和资源边界**：价格专属40张生产SwiftUI静态PNG，cyan/blue×light/dark×950/1120及原生legacy滚动进程均exit0；950页document748<=clip748，1120页918<=918，允许纵滚且无横向溢出。真实NSTextField程序编辑验证表单绑定；无候选与坏配置状态有明确说明。现有完整原生UI回归cyan/blue分别exit0，含288菜单、模型/请求两宽、分界/80条滚动、详情、扫描状态/恢复及派生金额。UI编译早于最后仅内部Decimal缓存调整，视觉和状态语义未变；冻结后Core/Store/formatter/CLI/typecheck/build重新核验。一次100k合成accepted记录受控对比：逐记录重解析价的索引构建1.0550s，价表行初始化缓存Decimal后0.2859s；均4000标量桶、精确USD281.2；合并约0.0038s。仅同宿主一次时间样本，非内存/RSS/当前或峰值footprint/虚拟内存、帧率或完整App体验证据。
+
+**交叉复核修复**：历史内置快照help不再误标当前核验日期；空会话CLI fallback携带当前价表修订；坏配置不再误报所有模型已配置。全历史已用模型集合随快照保存，候选对模型集合做小规模差集/排序；未测得瓶颈，不增加额外候选缓存。正式设计已记录此简化。独立review无遗留确认缺陷。
+
+**最终交付**：`Scripts/build-macos.sh /tmp/codex-stats-price-management-20261015/native` exit0，Info.plist=0.2.17/build19，arm64/macOS14最低目标，codesign strict/deep有效，链接仅系统库。16份Sources/Assets输入构建前后哈希一致。可执行SHA256=`63c648b34ad030d626d6f4a1e7c327c0dfcfcb0be0cb5cebf4581b20c3df37f5`。一次中间构建因最后缓存修正并发改输入而exit1，不计成功；最终重新冻结构建才是交付依据。产物App、App ZIP及完整源码ZIP均在`/tmp/codex-stats-price-management-20261015/`；源码按Git跟踪与非忽略文件收集，包含本轮和此前保留的源码改动，不包含.git/构建缓存/会话运行态/用户日志。归档字节核验见`validation/packages.json`。
+
+**未执行**：离屏AX不能取得价格页添加/编辑action，native-sheet-actions.txt明确UNVERIFIED；独立生产表单渲染不证明真实打开sheet、下拉选择、保存/取消/Escape。实际鼠标/键盘/VoiceOver、系统增强对比度、macOS14/Intel实机、公证与长期驻留保持待验收。未安装、启动、退出或替换用户App，未提交/推送；ad-hoc签名不等于Developer ID/公证。
+
+复验建议：在独立测试版本的设置进入模型价格，添加一条无价历史模型并核对金额和Token不变；编辑后取消、重开确认未保存，再保存确认重算；检查有历史记录行禁止删除、无历史内置行可删且重启不复活；在可丢弃价表副本下测试坏JSON与保存失败；分别在950宽、两配色深浅色中检查表单键盘和读屏。不要为了验证修改真实日志或替换正在运行的版本。
+
+任务记录：[模型价格管理](.trellis/tasks/archive/2026-10/10-15-model-price-management/prd.md)，[实施记录](.trellis/tasks/archive/2026-10/10-15-model-price-management/research/implementation.md)，[独立review](.trellis/tasks/archive/2026-10/10-15-model-price-management/research/review.md)。完整本轮日志/图：`/tmp/codex-stats-price-management-20261015/`。
+
+
+## v0.2.18 / build 20 清爽总览与模型筛选（2026-10-15）
+
+本轮R21/T15、R19/R20按先设计后实现完成：总览近白底/四张独立卡，原生模型下拉与范围联动；趋势、模型分布和完整Token明细同口径；查看记录带入模型。两套配色保留，窄窗允许纵滚而无横向溢出。新增gpt-5.6-sol与gpt-6-sol官方Standard短上下文默认价，codex-auto-review经用户确认保留未计价。已有完整价表只由“补充新增内置价”明确增加缺失新两行，不覆盖自定义或复活其他删除项。正式契约见[设计](docs/dashboard-model-filter-design.md)。
+
+**本轮实际门禁**：host `Scripts/test.sh`145tests通过；Store独立缓存/无重扫/原子重估/导入保留与失败通过；共享格式三区域设置通过；浅青/晴蓝原生完整矩阵及最终总览/价格页四进程矩阵通过（950/1120、深浅、启动legacy、长名/极大金额/未知/空/旧数据刷新失败）。独立预声明8条合成日志6case手算与真实CLI核对精确金额/Token/覆盖/日小时一致；全部5550Token的USD已估算小计0.0113，未估640Token，不以缺价补零。独立Trellis代码审查与macOS14目标typecheck通过，无阻塞确认缺陷。
+
+优化arm64独立App成功：v0.2.18/build20、macOS14+、ad-hoc严格深签名校验通过，仅系统动态依赖；57构建输入散列冻结前后一致。Scanner/Models/lifecycle对任务开始散列不变。App可执行文件SHA256：`31058b98219941c24b7d77d13b0d45ab7b026e5631049f02e11b04491e24ec2d`。工作区原有未提交修改保留，无提交推送，无用户日志/配置改写，无用户App安装/启动/退出/替换。
+
+证据：[最终核验](.trellis/tasks/archive/2026-10/10-15-dashboard-model-filter/research/final-verification.md)、[独立review](.trellis/tasks/archive/2026-10/10-15-dashboard-model-filter/research/review.md)、[手算fixture与检查](.trellis/tasks/archive/2026-10/10-15-dashboard-model-filter/research/oracle/check.py)。本机产物根目录`/tmp/codex-stats-dashboard-filter-20261015`：native/Codex Stats.app、overview-final、price-ui-final及日志；App ZIP与源码ZIP见[最终交付包记录](.trellis/tasks/archive/2026-10/10-15-dashboard-model-filter/research/delivery.md)。
+
+**未验收边界**：真实鼠标选择模型/导航点击、菜单/window行为、VoiceOver、系统增强对比度切换、Intel/macOS14实机、DeveloperID/公证仍未验证。本轮没有持续资源或延迟基准，不能声称测得内存/速度收益；离屏截图和注入状态不冒充真实交互。所有数据与价表为隔离合成fixture。
+
+
+## v0.2.19 / build 21 删除重复模型统计页（2026-10-16）
+
+用户明确授权R22，先更新[需求与设计](docs/remove-model-statistics-design.md)再删除。分析侧栏现在为总览、请求日志、历史会话、设置；独立模型入口/路由/私有搜索排序与A卡片完全移除，不留隐藏兼容页。总览模型筛选/分布/完整Token明细、请求模型筛选、会话内模型拆分与设置价格管理保留。
+
+**本轮实际执行**：实现者两配色完整四页原生矩阵各exit0，共298PNG/70TXT，保留80条请求表/最末行/宽度分界、搜索/草稿/配色状态、金额断言及诊断恢复；root总览专属四组进程矩阵exit0（两配色×启动overlay/legacy，深浅、950/1120、模型已价/缺价/空/长名/大金额/刷新失败）。独立审查无阻塞确认缺陷，单独macOS14目标typecheck exit0无诊断，55源码/脚本/测试散列前后一致。`git diff --check`、shell语法、Trellis上下文检查通过。
+
+优化arm64独立App v0.2.19/build21构建和严格深签名校验通过；57输入冻结前后不变。可执行SHA256：`63cbfa00b873cefbdf73a6a1ac235fb1faaa9fe783f3ef38361bb3d9d498b0c3`。相对任务开始仅DashboardView、UIPreview、render-ui-previews及Info版本四个产品/测试/脚本/资源文件变化；Core/Store/CLI/其他页面/计量测试字节不变，因此未重跑未变Core/Store全套，**上轮145Core不是本轮新结果**。
+
+本机产物`/tmp/codex-stats-remove-model-statistics-20261016`：native/Codex Stats.app、两套UI与总览预览、App/sourceZIP及validation/delivery.json。[实施记录](.trellis/tasks/archive/2026-10/10-16-remove-model-statistics/research/implementation.md)、[独立review](.trellis/tasks/archive/2026-10/10-16-remove-model-statistics/research/review.md)、[最终验证](.trellis/tasks/archive/2026-10/10-16-remove-model-statistics/research/final-verification.md)。真实鼠标/键盘/VoiceOver、系统增强对比度、macOS14/Intel实机仍待验收；未做新资源基准或承诺速度/内存收益。无用户App安装/启动/退出/替换，无真实日志/价表改写，无提交推送；既有脏工作区保留。
+
+
+## v0.2.20 / build 22 模型下拉按记录数排序（2026-10-16）
+
+R21/T15：全部模型固定首项，其余候选按当前时间范围的已接受记录数降序，同数按精确模型ID升序，缺键0；保留全部历史候选及当前选择。变更仅私有Picker排序与Info版本，Core/Store/测试/脚本/价格/生命周期字节未动，不重扫、不重置筛选。
+
+本轮独立代码审查无确认缺陷，单独macOS14 arm64 typecheck exit0/无诊断、55文件散列一致；root现有总览四进程原生矩阵exit0（两配色、启动overlay/legacy、950/1120深浅及筛选/空/未知/长名/大金额/刷新失败；请求带入8行），优化独立App构建/严格签名通过，57冻结输入未变。可执行SHA256 `f6fb872431ebc00c3765d5f7a67963564a15e7efa3043cbc7b9c6d90f6066e10`。没有重跑或宣称本轮Core/Store全套；无镜像排序实现的额外测试。
+
+[实施](.trellis/tasks/archive/2026-10/10-16-overview-model-count-order/research/implementation.md)、[独立review](.trellis/tasks/archive/2026-10/10-16-overview-model-count-order/research/review.md)、[最终验证](.trellis/tasks/archive/2026-10/10-16-overview-model-count-order/research/final-verification.md)。产物 `/tmp/codex-stats-model-order-20261016`。静态视图不证明真实弹出菜单/鼠标键盘/VoiceOver操作，目标平台实机仍待验收。无用户App安装/启动/退出/替换，无真实日志/价表操作，无提交推送。
+
+
+## v0.2.21 / build23：总览趋势三指标（2026-10-16）
+
+R23/T16按[正式设计](docs/overview-trend-design.md)先文档后实现：原生Token／记录数／API等值金额切换、日/小时后台标量桶与同模型/范围筛选；记录非确认请求、金额非扣费。部分金额是已估算小计，未知用△/◇和文字区别，零价仍为已知零。密集30日期仅6刻度且保留全部柱、微额美元刻度可区分。
+
+本轮146Core、隔离Store、三区域格式测试通过；独立手算40断言、最终macOS14arm64优化typecheck、空白/脚本语法检查通过。双配色/深浅色/950与1120/普通和启动legacy四进程最终320PNG与320几何TXT通过；独立审查和root目视修复了密集日期/注释重叠。中间编译参数错误及仅ticks未生效保留为失败证据，不算最终结果。
+
+优化App v0.2.21/build23、arm64/macOS14+、严格深签名验证成功，57输入冻结前后一致，可执行SHA256 `fe4af9713c1c86e74edd744642255dad4bf41e89b3b60c8cbccc62b27f4c1519`。产物 /tmp/codex-stats-trend-20261016/release-native/Codex Stats.app 及 App ZIP；源码继续由Git管理，本轮未生成源码包。
+
+[最终验证](.trellis/tasks/archive/2026-10/10-16-overview-trend-metrics/research/final-verification.md)、[独立review](.trellis/tasks/archive/2026-10/10-16-overview-trend-metrics/research/review.md)、[手算fixture](.trellis/tasks/archive/2026-10/10-16-overview-trend-metrics/research/review-oracle.swift)。原生静态图/注入模式不等于真实鼠标、键盘、VoiceOver实测；增强对比度、macOS14/Intel实机和公证仍待验收。无本轮资源基准、无用户App安装/启动/退出/替换、无真实日志/价表修改、无提交推送；先前脏工作区保留。
+
+
+## v0.2.21 提交前回归（2026-10-16）
+
+用户授权将现有本地改动提交到 GitHub。此前各节的“未提交/推送”描述的是各历史任务结束时的状态；本节记录整合后的提交前检查，不覆盖历史证据与人工验收边界。
+
+本次重新执行且全部 exit 0：
+
+- `Scripts/test.sh`：146 项 Core 测试通过。
+- `Scripts/test-usage-store.sh`：隔离 Store 的模型/范围查询、价格增删改/导入/持久化、失败保留、并发快照及刷新状态测试通过。
+- `Scripts/test-token-display.sh`：en_US、zh_CN、fr_FR 格式测试通过。
+- `Scripts/test-app-delivery.sh`：18 项交付检查通过，使用测试身份和隔离路径。
+- `Scripts/build-macos.sh <isolated-output>`：arm64/macOS14+ 原生 App v0.2.21/build23 构建通过；产物通过严格深签名校验。
+- `git diff --check`、`bash -n Scripts/*.sh`：通过。
+
+本次未重新运行完整原生截图矩阵或人工交互验收；相关证据及限制沿用上文各任务记录。没有安装、启动或替换用户 App，没有修改真实日志和价格配置。现有产品/设计/测试整合为一个提交，任务归档与验证证据另作一个提交，保留既有远端历史。

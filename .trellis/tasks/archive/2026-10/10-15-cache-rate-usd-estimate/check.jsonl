@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/backend/token-accounting.md", "reason": "Preserve accepted usage and unknown semantics"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Shared production formatting and locale tests"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Model A, menu and no horizontal overflow"}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "No false zero on load/failure"}
+{"file": "docs/cache-rate-cost-design.md", "reason": "Canonical proposed calculator, price and UI contracts"}
+{"file": ".trellis/tasks/archive/2026-10/10-15-cache-rate-usd-estimate/research/pricing.md", "reason": "Verified official price dimensions and catalog evidence"}

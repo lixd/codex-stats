@@ -1,0 +1,28 @@
+[0;34m=== Validating Context Files ===[0m
+Target dir: /Users/lixueduan/17x/idea/codex-stats/.trellis/tasks/10-15-accounting-turn-fixes
+
+  [0;32mimplement.jsonl: ✓ (8 entries)[0m
+  [0;32mcheck.jsonl: ✓ (8 entries)[0m
+
+[0;32m✓ All validations passed[0m
+[0;34m=== Validating Context Files ===[0m
+Target dir: /Users/lixueduan/17x/idea/codex-stats/.trellis/tasks/10-15-session-status-fixes
+
+  [0;32mimplement.jsonl: ✓ (9 entries)[0m
+  [0;32mcheck.jsonl: ✓ (9 entries)[0m
+
+[0;32m✓ All validations passed[0m
+[0;34m=== Validating Context Files ===[0m
+Target dir: /Users/lixueduan/17x/idea/codex-stats/.trellis/tasks/10-15-safe-local-replacement
+
+  [0;32mimplement.jsonl: ✓ (9 entries)[0m
+  [0;32mcheck.jsonl: ✓ (9 entries)[0m
+
+[0;32m✓ All validations passed[0m
+[0;34m=== Validating Context Files ===[0m
+Target dir: /Users/lixueduan/17x/idea/codex-stats/.trellis/tasks/10-15-small-beautiful-fixes
+
+  [0;32mimplement.jsonl: ✓ (10 entries)[0m
+  [0;32mcheck.jsonl: ✓ (10 entries)[0m
+
+[0;32m✓ All validations passed[0m

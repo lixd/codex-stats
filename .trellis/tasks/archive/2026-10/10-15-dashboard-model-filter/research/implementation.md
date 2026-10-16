@@ -1,0 +1,36 @@
+# Implementation evidence — R21/T15 + R19/R20
+
+2026-10-15. Product Sources/Tests/Scripts frozen after the final large-amount presentation adjustment. `implementation-before.json` records task-start hashes; `implementation-frozen.json` records final owned source/test/script hashes. Existing unrelated dirty work was preserved. Root owns current design/version/build/packaging and the separate final Core runner/oracle; their results are recorded separately.
+
+## Implemented behavior
+
+- `Sources/Core/OverviewIndex.swift`: immutable accepted-report scalar day/session/model usage, day/model record count, absolute-hour/model usage; no retained record arrays. All-history exact model identities feed the picker; range counts precede model filtering. Four-period/date bounds, absent model zero, DST23/25 buckets, per-model session counts and unknown flags are preserved.
+- `UsageValuation.swift`: optional exact model/timezone on scalar valuation query. Two new built-ins with fixed Decimal prices: gpt-5.6-sol4/.4/20, gpt-6-sol2/.2/10 USD/1M; `codex-auto-review` stays missingPrice. New default revision has `-r2` suffix.
+- `PriceCatalog.swift`: validates either the pricing or changelog official source for built-in metadata; gpt-6-sol uses the verified changelog URL. `missingNewBuiltIns` / `addingNewBuiltIns()` explicitly import only these two absent rows. Existing saved/empty catalogs still load unchanged; no automatic merge or removed-old-row restoration.
+- `UsageStore.swift`: background snapshot carries overview index, reused for price-only recalculation. Independent one-item overview query cache keyed by report generation, exact model, range, local date/zone/offset; original menu/nonfiltered summary remains separate. Effective price import uses existing atomic persist/background revalue operation and failure retention. Price edit invalidates the paired filtered monetary result without scanning logs.
+- `DashboardView.swift`: local model state with native dropdown and range counts; independent four cards (referenceUSD/Token/weighted cache rate/accepted record count), same-query trend/distribution/full Token details. View-record action passes selection into the existing request page. Model selection is not a Codex execution-model setting. Ordinary numbers26pt, approved large-value fallback17pt via intrinsic-width ViewThatFits, then full wrap if necessary; no amount truncation or new price rounding.
+- `Appearance.swift`: one near-white overview-only background; other existing palette values retained. Selected palette still reaches native sheets.
+- `RequestsContent.swift`: initial model injection and all-history choices including a retained missing selection, using the existing filter/search/table. Existing page period-reset behavior retained.
+- `PriceManagementContent.swift`: explicit named new-default import card/button, row source URL, gpt-5.6-sol promotion notice (official duration at least2026-11-21). No custom-price overwrite.
+
+## Tests and actual execution
+
+All test Store constructors use temporary price URLs and isolated defaults. All JSONL is synthetic. No user logs/configuration or production App were operated.
+
+- `Scripts/test-usage-store.sh` → PASS. `/tmp/codex-stats-dashboard-filter-20261015/store-final.log`: new filtered query/count/zero/old-model cases, bounded cache identity, palette reuse, nonfiltered menu isolation, willSet invalidation after atomic reprice, explicit import preserving custom/removed rows, reload persistence and actual failed-save retention; no query/import/edit scan or changed successful time. Existing scan/error/root/price tests continue passing.
+- `Scripts/test-token-display.sh` → PASS in en_US/zh_CN/fr_FR (`formatter.log`): actual shared numerical/cache/money formatting and boundaries.
+- `Scripts/render-ui-previews.sh … cyan` and `… blue` → PASS (`full-ui-cyan.log`, `full-ui-blue.log`): original production menu/model/request/session/status matrices, startup legacy geometry, native table80-row scrolling, model80 bottom reach, retained state and selected request/detail. New overviewBackground actual sRGB and contrast added. This broad matrix preceded the final local large-number/font and import-card-width adjustment; final changed views are independently re-rendered below.
+- `Scripts/render-overview.sh …/overview-final` → PASS, exit0; all four palette/startup-scroller processes passed. Production native Dashboard,950/1120, light/dark, cyan/blue, normal/startup legacy; all/known-price/unpriced/long-name/unknown-cache/empty-range/large-money/retained-error. Actual document<=clip widths, request initial model produces8 real NSTableView rows. Fixed fixture explicitly asserts and logs4040000000Token == hourlySum, compact4040M,40accepted records. Root review of a downscaled image initially read404M; exact fixture/assertion confirms no discrepancy.
+- `Scripts/render-price-management.sh …/price-ui-final` → PASS, exit0; all four palette/startup-scroller processes passed. Old saved catalog shows the explicit import card; import keeps last scan time and removes only the new-default prompt after success. Add/edit production forms and actual NSTextField bindings, per-row protection, both palettes/schemes/widths and startup legacy fit.
+- New Core tests `OverviewIndexTests.swift` compare all four ranges and exact model usage/count/session/day/hour/valuation against accepted records; DST23/25; default/old custom/empty/deleted snapshot and explicit import. Updated price hand oracle adds .00312/.00156 fixed amounts. Root executes the final host fullCore suite and independent fixed scanner/query/CLI oracle; do not count those as this implementer's execution.
+- Initial App combination typecheck succeeded. Independent checker owns final optimized macOS14 typecheck and review. `git diff --check` succeeded.
+
+## Boundaries
+
+Offscreen native geometry, seeded view state and programmatic native text editing do not establish pointer-selected menu Picker behavior, actual view-record button navigation, production sheet Cancel/Escape, VoiceOver, system increased-contrast preference switching, macOS14/Intel runtime or sustained performance. These remain manual checks. The query design avoids record scans/price multiplication during filtering; no latency or memory reduction is claimed without a controlled benchmark. Foundation/system Input/XPC warnings from isolated test hosts are present; success is based on assertions and exit codes, not absence of platform warnings.
+
+No Scanner/Models accounting or App lifecycle change, runtime dependency, network price request, user App install/launch/quit/replacement, commit or push was performed.
+
+## Final implementer gate (frozen source)
+
+Final overview and price-management scripts both exited0; their four-process PASS lines are in overview-final.log and price-ui-final.log. Both full-ui palette scripts also exited0. Final visual inspection included950 partial cyan,1120 long name,950 dark legacy blue long name, corrected large-money card and aligned explicit import card. Scanner/Models/lifecycle hashes remain unchanged from task-start. Sources/Tests/Scripts remain at implementation-frozen.json; root may update only its owned version/docs/artifacts.

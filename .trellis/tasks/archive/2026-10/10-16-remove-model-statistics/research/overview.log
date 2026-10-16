@@ -1,0 +1,200 @@
+2026-10-16 10:56:33.721 preview[27753:6518010] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+2026-10-16 10:56:34.306 preview[27753:6518010] TISFileInterrogator updateSystemInputSources false but old data invalid: currentCacheHeaderPtr nonNULL? 0, ->cacheFormatVersion 0, ->magicCookie 00000000, inputSourceTableCountSys 0
+2026-10-16 10:56:34.329 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.329 preview[27753:6518028] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-10-16 10:56:34.333 preview[27753:6518010] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -17410.
+Keyboard Layouts: keyboard layout identifier -17410 has been replaced with -28673.
+2026-10-16 10:56:34.349 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.350 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.363 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.371 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.373 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.380 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.382 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.389 preview[27753:6518010] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -30769.
+Keyboard Layouts: keyboard layout identifier -30769 has been replaced with -28674.
+Keyboard Layouts: duplicate keyboard layout identifier -14934.
+Keyboard Layouts: keyboard layout identifier -14934 has been replaced with -28675.
+2026-10-16 10:56:34.408 preview[27753:6518010] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:34.409 preview[27753:6518010] Error received in message reply handler: Connection invalid
+OVERVIEW ORACLE tokens=4040000000 hourlySum=4040000000 compact=4040M records=40
+OVERVIEW GEOMETRY overview-all-partial-950-light.png host=(950.0, 630.0); document=(765.0, 798.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-950-light.png host=(950.0, 630.0); document=(765.0, 701.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-1120-light.png host=(1120.0, 760.0); document=(935.0, 785.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-1120-light.png host=(1120.0, 760.0); document=(935.0, 701.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-950-dark.png host=(950.0, 630.0); document=(765.0, 798.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-950-dark.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-950-dark.png host=(950.0, 630.0); document=(765.0, 701.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-1120-dark.png host=(1120.0, 760.0); document=(935.0, 785.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-1120-dark.png host=(1120.0, 760.0); document=(935.0, 701.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY requests-initial-model.png host=(765.0, 500.0); document=(733.0, 343.0); clip=(733.0, 369.0); legacy=false
+OVERVIEW GEOMETRY large-money-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY retained-error-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 482.0); legacy=false
+PASS: production overview all/selected/long/unpriced/cache-incomplete/empty/retained-error at950/1120 light/dark; palette=cyan, startupLegacy=false; request initial model filters8 real native rows. Static geometry/programmatic data evidence only; pointer Picker selection, navigation click and VoiceOver remain unverified.
+2026-10-16 10:56:43.213 preview[27762:6518190] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+2026-10-16 10:56:43.669 preview[27762:6518190] TISFileInterrogator updateSystemInputSources false but old data invalid: currentCacheHeaderPtr nonNULL? 0, ->cacheFormatVersion 0, ->magicCookie 00000000, inputSourceTableCountSys 0
+2026-10-16 10:56:43.681 preview[27762:6518193] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-10-16 10:56:43.681 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.685 preview[27762:6518190] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -17410.
+Keyboard Layouts: keyboard layout identifier -17410 has been replaced with -28673.
+2026-10-16 10:56:43.701 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.702 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.714 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.720 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.722 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.728 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.730 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.737 preview[27762:6518190] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -30769.
+Keyboard Layouts: keyboard layout identifier -30769 has been replaced with -28674.
+Keyboard Layouts: duplicate keyboard layout identifier -14934.
+Keyboard Layouts: keyboard layout identifier -14934 has been replaced with -28675.
+2026-10-16 10:56:43.757 preview[27762:6518190] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:43.758 preview[27762:6518190] Error received in message reply handler: Connection invalid
+OVERVIEW ORACLE tokens=4040000000 hourlySum=4040000000 compact=4040M records=40
+OVERVIEW GEOMETRY overview-all-partial-950-light.png host=(950.0, 630.0); document=(748.0, 798.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-950-light.png host=(950.0, 630.0); document=(748.0, 701.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-1120-light.png host=(1120.0, 760.0); document=(918.0, 785.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-1120-light.png host=(1120.0, 760.0); document=(918.0, 701.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-950-dark.png host=(950.0, 630.0); document=(748.0, 798.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-950-dark.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-950-dark.png host=(950.0, 630.0); document=(748.0, 701.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-1120-dark.png host=(1120.0, 760.0); document=(918.0, 785.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-1120-dark.png host=(1120.0, 760.0); document=(918.0, 701.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY requests-initial-model.png host=(765.0, 500.0); document=(716.0, 343.0); clip=(716.0, 369.0); legacy=true
+OVERVIEW GEOMETRY large-money-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY retained-error-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 482.0); legacy=true
+PASS: production overview all/selected/long/unpriced/cache-incomplete/empty/retained-error at950/1120 light/dark; palette=cyan, startupLegacy=true; request initial model filters8 real native rows. Static geometry/programmatic data evidence only; pointer Picker selection, navigation click and VoiceOver remain unverified.
+2026-10-16 10:56:54.748 preview[27814:6518669] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+2026-10-16 10:56:55.379 preview[27814:6518669] TISFileInterrogator updateSystemInputSources false but old data invalid: currentCacheHeaderPtr nonNULL? 0, ->cacheFormatVersion 0, ->magicCookie 00000000, inputSourceTableCountSys 0
+2026-10-16 10:56:55.394 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.394 preview[27814:6518676] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-10-16 10:56:55.398 preview[27814:6518669] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -17410.
+Keyboard Layouts: keyboard layout identifier -17410 has been replaced with -28673.
+2026-10-16 10:56:55.416 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.418 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.431 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.438 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.441 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.448 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.451 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.464 preview[27814:6518669] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -30769.
+Keyboard Layouts: keyboard layout identifier -30769 has been replaced with -28674.
+Keyboard Layouts: duplicate keyboard layout identifier -14934.
+Keyboard Layouts: keyboard layout identifier -14934 has been replaced with -28675.
+2026-10-16 10:56:55.488 preview[27814:6518669] Error received in message reply handler: Connection invalid
+2026-10-16 10:56:55.489 preview[27814:6518669] Error received in message reply handler: Connection invalid
+OVERVIEW ORACLE tokens=4040000000 hourlySum=4040000000 compact=4040M records=40
+OVERVIEW GEOMETRY overview-all-partial-950-light.png host=(950.0, 630.0); document=(765.0, 798.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-950-light.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-950-light.png host=(950.0, 630.0); document=(765.0, 701.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-1120-light.png host=(1120.0, 760.0); document=(935.0, 785.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-1120-light.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-1120-light.png host=(1120.0, 760.0); document=(935.0, 701.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-950-dark.png host=(950.0, 630.0); document=(765.0, 798.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-950-dark.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-950-dark.png host=(950.0, 630.0); document=(765.0, 684.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-950-dark.png host=(950.0, 630.0); document=(765.0, 701.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY overview-all-partial-1120-dark.png host=(1120.0, 760.0); document=(935.0, 785.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-priced-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unpriced-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-long-name-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-unknown-cache-1120-dark.png host=(1120.0, 760.0); document=(935.0, 679.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY overview-zero-1120-dark.png host=(1120.0, 760.0); document=(935.0, 701.0); clip=(935.0, 633.0); legacy=false
+OVERVIEW GEOMETRY requests-initial-model.png host=(765.0, 500.0); document=(733.0, 343.0); clip=(733.0, 369.0); legacy=false
+OVERVIEW GEOMETRY large-money-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 503.0); legacy=false
+OVERVIEW GEOMETRY retained-error-950-light.png host=(950.0, 630.0); document=(765.0, 679.0); clip=(765.0, 482.0); legacy=false
+PASS: production overview all/selected/long/unpriced/cache-incomplete/empty/retained-error at950/1120 light/dark; palette=blue, startupLegacy=false; request initial model filters8 real native rows. Static geometry/programmatic data evidence only; pointer Picker selection, navigation click and VoiceOver remain unverified.
+2026-10-16 10:57:04.007 preview[27849:6518969] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+2026-10-16 10:57:04.578 preview[27849:6518969] TISFileInterrogator updateSystemInputSources false but old data invalid: currentCacheHeaderPtr nonNULL? 0, ->cacheFormatVersion 0, ->magicCookie 00000000, inputSourceTableCountSys 0
+2026-10-16 10:57:04.596 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.596 preview[27849:6518972] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-10-16 10:57:04.601 preview[27849:6518969] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -17410.
+Keyboard Layouts: keyboard layout identifier -17410 has been replaced with -28673.
+2026-10-16 10:57:04.618 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.620 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.633 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.641 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.644 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.653 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.655 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.691 preview[27849:6518969] Error received in message reply handler: Connection invalid
+Keyboard Layouts: duplicate keyboard layout identifier -30769.
+Keyboard Layouts: keyboard layout identifier -30769 has been replaced with -28674.
+Keyboard Layouts: duplicate keyboard layout identifier -14934.
+Keyboard Layouts: keyboard layout identifier -14934 has been replaced with -28675.
+2026-10-16 10:57:04.723 preview[27849:6518969] Error received in message reply handler: Connection invalid
+2026-10-16 10:57:04.725 preview[27849:6518969] Error received in message reply handler: Connection invalid
+OVERVIEW ORACLE tokens=4040000000 hourlySum=4040000000 compact=4040M records=40
+OVERVIEW GEOMETRY overview-all-partial-950-light.png host=(950.0, 630.0); document=(748.0, 798.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-950-light.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-950-light.png host=(950.0, 630.0); document=(748.0, 701.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-1120-light.png host=(1120.0, 760.0); document=(918.0, 785.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-1120-light.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-1120-light.png host=(1120.0, 760.0); document=(918.0, 701.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-950-dark.png host=(950.0, 630.0); document=(748.0, 798.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-950-dark.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-950-dark.png host=(950.0, 630.0); document=(748.0, 684.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-950-dark.png host=(950.0, 630.0); document=(748.0, 701.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY overview-all-partial-1120-dark.png host=(1120.0, 760.0); document=(918.0, 785.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-priced-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unpriced-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-long-name-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-unknown-cache-1120-dark.png host=(1120.0, 760.0); document=(918.0, 679.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY overview-zero-1120-dark.png host=(1120.0, 760.0); document=(918.0, 701.0); clip=(918.0, 633.0); legacy=true
+OVERVIEW GEOMETRY requests-initial-model.png host=(765.0, 500.0); document=(716.0, 343.0); clip=(716.0, 369.0); legacy=true
+OVERVIEW GEOMETRY large-money-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 503.0); legacy=true
+OVERVIEW GEOMETRY retained-error-950-light.png host=(950.0, 630.0); document=(748.0, 679.0); clip=(748.0, 482.0); legacy=true
+PASS: production overview all/selected/long/unpriced/cache-incomplete/empty/retained-error at950/1120 light/dark; palette=blue, startupLegacy=true; request initial model filters8 real native rows. Static geometry/programmatic data evidence only; pointer Picker selection, navigation click and VoiceOver remain unverified.

@@ -1,0 +1,3 @@
+{"file": "docs/design.md", "reason": "Current implemented baseline remains v0.2.12, not a newly approved target."}
+{"file": "docs/light-appearance-proposals.md", "reason": "Unapproved alternatives and preview boundaries."}
+{"file": ".trellis/spec/guides/design-first.md", "reason": "User selects before target contracts and production implementation."}

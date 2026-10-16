@@ -1,0 +1,226 @@
+{
+  "cyan": [
+    {
+      "file": "models-legacy-950-light.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    },
+    {
+      "file": "models-boundaries-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "valuation-models-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "valuation-models-legacy-1120-light.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "valuation-models-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-1120-dark.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "models-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-950-light.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    },
+    {
+      "file": "valuation-models-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-legacy-1120-light.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "models-many-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-950-dark.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    }
+  ],
+  "blue": [
+    {
+      "file": "models-legacy-950-light.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    },
+    {
+      "file": "models-boundaries-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "valuation-models-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-950-dark.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-boundaries-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "models-many-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "valuation-models-legacy-1120-light.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "valuation-models-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-1120-dark.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "models-1120-light.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-950-light.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    },
+    {
+      "file": "valuation-models-950-light.txt",
+      "documentWidth": 717.0,
+      "clipWidth": 717.0
+    },
+    {
+      "file": "models-legacy-1120-light.txt",
+      "documentWidth": 870.0,
+      "clipWidth": 870.0
+    },
+    {
+      "file": "models-many-1120-dark.txt",
+      "documentWidth": 887.0,
+      "clipWidth": 887.0
+    },
+    {
+      "file": "valuation-models-legacy-950-dark.txt",
+      "documentWidth": 700.0,
+      "clipWidth": 700.0
+    }
+  ]
+}

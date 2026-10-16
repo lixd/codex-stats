@@ -1,0 +1,2 @@
+{"type": "session_meta", "timestamp": "2026-09-01T10:00:00+08:00", "payload": {"id": "price-oracle-old", "cwd": "/synthetic/price-oracle"}}
+{"type": "token_usage_record", "timestamp": "2026-09-01T10:00:00+08:00", "payload": {"thread_id": "price-oracle-old", "response_id": "price-oracle-0", "model": "new-local-model", "usage": {"input_tokens": 1000, "output_tokens": 100, "cached_input_tokens": 800}}}

@@ -1,0 +1,27 @@
+{
+  "all": {
+    "input": 2800,
+    "output": 340,
+    "total": 3140,
+    "usd": "0.00693",
+    "coveredTokens": 1830,
+    "uncoveredTokens": 1310
+  },
+  "today": {
+    "input": 2700,
+    "output": 330,
+    "total": 3030,
+    "usd": "0.00663",
+    "coveredTokens": 1720,
+    "uncoveredTokens": 1310
+  },
+  "individualAmounts": [
+    "0.00148",
+    null,
+    "0.0051",
+    "0.00005",
+    null,
+    "0.0003"
+  ],
+  "note": "Independent fixed manual oracle, not production output. Partial sol estimate retained. Date fixed local UTC+8; CLI existing scope all."
+}

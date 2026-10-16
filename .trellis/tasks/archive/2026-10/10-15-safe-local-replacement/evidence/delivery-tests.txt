@@ -1,0 +1,19 @@
+PASS nested target rejected without even temporary writes inside source App
+PASS SIGKILL during installer preparation leaves protected App completely unchanged
+PASS SIGKILL before publication preserves previous bundle; owned staging remains
+PASS corrupted signature rejected; previous bundle unchanged
+PASS missing executable rejected; previous bundle unchanged
+PASS incomplete metadata rejected before copy; previous bundle unchanged
+PASS different target identity rejected; previous bundle unchanged
+PASS real ditto read failure; previous bundle unchanged
+PASS destination symlink rejected
+PASS same source and destination rejected; previous bundle unchanged
+PASS real Swift compilation failure preserves previous build
+PASS RENAME_SWAP publishes candidate and retains exact previous bundle
+PASS RENAME_EXCL publishes first installation
+PASS real installer launches exact UUID/path/PID with in-process version receipt
+PASS running target refuses replacement without terminating it; previous bundle unchanged
+PASS same bundle at another path refuses installation; previous bundle unchanged
+PASS build refuses running destination before compilation; existing PID survives
+PASS launch failure reported separately; exact previous bundle retained for recovery
+PASS 18 delivery checks; no production bundle or user Applications touched

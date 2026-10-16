@@ -1,0 +1,17 @@
+{
+  "Assets/Info.plist": "f71eb2e6ac1e597cfca3b7c1489354603c6ab4ce8a6deddb3746a7c1cfe35be6",
+  "Scripts/app-delivery.swift": "03d13722b7d6ab2d2b60482829f11e4faee8bd51bb310e5eaddab5a42276bdac",
+  "Scripts/build-macos.sh": "7cd4746f1e7ac493b429f2635afd13a30ac42a6db6d92a9f91ac9ce6bea7390e",
+  "Scripts/install-local.sh": "6b4c7d84bf19e6599ba74821e94aa29178614ee841229804d950abd5f24a4853",
+  "Sources/App/AppLifecycle.swift": "5eeb3e92e6c62c818c96959dc3e3d38e72611dd7885be24f4b75de3453645992",
+  "Sources/App/CodexStatsApp.swift": "ea4325d284d9b088198f13a2820bf47157b41feaa33e3e0ccfe55840bf2bd7bf",
+  "Sources/App/Components.swift": "73ffccc6402485957c249f737357c1173dcc7dd91731469bedc85684d146aecd",
+  "Sources/App/DashboardView.swift": "94c4979f301a1227bee5fc4595b8c8355d6155cdee4a79a6d5e3df55a22bcc61",
+  "Sources/App/MenuPanelView.swift": "f31912dfd329693d1ccac12c8893ac82121ffd4c70be68ad0f2e570a8529143e",
+  "Sources/App/RequestsContent.swift": "965b57b2362c412aca0c1fca762f1acba7d57e7e0cdf1a6f41c7dc2c24811737",
+  "Sources/App/SessionsContent.swift": "02a5820e23e00910a65b581c277cb5f20b1a90e09d3b227fea9fcdb4b3d8adfb",
+  "Sources/App/UsageStore.swift": "9f0f235578eb97a79f91e960064c370b9e909d5aa12686c83120ad0dd5ef0d75",
+  "Sources/Core/CodexLogScanner.swift": "d21fd29ec5bedb3ae0657182f93afcc79b6edbe024ad4bdc1d4fe45ccc599b09",
+  "Sources/Core/Models.swift": "926a6e2c65a1b8fd94dab5dd6d6663c6a3fbc591254d4118e3710ff4aa9abee8",
+  "Sources/Report/main.swift": "9f4d9534005f0a21eb47914e50f62ee5df7bbb70b329a64cdaa58c668bf20fc6"
+}

@@ -1,0 +1,30 @@
+{
+  "tracked_whitespace": "PASS",
+  "head_unchanged_and_index_empty": "PASS",
+  "readme_limit": "PASS",
+  "shell_syntax": "PASS",
+  "python_AST": "PASS",
+  "tested_product_unchanged": "PASS",
+  "relative_markdown_links": {
+    "count": 202,
+    "result": "PASS"
+  },
+  "task_contexts": {
+    "entries": 72,
+    "result": "PASS"
+  },
+  "differential_checkpoint_reconstruction": "PASS",
+  "post_archive_links": {
+    "count": 206,
+    "result": "PASS"
+  },
+  "post_archive_contexts": {
+    "entries": 72,
+    "result": "PASS"
+  },
+  "archived_tasks_completed": 4,
+  "journal_session": 11,
+  "post_closeout_head_index_product": "PASS unchanged",
+  "test_process_cleanup": "PASS no CodexStats processes",
+  "final_independent_review": "PASS"
+}

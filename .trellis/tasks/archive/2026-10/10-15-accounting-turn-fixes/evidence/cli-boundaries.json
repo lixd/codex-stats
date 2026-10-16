@@ -1,0 +1,126 @@
+{
+  "zero-parent": {
+    "total": {
+      "cachedInput": 5,
+      "cachedInputKnown": true,
+      "input": 110,
+      "output": 110,
+      "reasoning": 5,
+      "reasoningKnown": true
+    },
+    "records": [
+      {
+        "cachedInput": 0,
+        "cachedInputKnown": true,
+        "input": 100,
+        "output": 100,
+        "reasoning": 0,
+        "reasoningKnown": true
+      },
+      {
+        "cachedInput": 5,
+        "cachedInputKnown": true,
+        "input": 10,
+        "output": 10,
+        "reasoning": 5,
+        "reasoningKnown": true
+      }
+    ],
+    "diagnostics": [
+      {
+        "fileName": "usage.jsonl",
+        "kind": "counterAmbiguity",
+        "message": "owner：累计计数器无法核对：保留输入/输出增量，异常缓存或推理子项标为未完整记录。",
+        "sessionID": "owner",
+        "severity": "warning"
+      }
+    ]
+  },
+  "recover-after-unknown": {
+    "total": {
+      "cachedInput": 5,
+      "cachedInputKnown": false,
+      "input": 120,
+      "output": 120,
+      "reasoning": 5,
+      "reasoningKnown": false
+    },
+    "records": [
+      {
+        "cachedInput": 0,
+        "cachedInputKnown": true,
+        "input": 100,
+        "output": 100,
+        "reasoning": 0,
+        "reasoningKnown": true
+      },
+      {
+        "cachedInput": 0,
+        "cachedInputKnown": false,
+        "input": 10,
+        "output": 10,
+        "reasoning": 0,
+        "reasoningKnown": false
+      },
+      {
+        "cachedInput": 5,
+        "cachedInputKnown": true,
+        "input": 10,
+        "output": 10,
+        "reasoning": 5,
+        "reasoningKnown": true
+      }
+    ],
+    "diagnostics": [
+      {
+        "fileName": "usage.jsonl",
+        "kind": "counterAmbiguity",
+        "message": "owner：累计计数器无法核对：保留输入/输出增量，异常缓存或推理子项标为未完整记录。",
+        "sessionID": "owner",
+        "severity": "warning"
+      }
+    ]
+  },
+  "inherited": {
+    "records": [
+      {
+        "day": "2026-10-14",
+        "evidence": "responseRecord",
+        "fileName": "child.jsonl",
+        "id": "/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codex-stats-accounting-boundaries-23hzlvmm/inherited/child.jsonl#2",
+        "isCompaction": false,
+        "lastReportedUsage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 20,
+          "output": 20,
+          "reasoning": 0,
+          "reasoningKnown": true
+        },
+        "model": "Unknown model",
+        "project": "project",
+        "recordedSessionID": "owner",
+        "requestID": "a",
+        "sessionID": "owner",
+        "source": "Codex",
+        "timestamp": "2026-10-14T00:00:00Z",
+        "turnID": "whole-turn",
+        "turnPerformance": {
+          "durationMilliseconds": 120000,
+          "firstTokenMilliseconds": 2000,
+          "outputTokens": 20,
+          "responseCount": 1
+        },
+        "usage": {
+          "cachedInput": 0,
+          "cachedInputKnown": true,
+          "input": 20,
+          "output": 20,
+          "reasoning": 0,
+          "reasoningKnown": true
+        }
+      }
+    ],
+    "diagnostics": []
+  }
+}

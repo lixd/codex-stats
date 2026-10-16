@@ -1,0 +1,29 @@
+{
+  "id": "light-appearance-preview",
+  "name": "light-appearance-preview",
+  "title": "浅色简洁视觉方案预览",
+  "description": "用户对 v0.2.12 外观不满意，要求先比较浅色、简洁、清新的方案；仅生成独立原型和设计记录，选定后另行更新目标设计再实施。",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lixd",
+  "assignee": "lixd",
+  "createdAt": "2026-10-15",
+  "completedAt": "2026-10-15",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "docs/light-appearance-proposals.md",
+    "docs/prototypes/light-appearance/index.html"
+  ],
+  "notes": "User selected D layout with D/A color palettes, explicitly sequential D then A. Preview deliverable complete; production work moves to a separate design-first task. No product changes in preview task.",
+  "meta": {}
+}

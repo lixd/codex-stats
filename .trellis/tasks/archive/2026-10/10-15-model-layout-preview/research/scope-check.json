@@ -1,0 +1,15 @@
+{
+  "changed": [
+    "Sources/App/DashboardView.swift",
+    "Assets/Info.plist",
+    "Scripts/render-ui-previews.sh",
+    "Tests/UIPreview/main.swift"
+  ],
+  "allowed": [
+    "Assets/Info.plist",
+    "Scripts/render-ui-previews.sh",
+    "Sources/App/DashboardView.swift",
+    "Tests/UIPreview/main.swift"
+  ],
+  "build_sources_still_match": true
+}

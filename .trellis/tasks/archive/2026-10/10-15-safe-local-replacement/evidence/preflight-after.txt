@@ -1,0 +1,3 @@
+PASS nested target rejected without even temporary writes inside source App
+PASS SIGKILL during installer preparation leaves protected App completely unchanged
+PASS focused preflight checks; no App process was signalled

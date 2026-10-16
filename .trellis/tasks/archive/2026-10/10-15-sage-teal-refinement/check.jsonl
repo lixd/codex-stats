@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/guides/design-first.md", "reason": "Design must precede source edits"}
+{"file": ".trellis/spec/frontend/token-display.md", "reason": "Preserve numeric units and unknowns"}
+{"file": ".trellis/spec/frontend/scan-status.md", "reason": "Preserve visible risk and recovery"}
+{"file": ".trellis/spec/frontend/menu-lifecycle.md", "reason": "Preserve menu B and exact window ownership"}
+{"file": "docs/sage-teal-design.md", "reason": "Approved visual roles and acceptance"}
+{"file": ".trellis/spec/frontend/visual-system.md", "reason": "Implemented dynamic role and native table verification contract"}

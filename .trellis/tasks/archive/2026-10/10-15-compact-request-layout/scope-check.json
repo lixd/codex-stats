@@ -1,0 +1,10 @@
+{
+  "changed_product_test_script_assets_paths": [
+    "Sources/App/DashboardView.swift",
+    "Sources/App/RequestsContent.swift",
+    "Tests/UIPreview/main.swift",
+    "Assets/Info.plist"
+  ],
+  "core_store_menu_delivery_unchanged": true,
+  "staged_paths": []
+}

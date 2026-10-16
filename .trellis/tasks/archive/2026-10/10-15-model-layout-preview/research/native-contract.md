@@ -1,0 +1,3 @@
+# Selected target
+
+Read docs/model-layout-proposals.md fully. A selected and approved for implementation. Sources scope DashboardView ModelsContent only; Tests/UIPreview native model checks; parent owns version and docs. Current old model table assertions are obsolete under selected design, replace with actual vertical scroll measurements/last-item reachability. Do not weaken unrelated request/state assertions or claim unperformed checks. No user app operations or real-log reads. Scripts/render-ui-previews.sh also adds only the controlled legacy-only child with launch argument AppleShowScrollBars Always; no persistent preference changes. No new third-party dependencies. Keep semantic unknown and exact accessibility values.

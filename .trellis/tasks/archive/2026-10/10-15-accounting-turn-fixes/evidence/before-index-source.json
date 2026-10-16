@@ -1,0 +1,9 @@
+{
+  "directory": "/var/folders/r5/vby20fm56t3g3bhydvcn897h0000gn/T/codex-stats-before-turn-index-udnja1gj",
+  "files": {
+    "Sources/Core/Models.swift": "926a6e2c65a1b8fd94dab5dd6d6663c6a3fbc591254d4118e3710ff4aa9abee8",
+    "Sources/Core/CodexLogScanner.swift": "056d2def69c9d4301531fdede4e083c8e4a7a84544933afc74f0d3853e88c759",
+    "Sources/Report/main.swift": "9f4d9534005f0a21eb47914e50f62ee5df7bbb70b329a64cdaa58c668bf20fc6"
+  },
+  "scope": "A01/A03 fixed; before A02 index; only synthetic input permitted"
+}
