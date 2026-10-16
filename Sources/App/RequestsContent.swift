@@ -11,8 +11,9 @@ struct RequestsContent: View {
     @ViewState(initialValue: "") private var modelFilter: String
     @ViewState(initialValue: Sort.newest) private var sort: Sort
     @ViewState(initialValue: Optional<String>.none) private var selection: String?
-    init(period: UsagePeriod, selectedRecordID: String? = nil) {
+    init(period: UsagePeriod, selectedRecordID: String? = nil, initialModel: String = "") {
         self.period = period
+        self._modelFilter = ViewState(initialValue: initialModel)
         self._selection = ViewState(initialValue: selectedRecordID)
     }
 
@@ -40,18 +41,18 @@ struct RequestsContent: View {
     var body: some View {
         let rows = records
         let total = rows.reduce(Int64(0)) { $0 + $1.usage.total }
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("\(rows.count) 条用量记录").font(.system(size: 16, weight: .semibold))
                 Spacer()
-                Text(period.rawValue).font(.system(size: 11)).foregroundStyle(.secondary)
+                PeriodPicker(selection: $store.period)
             }
-            HStack(spacing: 12) {
+            HStack(spacing: 8) {
                 TextField("搜索项目、模型、会话或请求 ID", text: $search)
                     .textFieldStyle(.roundedBorder)
                 Picker("模型", selection: $modelFilter) {
                     Text("全部模型").tag("")
-                    ForEach(store.summary(in: period).models.map(\.model).sorted(), id: \.self) { model in
+                    ForEach(Set(store.snapshot.overview.observedModels + (modelFilter.isEmpty ? [] : [modelFilter])).sorted(), id: \.self) { model in
                         Text(model).tag(model)
                     }
                 }
@@ -65,51 +66,17 @@ struct RequestsContent: View {
             }
             Text("点击记录查看详情。累计增量与初始快照可能包含多次请求，不等同于已确认的请求数量。")
                 .font(.system(size: 11)).foregroundStyle(.secondary)
-            if let error = store.errorMessage { StatusBanner(message: error) }
-            DiagnosticSummary(diagnostics: store.report.diagnostics, compact: true)
             if rows.isEmpty {
                 EmptyViewCard(title: "没有匹配的用量记录", subtitle: "尝试其他时间范围、模型或搜索条件。")
                     .frame(maxHeight: .infinity)
             } else {
-                HStack(spacing: 0) {
-                    // Native Table owns its scrolling. A second horizontal ScrollView
-                    // previously centered the oversized table and hid the time column.
-                    Table(rows, selection: $selection) {
-                        TableColumn("时间") { record in
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(record.timestamp.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)).minute(.twoDigits).second(.twoDigits)))
-                                Text(record.timestamp.formatted(.dateTime.month(.twoDigits).day(.twoDigits)))
-                                    .font(.system(size: 10)).foregroundStyle(.secondary)
-                            }.monospacedDigit().help(record.timestamp.formatted(date: .complete, time: .standard))
-                        }.width(78)
-                        TableColumn("项目 / 会话") { record in
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(record.project).lineLimit(1)
-                                Text(record.recordedSessionID.map { String($0.prefix(8)) } ?? "未记录")
-                                    .font(.system(size: 10, design: .monospaced)).foregroundStyle(.secondary)
-                            }.help(record.recordedSessionID ?? "Session ID 未记录")
-                        }.width(min: 80, ideal: 95, max: 130)
-                        TableColumn("模型") { Text($0.model).lineLimit(1).help($0.model) }.width(min: 100, ideal: 115, max: 170)
-                        TableColumn("新增输入") { number($0.usage.uncachedInput, known: $0.usage.cachedInputKnown) }.width(65)
-                        TableColumn("输出") { number($0.usage.output) }.width(58)
-                        TableColumn("缓存输入") { number($0.usage.cachedInput, known: $0.usage.cachedInputKnown) }.width(65)
-                        TableColumn("总 Token") { number($0.usage.total) }.width(68)
-                        TableColumn("耗时 ≈") { record in Text(requestDuration(record)).monospacedDigit().help(requestTimingHelp(record)) }.width(65)
-                        TableColumn("速度 ≈") { record in Text(requestSpeed(record)).monospacedDigit().help(requestTimingHelp(record)) }.width(78)
-                        TableColumn("类型 / 详情") { record in
-                            Button(record.isCompaction ? "压缩" : record.evidence.label) { selection = record.id }
-                                .buttonStyle(.borderless).foregroundStyle(CPTheme.accent)
-                                .font(.system(size: 10)).help(record.evidence.explanation + " 点击查看详情。")
-                                .accessibilityIdentifier("open-request-" + (record.requestID ?? record.id))
-                        }.width(90)
-                    }
-                    .accessibilityIdentifier("request-table")
-                    .frame(minWidth: 170)
-                    if let record = rows.first(where: { $0.id == selection }) {
-                        Divider()
-                        RequestDetailView(record: record, onClose: { selection = nil })
-                            .frame(width: 360)
-                    }
+                GeometryReader { geometry in
+                    requestTable(rows, compact: geometry.size.width < 900)
+                        .font(.system(size: 12))
+                        .scrollContentBackground(.hidden)
+                        .background(CPTheme.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(CPTheme.stroke))
                 }
             }
             HStack {
@@ -120,11 +87,86 @@ struct RequestsContent: View {
             }
             .font(.system(size: 10)).foregroundStyle(.secondary)
         }
-        .padding(24)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .background(CPTheme.viewBackground)
+        .sheet(item: Binding(get: { rows.first { $0.id == selection } }, set: { selection = $0?.id })) { record in
+            RequestDetailView(record: record, onClose: { selection = nil })
+                .frame(width: 420, height: 600)
+                .environment(\.appPalette, store.palette)
+        }
         .onChange(of: period) { _, _ in modelFilter = "" }
         .onExitCommand { selection = nil }
 
+    }
+
+    @ViewBuilder private func requestTable(_ rows: [UsageRecord], compact: Bool) -> some View {
+        // Pair related fields at narrow widths; every value remains visible and
+        // the native Table remains the only scrolling container.
+        if compact {
+            Table(rows, selection: $selection) {
+                TableColumn("时间") { time($0) }.width(60)
+                TableColumn("项目 / 会话") { project($0) }.width(min: 70, ideal: 70, max: 100)
+                TableColumn("模型 / 类型") { record in
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(record.model).lineLimit(1).help(record.model)
+                        evidence(record)
+                    }
+                }.width(min: 88, ideal: 88, max: 150)
+                TableColumn("新增 / 缓存") { record in
+                    VStack(alignment: .trailing, spacing: 3) {
+                        number(record.usage.uncachedInput, known: record.usage.cachedInputKnown).accessibilityLabel("新增输入").accessibilityValue(detailedNumber(record.usage.uncachedInput, known: record.usage.cachedInputKnown))
+                        number(record.usage.cachedInput, known: record.usage.cachedInputKnown).accessibilityLabel("缓存输入").accessibilityValue(detailedNumber(record.usage.cachedInput, known: record.usage.cachedInputKnown))
+                    }
+                }.width(72)
+                TableColumn("输出") { number($0.usage.output) }.width(48)
+                TableColumn("总 Token") { number($0.usage.total) }.width(58)
+                TableColumn("耗时 / 速度 ≈") { record in
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(requestDuration(record)).accessibilityLabel("耗时估算 " + requestDuration(record))
+                        Text(requestSpeed(record)).accessibilityLabel("速度估算 " + requestSpeed(record))
+                    }.monospacedDigit().help(requestTimingHelp(record))
+                }.width(78)
+            }
+            .accessibilityIdentifier("request-table")
+        } else {
+            Table(rows, selection: $selection) {
+                TableColumn("时间") { time($0) }.width(60)
+                TableColumn("项目 / 会话") { project($0) }.width(min: 80, ideal: 80, max: 100)
+                TableColumn("模型") { Text($0.model).lineLimit(1).help($0.model) }.width(min: 100, ideal: 100, max: 130)
+                TableColumn("新增输入") { number($0.usage.uncachedInput, known: $0.usage.cachedInputKnown) }.width(72)
+                TableColumn("输出") { number($0.usage.output) }.width(48)
+                TableColumn("缓存输入") { number($0.usage.cachedInput, known: $0.usage.cachedInputKnown) }.width(72)
+                TableColumn("总 Token") { number($0.usage.total) }.width(58)
+                TableColumn("耗时 ≈") { Text(requestDuration($0)).monospacedDigit().help(requestTimingHelp($0)) }.width(58)
+                TableColumn("速度 ≈") { Text(requestSpeed($0)).monospacedDigit().help(requestTimingHelp($0)) }.width(80)
+                TableColumn("类型") { evidence($0) }.width(66)
+            }
+            .accessibilityIdentifier("request-table")
+        }
+    }
+
+    private func time(_ record: UsageRecord) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(record.timestamp.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)).minute(.twoDigits).second(.twoDigits)))
+            Text(record.timestamp.formatted(.dateTime.month(.twoDigits).day(.twoDigits)))
+                .font(.system(size: 10)).foregroundStyle(.secondary)
+        }.monospacedDigit().help(record.timestamp.formatted(date: .complete, time: .standard))
+    }
+
+    private func project(_ record: UsageRecord) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(record.project).lineLimit(1)
+            Text(record.recordedSessionID.map { String($0.prefix(8)) } ?? "未记录")
+                .font(.system(size: 10, design: .monospaced)).foregroundStyle(.secondary)
+        }.help(record.project + " · " + (record.recordedSessionID ?? "Session ID 未记录"))
+    }
+
+    private func evidence(_ record: UsageRecord) -> some View {
+        Button(record.isCompaction ? "压缩" : record.evidence.label) { selection = record.id }
+            .buttonStyle(.borderless).foregroundStyle(CPTheme.accent)
+            .font(.system(size: 10)).help(record.evidence.explanation + " 点击查看详情。")
+            .accessibilityIdentifier("open-request-" + (record.requestID ?? record.id))
     }
 
     private func number(_ value: Int64, known: Bool = true) -> some View {
@@ -135,6 +177,7 @@ struct RequestsContent: View {
 }
 
 struct RequestDetailView: View {
+    @EnvironmentObject private var store: UsageStore
     let record: UsageRecord
     var onClose: () -> Void = {}
 
@@ -153,6 +196,7 @@ struct RequestDetailView: View {
                     .accessibilityIdentifier("close-request-detail")
             }
             .padding(20)
+            .background(CPTheme.cardBackground)
             Divider()
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
@@ -178,6 +222,10 @@ struct RequestDetailView: View {
                         VStack(alignment: .leading, spacing: 14) {
                             Text("已计入的 Token 用量").font(.system(size: 13, weight: .semibold))
                             TokenDetails(usage: record.usage)
+                            CacheRateText(usage: record.usage).font(.system(size: 12))
+                            CostEstimateText(estimate: store.estimate(record)).font(.system(size: 12))
+                            Text("按已计入用量折算；累计记录可能覆盖多次请求，不代表单次请求账单。")
+                                .font(.system(size: 11)).foregroundStyle(.secondary)
                             Text("新增输入为非缓存输入；缓存包含在输入中，推理包含在输出中。总量 = 输入 + 输出。")
                                 .font(.system(size: 11)).foregroundStyle(.secondary)
                         }

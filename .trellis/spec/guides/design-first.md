@@ -4,7 +4,7 @@ This is the project contract requested by the user on 2026-10-14. It applies bef
 
 ## Authoritative documents
 
-Read [design baseline](../../../docs/design.md), [requirements](../../../docs/requirements.md) and the linked current UI/data designs. Approved pending targets are separate from implemented behavior. The current baseline is v0.2.10/build 12 with the B menu implemented; analysis-window redesign remains deferred. Bootstrap placeholders are not executable contracts.
+Read [design baseline](../../../docs/design.md), [requirements](../../../docs/requirements.md) and the linked current UI/data designs. Approved pending targets are separate from implemented behavior. The current source baseline is v0.2.21/build23 with the B menu, D analysis layout, cyan/blue palettes, compact request layout, four-page navigation plus derived cache-rate/reference-USD, effective local price management and model-filtered overview implemented; request-density-design.md overrides the older request geometry, and remove-model-statistics-design.md removes the standalone model page (old model-layout-proposals.md is historical). The approved sequence was fixed cyan plus D verification first, then blue/preferences; see native-cyan-blue-design.md. dashboard-model-filter-design.md defines the current four-card overview, scalar query and explicit new-default import. overview-trend-design.md defines the current three-metric trend and dense/unknown states. Further geometry changes require a separate approved contract. Bootstrap placeholders are not executable contracts.
 
 ## Before implementation
 
@@ -18,7 +18,7 @@ A task-local design is an execution plan; it must not be the only place the prod
 
 ## After verification
 
-Update status/version only when implementation and required checks actually pass. Record command/results and limitations in VERIFICATION.md or the task report. Keep current design declarative; retain abandoned alternatives/history in archived tasks. README links to the design rather than duplicating parameter tables. Archive/record the task using Trellis; refresh the source archive when delivering changed docs.
+Update status/version only when implementation and required checks actually pass. Record command/results and limitations in VERIFICATION.md or the task report. Keep current design declarative; retain abandoned alternatives/history in archived tasks. README links to the design rather than duplicating parameter tables. Archive/record the task using Trellis. Source is managed by Git; do not generate source archives unless explicitly requested.
 
 ## Concrete acceptance example
 

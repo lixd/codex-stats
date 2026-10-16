@@ -51,17 +51,18 @@ struct MenuPanelView: View {
                             .font(.system(size: 14, weight: .medium)).foregroundStyle(.secondary)
                     }
                 }
+                if store.hasReport { CostEstimateText(estimate: summary.valuation.total).font(.system(size: 11)) }
             }
             .padding(10)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(CPTheme.accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 10))
+            .background(CPTheme.selection, in: RoundedRectangle(cornerRadius: 10))
             .help("总计 = 输入 + 输出。缓存包含在输入中，推理包含在输出中。")
 
             if store.hasReport {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                     metric("输入", usage.input, tint: CPTheme.cyan)
                     metric("输出", usage.output, tint: CPTheme.purple)
-                    metric("缓存输入", usage.cachedInput, tint: CPTheme.accent, known: usage.cachedInputKnown)
+                    metric("缓存输入", usage.cachedInput, tint: CPTheme.accent, known: usage.cachedInputKnown, cacheUsage: usage)
                     metric("推理", usage.reasoning, tint: CPTheme.orange, known: usage.reasoningKnown)
                 }
             }
@@ -106,7 +107,7 @@ struct MenuPanelView: View {
                         Text("统计状态 · \(warnings) 条警告 / 错误 · \(store.report.diagnostics.count - warnings) 条信息")
                         Spacer(minLength: 0)
                         Image(systemName: "chevron.right").font(.system(size: 8))
-                    }.font(.system(size: 10)).foregroundStyle(warnings > 0 ? CPTheme.orange : CPTheme.cyan)
+                    }.font(.system(size: 10)).foregroundStyle(warnings > 0 ? CPTheme.orange : CPTheme.accent)
                 }
                 .buttonStyle(.plain)
                 .help("在完整分析中查看统计提示详情")
@@ -121,7 +122,7 @@ struct MenuPanelView: View {
                 }
                 .font(.system(size: 11, weight: .medium)).foregroundStyle(.white)
                 .padding(.horizontal, 10).padding(.vertical, 9)
-                .background(CPTheme.accent, in: RoundedRectangle(cornerRadius: 8))
+                .background(CPTheme.actionFill, in: RoundedRectangle(cornerRadius: 8))
             }
             .buttonStyle(.plain)
 
@@ -147,6 +148,7 @@ struct MenuPanelView: View {
         .frame(width: 288)
         .background(CPTheme.viewBackground)
         .background(MenuWindowProbe(owner: menuWindow).frame(width: 0, height: 0))
+        .environment(\.appPalette, store.palette)
     }
 
     private func showAnalysis() {
@@ -156,7 +158,7 @@ struct MenuPanelView: View {
         }
     }
 
-    private func metric(_ title: String, _ number: Int64, tint: Color, known: Bool = true) -> some View {
+    private func metric(_ title: String, _ number: Int64, tint: CPTheme, known: Bool = true, cacheUsage: TokenUsage? = nil) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Label {
                 Text(title)
@@ -168,6 +170,7 @@ struct MenuPanelView: View {
                 .font(.system(size: known ? 16 : 12, weight: .semibold))
                 .monospacedDigit().lineLimit(1).minimumScaleFactor(0.65)
                 .frame(minHeight: 19, alignment: .leading)
+            if let cacheUsage { CacheRateText(usage: cacheUsage).font(.system(size: 10)) }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(8)
@@ -175,6 +178,6 @@ struct MenuPanelView: View {
         .overlay(RoundedRectangle(cornerRadius: 9).strokeBorder(CPTheme.stroke))
         .help(title + " " + detailedNumber(number, known: known) + " tokens")
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(title + " " + detailedNumber(number, known: known) + (known ? " tokens" : ""))
+        .accessibilityLabel(title + " " + detailedNumber(number, known: known) + (known ? " tokens" : "") + (cacheUsage.map { "；缓存率 " + cacheRateLabel($0) + "；" + cacheRateHelp($0) } ?? ""))
     }
 }

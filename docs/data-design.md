@@ -1,6 +1,6 @@
 # 数据与统计设计：当前实现基线
 
-状态：**已实现，v0.2.10 / build 12**。本页描述 Core 当前行为；视觉方案 B 不改变这里的统计口径。与 [设计总纲](design.md)、[界面设计](ui-design.md) 配套使用。代码依据是 `Sources/Core/Models.swift`、`Sources/Core/CodexLogScanner.swift`；测试是独立复建时的可执行判据。
+状态：**已实现，v0.2.11 / build 13**。本页描述 Core 当前行为；视觉方案 B 不改变这里的统计口径。与 [设计总纲](design.md)、[界面设计](ui-design.md) 配套使用。代码依据是 `Sources/Core/Models.swift`、`Sources/Core/CodexLogScanner.swift`；测试是独立复建时的可执行判据。
 
 ## 1. 产品计量对象与分层
 
@@ -55,7 +55,7 @@ Non-cached Input = Input − Cached Input（仅 Cached 完整时对用户作为�
 Cached ⊆ Input；Reasoning ⊆ Output
 ```
 
-`TokenUsage.difference(from:)` 要求输入、输出以及双方已知的子集字段单调不减，否则返回 nil；子集差值仅在前后双方都 known 时计算。构造器会把数值限制在非负/子集范围，但日志入口首先严格验证，不靠限制修复非法日志。Scanner 在接受行前检查全局总量的 Int64 剩余空间；溢出行不进入任何聚合。
+`TokenUsage.difference(from:)` 要求输入、输出单调不减，否则返回 nil。子集差值仅在前后双方都 known、子项不回退且差值不超过对应父项增量时保持 known；任一条件不成立，该子项独立标 unknown、内部为0，不把夹紧值当作精确值。Scanner 对双方已知但无法核对的子项发出 `counterAmbiguity`，保留可信输入/输出增量；另一合法子项仍 known。父项增量为零时保留诊断但不生成零用量行，也不改写先前已接受记录。后续从新的原始快照差分，可恢复后续行的 known；此前非零 unknown 行继续影响合计。构造器仍限制非负/子集范围，日志入口严格验证原始值；Scanner 接受行前检查全局 Int64 剩余空间，溢出行不进入任何聚合。
 
 ## 4. 支持的日志事件形状
 
@@ -98,7 +98,7 @@ Cached ⊆ Input；Reasoning ⊆ Output
 
 缺 owner、缺真实会话元数据、foreign owner 或冲突原生记录的来源仍参与通知抑制，不能让已拒绝请求经累计通知重新计入。真实元数据与 owner 匹配但 response_id / usage 损坏的原生帧不压掉独立有效旧计量。缺元数据的损坏原生帧仍保留通知抑制证据，不能误当成已核验 owner 的例外。
 
-**thread_token_usage 和 token_count.total_token_usage 可能因压缩长期不一致，禁止跨两类计数器作差。** 原生始终计 usage，匹配的通知仅更新旧累计基线，不再增加用量。
+**thread_token_usage 和 token_count.total_token_usage 可能因压缩长期不一致，禁止跨两类计数器作差。** 原生始终计 usage，匹配的通知仅更新旧累计基线，不再增加用量。累计 companion 和 last-only companion 都登记同 Turn 的匿名重发签名，后续相同 last-only 不能重复记账。独立 response 身份和可信累计增长仍分别计入；无身份的同值歧义保守排除并诊断，不能恢复被拒 owner。
 
 ### 逐帧旧格式状态机
 
@@ -116,7 +116,7 @@ Cached ⊆ Input；Reasoning ⊆ Output
 | 首快照 total≠last 且有 last | 只计 last，提示未观察到历史 |
 | 首快照存在 history_base 或 fork | 只计 last；没有 last 则不计累计历史 |
 | 普通首快照，无以上历史条件 | 计 total，标初始快照；如果数值等于 last，最终证据标签为最近一次用量 |
-| 正常累计差额中还包括此前已计原生量 | 用 difference 再扣间隔原生量；不可核对则不计差额并告警，保留原生行 |
+| 正常累计差额中还包括此前已计原生量 | 用 difference 再扣间隔原生量；父项不可核对则不计差额并告警，保留原生行；仅子项不一致则保留父项差额、对应子项 unknown 并诊断 |
 | 无 total、只有 last，已匹配或前面有不确定原生 | 抑制重复/不确定通知，必要时告警 |
 | 无 total、只有 last，其余情况 | 用 response_id 或 `Turn\|model\|input\|cache\|output\|reasoning` 签名保守去重；重复可能少计并告警 |
 
@@ -154,6 +154,7 @@ Scanner 初始化捕获分桶 timeZone（默认当前系统时区）。用量事
 | `hourlyTotals(on:timeZone:)` | 指定本地日期的全部小时，空小时补 0；DST 为 23/25 桶 |
 | `records(in:now:sortedByTime:)` | 默认事件时间倒序，相同时间内部 id 升序；false 返回未作该排序的筛选结果供调用者自行排序 |
 | `recentSessions(in:now:)` | 全部范围保留所有会话；有限范围有用量，或首次/末次活动日期落在范围即可显示；因此可有 0 Token 会话 |
+| `sessionRows(in:now:timeZone:)` | 一次捕获日期边界，单次遍历每会话日模型切片，返回 session/usage/models；保留范围内活跃零用量会话，按输入顺序返回，由视图按用户选择排序一次 |
 
 全局、会话、模型、日和记录总量来自同一接受记录集合，应一致；小时求和也应一致，除非 `invalidTimeBucket` 已明确报告无法分桶。筛选只改变显示集合，不能重新推测身份、模型或性能分子。
 
@@ -186,6 +187,10 @@ UI 用“≈耗时 / ≈tok/s”，未知显示 `—` 并解释依据不足；�
 至少一个 owner 正确、显式同 Turn、位于 start/end 时间内的原生响应，才能附加计时。完整速率还要求：所有候选生命周期一致且本地完整；所有相关物理副本无部分写入、损坏和 history_base；观察 response 集合等于接受集合；无缺 owner/Turn/时间或身份冲突；Turn 内所有旧通知均已证明由原生响应覆盖。任一不满足时可保留合法 duration / TTFT，但 `outputTokens / responseCount / averageOutputTokensPerSecond` 为 nil。
 
 完整速率 = 全 Turn 去重输出 / 显式秒数，包含工具、等待与多响应。即使跨日/模型/搜索只选中其中一行，也仍附加完整 Turn 分子，不以当前列表裁剪。压缩响应可属于完整 Turn 输出，但不产生单请求估算。
+
+### 性能索引与证据边界
+
+扫描时构建短生命周期索引：每会话物理日志、每文件相邻配对、每Turn记录/帧与时间区间。索引只缩小候选集合，不删物理副本或否决证据；frameRange、Turn、time、unknown-time仍为OR相关性，foreign/missing owner、无Turn、损坏历史与未配对counter都保留覆盖否决。包含inherited:0配对，避免把已确认继承后的首帧视为无前邻。相关候选仍由原契约校验，不能以索引命中证明完整Turn。
 
 ## 9. 诊断与不完整状态
 
@@ -229,3 +234,30 @@ CLI 无日期筛选参数，总是输出全部；JSON 含 `total / models / sess
 - [RequestEstimateTests.swift](../Tests/CodexStatsCoreTests/RequestEstimateTests.swift)：边界/工具/同批补充、100 ms/1 h、200 Token/1 s、abort、缺证据、候选冲突，性能未知时 Token 不变。
 - [TurnPerformanceTests.swift](../Tests/CodexStatsCoreTests/TurnPerformanceTests.swift)：完整生命周期、全 Turn 输出覆盖、缺 TTFT/0、跨过滤、错误/中止/副本不完整。
 - [统计实现规范](../.trellis/spec/backend/token-accounting.md)、[请求估算规范](../.trellis/spec/backend/request-estimates.md)、[Turn 规范](../.trellis/spec/backend/turn-performance.md)、[性能规范](../.trellis/spec/backend/scan-performance.md) 提供修改门禁；历史实际命令结果与环境限制见 [VERIFICATION.md](../VERIFICATION.md)。2026-10-15 身份修复后实际执行 `./Scripts/test.sh`，121 项通过、0 失败；包含缺元数据文件名碰撞、前后相邻累计/last-only 通知抑制、不可信副本冲突/压缩隔离、旧格式用量保留、无元数据同名活动/归档完整及前缀副本去重、真实身份与内部前缀碰撞、未知内部键不能证明父身份、session_id 别名。该测试同时编译了 App 目标，不能据此声称真实交互或 macOS 14 实机验收完成。
+
+## 审查修复：已实现（2026-10-15）
+
+用户批准的A01–A06已纳入当前源码v0.2.11/build13：计量重发与未知子项（T01/T03/T04/T06/T08）、Turn与会话查询性能（R02/R07/R13/R16、T09–T11）、跨页异常状态（R04/R11）、安全本地替换（R14/R17）。[审查修复设计](audit-fixes-design.md)在实现前获批，契约现已同步本文；133项Core测试、126组合成差分、18项真实交付检查、原生构建及受控基准见[本轮验证](../VERIFICATION.md#v0211--build-13-审查修复2026-10-15)。未安装、提交、推送或发布；静态预览不代表实际点击验收。A07窄窗口布局继续延期。
+
+## v0.2.16 派生缓存率与参考金额（T12/T13）
+
+计量与Scanner不变。`UsageValuation.swift`在已接受UsageRecord上构建派生指标；[完整契约](cache-rate-cost-design.md)与[可执行开发规范](../.trellis/spec/backend/derived-usage.md)约束未知状态和定价。CacheRate从同范围TokenUsage先合计再相除。金额以Decimal逐记录计算后汇总，推理不再加价；未知模型/必要缓存拆分缺失进入未估算量，保留同模型内其他可估记录。
+
+ScanWorker扫描成功后遍历sessions[].records一次，生成session/day/model标量ValuationIndex；不复制全量记录。`ScanSnapshot`将报告与索引作为一个发布值交给Store，didSet清理可能在willSet订阅回调中建立的旧摘要。当前范围摘要只合并桶，使用原DayBounds及同now；失败保留旧快照，切路径重置，旧路径不发布。无新增Timer、Task或持久缓存。
+
+CLI保留原字段，增加总量/模型/会话/会话模型`derived`；`--records`增加以内部record.id关联的`recordDerived`（该键不充当真实请求身份）。cacheRate带state/input/cachedInput/fraction，不完整缓存及无效比例输出null；cost带state、精确十进制字符串amountUSD、currency、priceVersion、已估/未估Token及原因。无法估算amountUSD为null，真实零为字符串“0”。参考价来源/日期/基准/不含项随输出提供。
+
+
+## v0.2.17：生效价格快照（T14）
+
+[价格管理设计](model-price-management-design.md)把固定价表扩展为App/CLI共享的本地Decimal价格快照。价格修改不重扫日志或改Token；按报告修订和价格修订后台构建/原子发布估值。配置错误显式暴露、缺价不填零，删除默认行跨重启不恢复。PriceCatalogFile共享读取器；配置位置为`~/Library/Application Support/Codex Stats/prices.json`。仅无文件时使用默认内置表，保存后全表独立生效。priceSources随金额结果提供；空会话也携带当前revision。
+
+
+## v0.2.18：筛选摘要与新增参考价（R21/T15）
+
+见[正式新增设计](dashboard-model-filter-design.md)。总览模型选择共同约束指标/趋势/明细，不改已接受记录；新增两个有官方依据的默认价格，保存完整表只通过明确动作补充，不静默覆盖。已实现v0.2.18；四卡、模型下拉、同范围标量查询与显式价格补充以该契约为准，覆盖此前无模型筛选的总览描述。
+
+
+## 已实现：T16趋势摘要
+
+不改变记录计量，扩展现有后台OverviewIndex日/小时标量记录数与ValuationIndex日/小时CostEstimate。范围与精确模型查询复用同一报告/价格修订，Decimal仅在Charts渲染边界转换，未知不填0。正式契约见[趋势设计](overview-trend-design.md)，已实现v0.2.21/build23；本轮验证见VERIFICATION。

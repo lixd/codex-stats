@@ -3,6 +3,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/dist/ui-previews}"
+PALETTE="${2:-cyan}"
+case "$PALETTE" in cyan|blue) ;; *) echo "配色必须为 cyan 或 blue" >&2; exit 2 ;; esac
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/codexstats-preview.XXXXXX")"
 trap 'rm -rf "$WORK"' EXIT
 mkdir -p "$WORK/sessions" "$OUT"
@@ -50,4 +52,4 @@ for SOURCE in "$ROOT"/Sources/App/*.swift; do
 done
 xcrun swiftc -swift-version 5 -parse-as-library -framework AppKit -framework SwiftUI -framework Charts \
   "$ROOT"/Sources/Core/*.swift "${APP_SOURCES[@]}" "$ROOT/Tests/UIPreview/main.swift" -o "$WORK/preview"
-CODEX_HOME="$WORK" "$WORK/preview" "$OUT"
+CODEX_HOME="$WORK" CODEX_STATS_PREVIEW_PALETTE="$PALETTE" "$WORK/preview" "$OUT"

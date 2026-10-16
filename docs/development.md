@@ -2,7 +2,7 @@
 
 所有命令均在仓库根目录执行。协作流程见 [参与开发](../CONTRIBUTING.md)，统计口径见 [统计说明](statistics.md)。
 
-当前发布：**v0.2.10 / build 12**。当前生产菜单宽 288 points；已采用 B 总量卡及四指标布局，不提供运行时样式切换。
+当前源码与本地验证构建：**v0.2.17 / build 19**，尚未自动安装或发布；本轮不操作用户正在运行的版本。当前菜单宽288 points，固定B结构；分析窗口使用D布局，设置可切换浅青/晴蓝配色。
 
 原生 macOS Codex Token 使用分析工具。macOS 14+，完全离线、本地只读，零第三方运行时依赖。
 
@@ -33,8 +33,15 @@
 ./Scripts/test.sh
 # App 数字格式与三个区域设置的回归检查（macOS）
 ./Scripts/test-token-display.sh
-# 实际 UsageStore 加载 / 失败保留 / 目录切换回归
+# 实际 UsageStore 加载 / 失败保留 / 目录切换 / 双配色偏好回归
 ./Scripts/test-usage-store.sh
+# 价格管理页/表单与950/1120、双配色明暗、原生滚动几何
+./Scripts/render-price-management.sh /tmp/codexstats-price-preview
+# 合成日志原生界面、同宿主配色重绘与搜索/选择保留
+./Scripts/render-ui-previews.sh /tmp/codexstats-cyan-preview cyan
+./Scripts/render-ui-previews.sh /tmp/codexstats-blue-preview blue
+# 构建 / 安装失败保护及真实隔离 App 启动检查（macOS）
+./Scripts/test-app-delivery.sh
 ```
 
 使用系统自带 Swift Testing，无额外测试依赖。脚本在 macOS CLT 中显式提供已安装的 Testing 宏路径，解决当前工具链增量构建可能漏掉插件的问题；不下载编译器或测试框架。普通 Swift 6 / Xcode 环境也可运行 `xcrun swift test --disable-xctest`；Linux 使用 `swift test --disable-xctest`（本次没有运行 Linux 验证）。
@@ -48,6 +55,8 @@ xcrun swift run codex-stats-report Tests/CodexStatsCoreTests/Fixtures
 # 增加可核对的已计入记录（可选，默认不导出逐条记录）
 xcrun swift run codex-stats-report "$HOME/.codex" --records
 ```
+
+v0.2.16增加`derived.cacheRate`（状态、分子分母和fraction）与`derived.cost`（精确十进制USD字符串、版本、覆盖及原因）；`--records`增加`recordDerived`。无法估价金额为null，零输入/不完整缓存比例为null且保留明确状态，详见[派生设计](cache-rate-cost-design.md)。
 
 JSON 包含四项 Token、`cachedInputKnown`/`reasoningKnown`、模型、会话、typed `diagnostics`（severity / kind / 会话 / 文件 / message）及 warning/error 的 `warnings` 投影；总 Token 用 `input + output` 计算。当 known=false 时，对应的数值仅是内部已知部分的汇总，不应当解释为完整 Cached/Reasoning 数字；Non-cached Input 也不可据此推断。
 
@@ -74,6 +83,12 @@ Assets/           原生图标与 Info.plist
 
 Package 同时包含 Core、核对 CLI、测试以及 macOS App 可执行目标。分发 `.app` 仍使用 `Scripts/build-macos.sh`，自动生成图标和 ad-hoc 签名。
 
+构建先在输出目录的唯一暂存目录中完成编译、资源和严格签名校验；目标 App 正在运行时拒绝覆盖。安装脚本在目标卷暂存，拒绝任何同 bundle identifier 的运行实例，保留用户手动退出的控制权。`Scripts/app-delivery.swift` 是仅供开发脚本使用的系统框架帮助程序，不进入 App 包或运行时。
+
+已存在目标使用 macOS `renameatx_np(RENAME_SWAP)` 原子交换，首次发布使用 `RENAME_EXCL`。不支持该原语或跨卷时直接失败，不降级为先删后复制。发布前失败时目标保持原样；交换后启动失败则明确报告“已替换但启动未确认”，并打印旧副本路径供恢复。成功后清理自身暂存目录，清理失败另行警告，不改变已经发布的结果；进程被强制终止可能留下暂存目录，原子交换不会留下因删除旧目录而产生的目标空档。这不承诺断电后的磁盘持久性或自动恢复服务。
+
+启动核验绑定 LaunchServices 返回的新 PID / 启动时间 / bundle 与可执行文件路径，核对目标版本及可执行文件 SHA256。它不是应用内版本握手，也不证明长期驻留；检查与启动之间用户仍可独立启动副本，因此不能把运行实例检查解释为全系统互斥锁。交付测试只用临时目录和 UUID 身份的原生 App，另由测试 App 自身写入版本回执，覆盖真实编译/复制/签名失败、旧副本散列、运行实例拒绝、原子交换和成功/失败启动。中断检查只对独立测试构建进程组在发布前发送 SIGKILL，证明旧副本保留且暂存残留可见，不代表测试了断电或交换系统调用内部的中断。
+
 ## 性能复测
 
 ```bash
@@ -82,3 +97,9 @@ Package 同时包含 Core、核对 CLI、测试以及 macOS App 可执行目标�
 ```
 
 脚本输出 cold / warm / 单文件追加 / 四档筛选的时间和完整计量快照。仅修改自行生成的合成 fixture，随后恢复追加长度；不能指向真实日志。cold 表示新进程解析缓存为空，不表示清空系统磁盘缓存。目标及本机前后结果见 VERIFICATION.md。
+
+
+v0.2.17支持本地模型价表，默认App/CLI读取`~/Library/Application Support/Codex Stats/prices.json`，CLI只读，不写文件。可用`codex-stats-report LOG_ROOT --prices /tmp/synthetic-prices.json --records`注入独立测试表。JSON包含schemaVersion/revision/entries（model、input/cachedInput/output十进制字符串、source与可选来源日期）；输出priceCatalog与每层priceVersion/priceSources。缺文件用默认表，空表合法，损坏表返回非零stderr。测试必须注入临时价表路径，避免读取开发者真实配置。详见[价格管理设计](model-price-management-design.md)。
+
+
+v0.2.18总览筛选使用后台OverviewIndex标量桶与独立单项摘要缓存；新增`Scripts/render-overview.sh /tmp/synthetic-overview`验证真实生产视图的筛选状态、长名、大金额及document/clip几何。该脚本使用临时价表/日志及隔离偏好；不要以离屏预览替代鼠标Picker、导航和VoiceOver验收。查询契约见[overview-query](../.trellis/spec/backend/overview-query.md)。

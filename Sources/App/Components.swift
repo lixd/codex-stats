@@ -24,40 +24,28 @@ struct QuitAppButton: View {
 
 // MARK: - Visual system
 
-enum CPTheme {
-    static let accent = Color(red: 0.14, green: 0.60, blue: 0.53)
-    static let cyan = Color(red: 0.19, green: 0.61, blue: 0.80)
-    static let purple = Color(red: 0.55, green: 0.47, blue: 0.82)
-    static let orange = Color(red: 0.85, green: 0.53, blue: 0.29)
-    static let cardBackground = Color(nsColor: .controlBackgroundColor)
-    static let viewBackground = Color(nsColor: .windowBackgroundColor)
-    static let stroke = Color.primary.opacity(0.065)
-}
-
 struct CPLogo: View {
     var size: CGFloat = 34
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: size * 0.27, style: .continuous)
-                .fill(LinearGradient(colors: [Color(red: 0.12, green: 0.27, blue: 0.29),
-                                              Color(red: 0.08, green: 0.13, blue: 0.17)],
-                                     startPoint: .topLeading, endPoint: .bottomTrailing))
+                .fill(CPTheme.selection)
             Image(systemName: "waveform.path.ecg")
                 .font(.system(size: size * 0.48, weight: .medium))
-                .foregroundStyle(Color(red: 0.56, green: 0.92, blue: 0.77))
+                .foregroundStyle(CPTheme.accent)
         }
         .frame(width: size, height: size)
     }
 }
 
 struct Surface<Content: View>: View {
-    var padding: CGFloat = 20
+    var padding: CGFloat = 18
     @ViewBuilder var content: Content
     var body: some View {
         content
             .padding(padding)
-            .background(CPTheme.cardBackground, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(CPTheme.stroke))
+            .background(CPTheme.cardBackground, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(CPTheme.stroke))
     }
 }
 
@@ -81,6 +69,89 @@ func abbreviated(_ value: Double) -> String {
 
 func detailedNumber(_ value: Int64, known: Bool = true) -> String { known ? value.formatted() : "未完整记录" }
 
+func cacheRateLabel(_ usage: TokenUsage) -> String {
+    let rate = CacheRate(usage: usage)
+    switch rate.state {
+    case .noInput: return "—"
+    case .incomplete: return "未完整记录"
+    case .known:
+        return (rate.fraction! * 100).formatted(.number.locale(Locale(identifier: "en_US_POSIX"))
+            .grouping(.never).precision(.fractionLength(1))) + "%"
+    }
+}
+
+func cacheRateHelp(_ usage: TokenUsage) -> String {
+    switch CacheRate(usage: usage).state {
+    case .noInput: return "缓存率：无输入 Token"
+    case .incomplete: return "缓存率：缓存输入未完整记录"
+    case .known: return "缓存率：缓存输入 " + detailedNumber(usage.cachedInput) + " ÷ 输入 " + detailedNumber(usage.input) + "；缓存是输入的子集"
+    }
+}
+
+struct CacheRateText: View {
+    let usage: TokenUsage
+    var body: some View {
+        Text("缓存率 " + cacheRateLabel(usage)).monospacedDigit()
+            .foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            .help(cacheRateHelp(usage))
+            .accessibilityLabel("缓存率")
+            .accessibilityValue(cacheRateLabel(usage) + "；" + cacheRateHelp(usage))
+    }
+}
+
+func dollars(_ amount: Decimal) -> String {
+    if amount > 0 && amount < Decimal(string: "0.01")! { return "< $0.01" }
+    var value = amount, rounded = Decimal()
+    NSDecimalRound(&rounded, &value, 2, .plain)
+    let parts = NSDecimalNumber(decimal: rounded).stringValue.split(separator: ".")
+    let integer = String(parts[0])
+    let grouped = integer.reversed().enumerated().map { index, digit in
+        (index > 0 && index % 3 == 0 ? "," : "") + String(digit)
+    }.joined().reversed()
+    let fraction = parts.count > 1 ? String(parts[1]) : ""
+    return "$" + String(grouped) + "." + fraction + String(repeating: "0", count: max(0, 2 - fraction.count))
+}
+
+func costHelp(_ estimate: CostEstimate) -> String {
+    let exact = estimate.exactUSD
+    let fractional = exact.split(separator: ".", omittingEmptySubsequences: false).dropFirst().first?.count ?? 0
+    let padded = exact + (fractional == 0 ? "." : "") + String(repeating: "0", count: max(0, 8 - fractional))
+    let amount = estimate.state == .unavailable ? "无法估算金额" : "API 等值估算 " + padded + " USD"
+    return amount + "；已估算 " + detailedNumber(estimate.estimatedTokens)
+        + " Token；未估算 " + detailedNumber(estimate.unestimatedTokens) + " Token；"
+        + costReasons(estimate) + "；USD 参考价；所有历史统一按当前价表折算，非实际扣费；" + ReferencePricing.exclusions
+        + "；价表 " + estimate.priceVersion
+        + (estimate.priceVersion == "unavailable" ? "；价格配置不可用，未回退默认价" : estimate.priceSources.contains(.custom) ? "；含用户自定义价格，未经官方核验" : estimate.priceSources.isEmpty ? "；没有采用价格的已计价用量；各行来源见模型价格" : "；采用已保存快照的内置参考价；来源和核验日期见设置中的模型价格")
+}
+
+func costReasons(_ estimate: CostEstimate) -> String {
+    estimate.reasons.keys.sorted { $0.rawValue < $1.rawValue }
+        .map { $0.label }.joined(separator: "、")
+}
+
+struct CostEstimateText: View {
+    let estimate: CostEstimate
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            switch estimate.state {
+            case .complete: Text("API 等值估算 ≈ " + dollars(estimate.amountUSD))
+            case .partial:
+                Text("已估算小计 ≈ " + dollars(estimate.amountUSD))
+                Text("另有 " + abbreviated(estimate.unestimatedTokens) + " Token 未估算 · " + costReasons(estimate))
+            case .unavailable:
+                Text("API 等值估算：无法估算")
+                Text(abbreviated(estimate.unestimatedTokens) + " Token 未估算 · " + costReasons(estimate))
+            }
+        }
+        .monospacedDigit().foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+        .help(costHelp(estimate))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(estimate.state == .partial ? "API 等值估算，已估算小计" : "API 等值估算")
+        .accessibilityValue((estimate.state == .unavailable ? "无法估算；" : dollars(estimate.amountUSD) + "；") + costHelp(estimate))
+    }
+}
+
 extension Date {
     var cpDateTime: String { formatted(date: .abbreviated, time: .shortened) }
 }
@@ -88,30 +159,34 @@ extension Date {
 struct MetricTile: View {
     let label: String
     let number: Int64
-    let tint: Color
     let systemImage: String
     var known = true
     let caption: String
+    var emphasized = false
+    var cacheUsage: TokenUsage? = nil
+    var cost: CostEstimate? = nil
 
     var body: some View {
-        Surface(padding: 16) {
-            VStack(alignment: .leading, spacing: 9) {
-                HStack {
-                    Image(systemName: systemImage).foregroundStyle(tint)
-                    Text(label).font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary)
-                    Spacer()
-                }
-                Text(abbreviated(number, known: known))
-                    .font(.system(size: 26, weight: .semibold, design: .rounded))
-                    .monospacedDigit()
-                    .lineLimit(1).minimumScaleFactor(0.65)
-                    .contentTransition(.numericText())
-                    .help(detailedNumber(number, known: known) + " tokens")
-                Text(known ? caption : "日志未完整记录\(label)")
-                    .font(.system(size: 10)).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 9) {
+            HStack {
+                Image(systemName: systemImage).foregroundStyle(CPTheme.accent)
+                Text(label).font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary)
+                Spacer()
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(abbreviated(number, known: known))
+                .font(.system(size: 26, weight: .semibold))
+                .foregroundStyle(emphasized ? AnyShapeStyle(CPTheme.accent) : AnyShapeStyle(Color.primary))
+                .monospacedDigit()
+                .lineLimit(1).minimumScaleFactor(0.65)
+                .contentTransition(.numericText())
+                .help(detailedNumber(number, known: known) + " tokens")
+            if let cost { CostEstimateText(estimate: cost).font(.system(size: 10)) }
+            if let cacheUsage { CacheRateText(usage: cacheUsage).font(.system(size: 10)) }
+            Text(known ? caption : "日志未完整记录\(label)")
+                .font(.system(size: 10)).foregroundStyle(.secondary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
     }
 }
 
@@ -151,8 +226,8 @@ struct ModelBar: View {
             }
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(CPTheme.accent.opacity(0.10))
-                    Capsule().fill(CPTheme.accent)
+                    Capsule().fill(CPTheme.selection)
+                    Capsule().fill(CPTheme.chart)
                         .frame(width: max(3, geometry.size.width * CGFloat(model.usage.total) / CGFloat(max(1, maxTokens))))
                 }
             }
@@ -220,9 +295,10 @@ struct PeriodPicker: View {
 struct SectionHeader: View {
     let title: String
     let subtitle: String
+    var titleSize: CGFloat = 23
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(title).font(.system(size: 27, weight: .bold, design: .rounded))
+            Text(title).font(.system(size: titleSize, weight: .semibold))
             Text(subtitle).font(.system(size: 12)).foregroundStyle(.secondary)
         }
     }
@@ -230,6 +306,7 @@ struct SectionHeader: View {
 
 struct TokenDetails: View {
     let usage: TokenUsage
+    var showTotal = true
     var body: some View {
         Grid(alignment: .leading, horizontalSpacing: 22, verticalSpacing: 9) {
             row("输入 Token", usage.input)
@@ -237,7 +314,7 @@ struct TokenDetails: View {
             row("非缓存输入", usage.uncachedInput, known: usage.cachedInputKnown)
             row("输出 Token", usage.output)
             row("推理 Token", usage.reasoning, known: usage.reasoningKnown)
-            row("总 Token", usage.total)
+            if showTotal { row("总 Token", usage.total) }
         }
         .font(.system(size: 12))
         .textSelection(.enabled)
@@ -255,10 +332,9 @@ struct TokenDetails: View {
 /// Group structured diagnostics without turning normal history metadata into warnings.
 struct DiagnosticSummary: View {
     let diagnostics: [ScanDiagnostic]
-    var compact = false
     @ViewState(initialValue: false) private var expanded: Bool
-    init(diagnostics: [ScanDiagnostic], compact: Bool = false, initiallyExpanded: Bool = false) {
-        self.diagnostics = diagnostics; self.compact = compact
+    init(diagnostics: [ScanDiagnostic], initiallyExpanded: Bool = false) {
+        self.diagnostics = diagnostics
         self._expanded = ViewState(initialValue: initiallyExpanded)
     }
 
@@ -274,19 +350,15 @@ struct DiagnosticSummary: View {
     var body: some View {
         if !diagnostics.isEmpty {
             DisclosureGroup(isExpanded: $expanded) {
-                if compact {
-                    ScrollView { detailGroups }.frame(height: 120)
-                } else {
-                    detailGroups
-                }
+                detailGroups
             } label: {
                 Label(warningCount > 0 ? "统计状态 · \(warningCount) 条警告 / 错误 · \(diagnostics.count - warningCount) 条信息" : "统计状态 · \(diagnostics.count) 条信息",
                       systemImage: warningCount > 0 ? "exclamationmark.triangle" : "info.circle")
-                    .font(.system(size: compact ? 10 : 12, weight: .medium))
-                    .foregroundStyle(warningCount > 0 ? CPTheme.orange : CPTheme.cyan)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(warningCount > 0 ? CPTheme.orange : CPTheme.accent)
             }
-            .padding(compact ? 10 : 14)
-            .background((warningCount > 0 ? CPTheme.orange : CPTheme.cyan).opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+            .padding(14)
+            .background(warningCount > 0 ? AnyShapeStyle(CPTheme.orange.opacity(0.06)) : AnyShapeStyle(CPTheme.selection), in: RoundedRectangle(cornerRadius: 12))
         }
     }
     private var detailGroups: some View {
@@ -315,7 +387,7 @@ struct DiagnosticSummary: View {
     private func rank(_ severity: DiagnosticSeverity) -> Int {
         switch severity { case .error: return 0; case .warning: return 1; case .information: return 2 }
     }
-    private func color(_ severity: DiagnosticSeverity) -> Color { severity == .information ? CPTheme.cyan : CPTheme.orange }
+    private func color(_ severity: DiagnosticSeverity) -> CPTheme { severity == .information ? CPTheme.cyan : CPTheme.orange }
     private func icon(_ severity: DiagnosticSeverity) -> String { severity == .information ? "info.circle" : "exclamationmark.triangle" }
     private func label(_ kind: DiagnosticKind) -> String {
         switch kind {

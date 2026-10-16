@@ -17,6 +17,10 @@ Read before changing lifecycle timing, attaching performance to usage rows or di
 - Duration and TTFT may be known while output coverage is unknown; then output/count/rate remain nil. Never label missing rate as zero.
 - A Turn may include multiple responses, tools and waiting. Its average is not per-request latency or pure generation speed. Date/model/search filtering must not truncate its output numerator.
 
+### Operation-local indexes
+
+`attachTurnPerformance` groups recorded-session copies and accepted row indices by Turn once. Build native ownership/membership, failed Turns, unpaired-counter Turn/frame-position/time evidence and unassigned-native timestamps from **all** physical copies. Pair counters with `inherited: 0`; accounting's inherited-prefix cutoff cannot replace coverage evidence. Counter relevance is frame range OR Turn ID OR inclusive time interval OR missing timestamp. Sorted interval lookup may answer existence, but cannot drop any OR branch. Keep indexes local to the scan and measure retained-memory cost; no persistent cache is required.
+
 ## 4. Validation / Error Matrix
 
 | Evidence | Result |

@@ -261,3 +261,52 @@ private func timingResponse(_ id: String, output: Int = 20, owner: String = "own
     #expect(row.turnPerformance?.durationMilliseconds == 120_000)
     #expect(row.turnPerformance?.outputTokens == nil)
 }
+
+@Test(arguments: ["time-start", "time-end", "frame-range", "same-turn", "unknown-time", "irrelevant"])
+func turnCoverageRetainsEveryCounterRelevancePath(shape: String) throws {
+    let logs = TimingLogs(); defer { logs.remove() }
+    var counter = timingEvent("token_count", at: "2026-10-14T02:00:00Z", fields: [
+        "info": ["total_token_usage": ["input_tokens": 500, "output_tokens": 100]]])
+    if shape == "time-start" { counter["timestamp"] = timingStart["timestamp"] }
+    if shape == "time-end" { counter["timestamp"] = timingEnd()["timestamp"] }
+    if shape == "unknown-time" { counter.removeValue(forKey: "timestamp") }
+    let context: [String: Any] = ["type": "turn_context", "payload": [
+        "turn_id": shape == "same-turn" ? "whole-turn" : "other-turn"]]
+    let response = timingResponse("a")
+    if shape == "frame-range" {
+        // Neither Turn ID nor wall-clock time matches, but physical membership does.
+        try logs.write([timingMeta(), timingStart, response, context, counter, timingEnd()])
+    } else {
+        try logs.write([timingMeta(), timingStart, response, response, response, timingEnd()])
+        // This shorter legacy stream is excluded from accounting, not from coverage.
+        try logs.write([timingMeta(), context, counter], name: "copy.jsonl", archived: true)
+    }
+    let row = try #require(try logs.scan().records(in: .all).first { $0.requestID == "a" })
+    #expect(row.turnPerformance?.durationMilliseconds == 120_000)
+    #expect(row.turnPerformance?.outputTokens == (shape == "irrelevant" ? 20 : nil))
+}
+
+@Test func inheritedCompanionStillCountsAsPairedCoverageEvidence() throws {
+    let logs = TimingLogs(); defer { logs.remove() }
+    var parentMeta = timingMeta()
+    var parentPayload = parentMeta["payload"] as! [String: Any]
+    parentPayload["id"] = "parent"; parentMeta["payload"] = parentPayload
+    var childMeta = timingMeta()
+    var childPayload = childMeta["payload"] as! [String: Any]
+    childPayload["forked_from_id"] = "parent"; childMeta["payload"] = childPayload
+    let context: [String: Any] = ["type": "turn_context", "payload": ["turn_id": "inherited-turn"]]
+    var inherited = timingResponse("inherited", owner: "parent")
+    var payload = inherited["payload"] as! [String: Any]
+    payload["turn_id"] = "inherited-turn"; inherited["payload"] = payload
+    let companion = timingEvent("token_count", at: "2026-10-14T00:00:00Z", fields: [
+        "info": ["last_token_usage": payload["usage"]!, "total_token_usage": payload["usage"]!]])
+    try logs.write([parentMeta, context, inherited, companion], name: "parent.jsonl")
+    try logs.write([childMeta, context, inherited, companion, timingStart, timingResponse("a"), timingEnd()])
+    let report = try logs.scan()
+    let child = try #require(report.sessions.first { $0.recordedSessionID == "owner" })
+    #expect(child.replayDeduplicated)
+    #expect(child.records.count == 1)
+    #expect(child.records.first?.usage.output == 20)
+    #expect(child.records.first?.turnPerformance?.outputTokens == 20)
+    #expect(child.records.first?.turnPerformance?.responseCount == 1)
+}

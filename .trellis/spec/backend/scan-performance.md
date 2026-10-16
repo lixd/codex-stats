@@ -6,7 +6,7 @@ Read before changing timestamp parsing, calendar filtering, scan caching or load
 
 ## 2. Signatures
 
-`UsageStore.summary` / `summary(in:now:)` return one current `UsageSummary` with usage/models/dailyTotals/hourlyTotals; only today computes hourly totals. `ScanReport.records(in:now:sortedByTime:)` defaults to newest-first ordering; callers that own another sort can request `sortedByTime: false`. `UsagePeriod.bounds(now:timeZone:)` returns operation-local day bounds. `CodexLogScanner(timeZone:)` owns immutable ISO parsing styles and serial file cache.
+`UsageStore.summary` / `summary(in:now:)` return one current `UsageSummary` with usage/models/dailyTotals/hourlyTotals; only today computes hourly totals. `ScanReport.records(in:now:sortedByTime:)` defaults to newest-first ordering; callers that own another sort can request `sortedByTime: false`. `ScanReport.sessionRows(in:now:timeZone:) -> [SessionUsageRow]` returns unsorted session/usage/model projections. `UsagePeriod.bounds(now:timeZone:)` returns operation-local string-day and half-open Date bounds. `CodexLogScanner(timeZone:)` owns immutable ISO parsing styles and serial file cache.
 
 ## 3. Contracts
 
@@ -16,6 +16,7 @@ Read before changing timestamp parsing, calendar filtering, scan caching or load
 - Bound Foundation temporary lifetimes: wrap each FileHandle 64 KiB read and each JSON line callback in a local autoreleasepool, including an unterminated tail. Chunking alone does not release autoreleased NSData/JSON objects. Preserve retained metadata and parse/error behavior; never use pools as a substitute for bounded reads.
 - Background actor owns scanning. First load and changed-root load are pending, not successful zero usage. Refresh keeps the successful report; failure does not move successful refresh time. Old-root results must not overwrite the new root.
 - UsageStore caches only one current UsageSummary, keyed by report generation, period, local day, current timezone identifier and offset; clear on accepted report/root change, retain on refresh failure. No raw-record or unbounded query cache. Sessions precompute totals/models at one now and filter/sort/select once per body. A timezone cache-key change alone does not rebucket scanner data: scanner captures its zone at startup; restart after OS timezone change.
+- Session projections compute bounds once for all sessions and aggregate each session's daily rows once. Active empty sessions use Date bounds, not per-session DateFormatter instances. The view owns search and the single final sort. Test 7/30/all, bounded future exclusion, timezone, midnight and 23/25-hour DST days.
 - UI must not perform two sorts for the same request projection. Display formatting never affects counters or timestamp identity.
 
 ## 4. Validation & Error Matrix

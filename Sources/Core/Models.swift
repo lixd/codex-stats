@@ -37,16 +37,17 @@ public struct TokenUsage: Hashable, Codable, Sendable {
         lhs = lhs + rhs
     }
 
-    /// Returns nil on a counter reset rather than silently creating a negative delta.
+    /// Parent resets cannot be differenced; inconsistent subsets remain unknown.
     public func difference(from previous: TokenUsage) -> TokenUsage? {
         guard input >= previous.input, output >= previous.output else { return nil }
-        let cacheKnown = cachedInputKnown && previous.cachedInputKnown
-        let reasonKnown = reasoningKnown && previous.reasoningKnown
-        guard !cacheKnown || cachedInput >= previous.cachedInput,
-              !reasonKnown || reasoning >= previous.reasoning else { return nil }
-        return TokenUsage(input: input - previous.input,
+        let inputDelta = input - previous.input, outputDelta = output - previous.output
+        let cacheKnown = cachedInputKnown && previous.cachedInputKnown &&
+            cachedInput >= previous.cachedInput && cachedInput - previous.cachedInput <= inputDelta
+        let reasonKnown = reasoningKnown && previous.reasoningKnown &&
+            reasoning >= previous.reasoning && reasoning - previous.reasoning <= outputDelta
+        return TokenUsage(input: inputDelta,
                           cachedInput: cacheKnown ? cachedInput - previous.cachedInput : 0,
-                          output: output - previous.output,
+                          output: outputDelta,
                           reasoning: reasonKnown ? reasoning - previous.reasoning : 0,
                           cachedInputKnown: cacheKnown, reasoningKnown: reasonKnown)
     }
@@ -194,6 +195,14 @@ public struct SessionUsage: Identifiable, Sendable {
     }
 }
 
+/// One session's range projection; ordering belongs to the caller.
+public struct SessionUsageRow: Identifiable, Sendable {
+    public let session: SessionUsage
+    public let usage: TokenUsage
+    public let models: [ModelUsage]
+    public var id: String { session.id }
+}
+
 public enum UsagePeriod: String, CaseIterable, Identifiable, Sendable {
     case today = "今天"
     case sevenDays = "7 天"
@@ -204,9 +213,15 @@ public enum UsagePeriod: String, CaseIterable, Identifiable, Sendable {
     struct DayBounds {
         let first: String?
         let last: String?
+        var start: Date? = nil
+        var end: Date? = nil
         func includes(_ day: String) -> Bool {
             guard let first, let last else { return true }
             return day >= first && day <= last
+        }
+        func includes(_ date: Date) -> Bool {
+            guard let start, let end else { return true }
+            return date >= start && date < end
         }
     }
 
@@ -215,7 +230,9 @@ public enum UsagePeriod: String, CaseIterable, Identifiable, Sendable {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = timeZone
         let daysBack = self == .today ? 0 : (self == .sevenDays ? 6 : 29)
-        guard let threshold = calendar.date(byAdding: .day, value: -daysBack, to: calendar.startOfDay(for: now)) else {
+        let today = calendar.startOfDay(for: now)
+        guard let threshold = calendar.date(byAdding: .day, value: -daysBack, to: today),
+              let end = calendar.date(byAdding: .day, value: 1, to: today) else {
             return DayBounds(first: nil, last: nil)
         }
         let formatter = DateFormatter()
@@ -223,7 +240,7 @@ public enum UsagePeriod: String, CaseIterable, Identifiable, Sendable {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = timeZone
         formatter.dateFormat = "yyyy-MM-dd"
-        return DayBounds(first: formatter.string(from: threshold), last: formatter.string(from: now))
+        return DayBounds(first: formatter.string(from: threshold), last: formatter.string(from: now), start: threshold, end: end)
     }
 
     public func includes(day: String, now: Date = Date()) -> Bool {
@@ -295,8 +312,25 @@ public struct ScanReport: Sendable {
 
     public func recentSessions(in period: UsagePeriod, now: Date = Date()) -> [SessionUsage] {
         let bounds = period.bounds(now: now)
-        return sessions.filter { period == .all || !$0.usage(in: bounds).isZero || bounds.includes(UsagePeriod.dateString($0.lastActivity)) || bounds.includes(UsagePeriod.dateString($0.firstActivity)) }
+        return sessions.filter { period == .all || !$0.usage(in: bounds).isZero || bounds.includes($0.lastActivity) || bounds.includes($0.firstActivity) }
             .sorted { $0.lastActivity > $1.lastActivity }
+    }
+
+    public func sessionRows(in period: UsagePeriod, now: Date = Date(), timeZone: TimeZone = .current) -> [SessionUsageRow] {
+        let bounds = period.bounds(now: now, timeZone: timeZone)
+        return sessions.compactMap { session in
+            var usage = TokenUsage()
+            var models: [String: TokenUsage] = [:]
+            for item in session.dailyModel where bounds.includes(item.day) {
+                usage += item.usage
+                models[item.model, default: TokenUsage()] += item.usage
+            }
+            guard period == .all || !usage.isZero || bounds.includes(session.lastActivity)
+                || bounds.includes(session.firstActivity) else { return nil }
+            let details = models.map { ModelUsage(model: $0.key, usage: $0.value, sessionCount: 1) }
+                .sorted { $0.usage.total > $1.usage.total }
+            return SessionUsageRow(session: session, usage: usage, models: details)
+        }
     }
 
     public func dailyTotals(in period: UsagePeriod, now: Date = Date()) -> [(day: String, usage: TokenUsage)] {

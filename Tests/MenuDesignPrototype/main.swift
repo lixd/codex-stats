@@ -4,7 +4,7 @@ import SwiftUI
 // Throwaway design comparison. All amounts are synthetic, never loaded from local logs.
 private struct MenuProposal: View {
     let dashboard: Bool
-    private let metrics: [(String, Int64, Color)] = [
+    private let metrics: [(String, Int64, CPTheme)] = [
         ("输入", 304_810_000, CPTheme.cyan), ("输出", 1_270_000, CPTheme.purple),
         ("缓存输入", 297_240_000, CPTheme.accent), ("推理", 437_800, CPTheme.orange)
     ]
@@ -76,7 +76,7 @@ private struct MenuProposal: View {
             }.font(.system(size: 11, weight: .medium)).padding(.vertical, 9).padding(.horizontal, 10)
                 .foregroundStyle(dashboard ? Color.white : Color.primary)
                 .background(dashboard ? CPTheme.accent : CPTheme.cardBackground, in: RoundedRectangle(cornerRadius: 8))
-                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(dashboard ? Color.clear : CPTheme.stroke))
+                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(dashboard ? AnyShapeStyle(Color.clear) : AnyShapeStyle(CPTheme.stroke)))
             HStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("刷新于 21:57:09")

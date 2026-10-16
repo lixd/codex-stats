@@ -575,55 +575,90 @@ private extension CodexLogScanner {
         // stable-thread_UUID underscore. Do not use SessionMeta.id after revert.
         return stem.hasPrefix("rollout-") && UUID(uuidString: suffix) != nil ? suffix : sessionID
     }
+    /// Inclusive interval lookup over operation-local sorted evidence.
+    func sortedContains<Value: Comparable>(_ values: [Value], in range: ClosedRange<Value>) -> Bool {
+        var lower = 0, upper = values.count
+        while lower < upper {
+            let middle = lower + (upper - lower) / 2
+            if values[middle] < range.lowerBound { lower = middle + 1 }
+            else { upper = middle }
+        }
+        return lower < values.count && values[lower] <= range.upperBound
+    }
+
     func attachTurnPerformance(to sessions: inout [SessionUsage], logs: [ParsedLog], conflicting: Set<String>) {
+        let logsBySession = Dictionary(grouping: logs, by: \.recordedSessionID)
         for index in sessions.indices {
             let sessionID = sessions[index].id
-            let copies = logs.filter { $0.recordedSessionID == sessionID }
-            let candidates = Dictionary(grouping: copies.flatMap { log in log.turns.map { (log, $0) } }, by: { $0.1.id })
+            let copies = logsBySession[sessionID] ?? []
+            let candidates = Dictionary(grouping: copies.flatMap(\.turns), by: \.id)
+            guard !candidates.isEmpty else { continue }
             let rows = sessions[index].records
-            for (turnID, entries) in candidates {
-                guard !copies.contains(where: { $0.failedTurns.contains(turnID) }) else { continue }
-                let timing = entries[0].1
-                // Contradictory complete timers cannot be resolved by choosing a copy.
-                guard entries.allSatisfy({ $0.1.started == timing.started && $0.1.completed == timing.completed &&
-                    $0.1.duration == timing.duration && $0.1.firstToken == timing.firstToken }) else { continue }
-                let turnRows = rows.filter { $0.turnID == turnID }
-                guard turnRows.contains(where: { $0.evidence == .responseRecord }) else { continue }
-                let accepted = Set(turnRows.compactMap(\.requestID))
-                let observed = copies.flatMap(\.frames).filter { $0.isNative && $0.owner == sessionID && $0.turn == turnID }
-                // Excluded counters are still evidence of uncertain coverage. Check
-                // every physical copy, including copies without lifecycle metadata.
-                let countersCovered = copies.allSatisfy { log in
-                    let paired = pairedNotifications(log, inherited: 0).counts
-                    let ranges = entries.filter { $0.0.path == log.path }.map { $0.1.frameRange }
-                    return log.frames.enumerated().allSatisfy { position, frame in
-                        guard !frame.isNative else { return true }
-                        let relevant = ranges.contains { $0.contains(position) } || frame.turn == turnID ||
-                            (frame.timestamp.map { $0 >= timing.started && $0 <= timing.completed } ?? true)
-                        return !relevant || paired.contains(position)
+            let rowsByTurn = Dictionary(grouping: rows.indices, by: { rows[$0].turnID })
+            let failedTurns = copies.reduce(into: Set<String>()) { $0.formUnion($1.failedTurns) }
+            let historyCovered = copies.allSatisfy { !$0.incomplete && $0.invalidLines == 0 && !$0.hasHistoryBase }
+            var observedByTurn: [String: [Frame]] = [:]
+            var foreignTurns = Set<String>(), counterTurns = Set<String>(), counterRangeTurns = Set<String>()
+            var unassignedDates: [Date] = [], counterDates: [Date] = []
+            var unassignedWithoutTime = false, counterWithoutTime = false
+            // Index all physical evidence, including frames excluded by accounting.
+            // Pair from zero: an inherited companion still proves notification coverage.
+            for log in copies {
+                let paired = pairedNotifications(log, inherited: 0).counts
+                var unpairedPositions: [Int] = []
+                for (position, frame) in log.frames.enumerated() {
+                    if frame.isNative {
+                        if let turn = frame.turn {
+                            if frame.owner == sessionID { observedByTurn[turn, default: []].append(frame) }
+                            else { foreignTurns.insert(turn) }
+                        }
+                        if !frame.explicitTurn {
+                            if let timestamp = frame.timestamp { unassignedDates.append(timestamp) }
+                            else { unassignedWithoutTime = true }
+                        }
+                    } else if !paired.contains(position) {
+                        unpairedPositions.append(position)
+                        if let turn = frame.turn { counterTurns.insert(turn) }
+                        if let timestamp = frame.timestamp { counterDates.append(timestamp) }
+                        else { counterWithoutTime = true }
                     }
                 }
-                let fullCoverage = entries.contains { _, candidate in
-                    return entries.allSatisfy { $0.1.locallyComplete } &&
-                    copies.allSatisfy { !$0.incomplete && $0.invalidLines == 0 && !$0.hasHistoryBase } &&
-                    candidate.responses == accepted && candidate.responses == Set(observed.compactMap(\.responseID)) &&
-                    observed.allSatisfy { $0.explicitTurn && $0.responseID != nil && $0.last != nil && $0.responseID.map { !conflicting.contains($0) } == true } &&
-                    turnRows.allSatisfy { $0.evidence == .responseRecord } &&
-                    !copies.flatMap(\.frames).contains { $0.isNative && $0.turn == turnID && $0.owner != sessionID } &&
-                    !copies.flatMap(\.frames).contains { frame in
-                        frame.isNative && !frame.explicitTurn &&
-                        (frame.timestamp.map { $0 >= timing.started && $0 <= timing.completed } ?? true)
-                    } &&
-                    countersCovered
+                for timing in log.turns where !timing.frameRange.isEmpty {
+                    if sortedContains(unpairedPositions, in: timing.frameRange.lowerBound...(timing.frameRange.upperBound - 1)) {
+                        counterRangeTurns.insert(timing.id)
+                    }
                 }
+            }
+            unassignedDates.sort(); counterDates.sort()
+            for (turnID, entries) in candidates {
+                guard !failedTurns.contains(turnID) else { continue }
+                let timing = entries[0]
+                // Contradictory complete timers cannot be resolved by choosing a copy.
+                guard entries.allSatisfy({ $0.started == timing.started && $0.completed == timing.completed &&
+                    $0.duration == timing.duration && $0.firstToken == timing.firstToken }) else { continue }
+                let rowIndices = rowsByTurn[turnID] ?? []
+                guard rowIndices.contains(where: { rows[$0].evidence == .responseRecord }) else { continue }
+                let accepted = Set(rowIndices.compactMap { rows[$0].requestID })
+                let observed = observedByTurn[turnID] ?? []
+                let observedResponses = Set(observed.compactMap(\.responseID))
+                let interval = timing.started...timing.completed
+                // Relevance is frame range OR Turn ID OR inclusive time OR unknown
+                // time, not only membership in the accepted response set.
+                let countersCovered = !counterWithoutTime && !counterTurns.contains(turnID) &&
+                    !counterRangeTurns.contains(turnID) && !sortedContains(counterDates, in: interval)
+                let fullCoverage = historyCovered && entries.allSatisfy(\.locallyComplete) &&
+                    entries.contains { $0.responses == accepted && $0.responses == observedResponses } &&
+                    observed.allSatisfy { $0.explicitTurn && $0.responseID != nil && $0.last != nil && $0.responseID.map { !conflicting.contains($0) } == true } &&
+                    rowIndices.allSatisfy { rows[$0].evidence == .responseRecord } &&
+                    !foreignTurns.contains(turnID) && !unassignedWithoutTime &&
+                    !sortedContains(unassignedDates, in: interval) && countersCovered
                 let performance = TurnPerformance(durationMilliseconds: timing.duration,
                     firstTokenMilliseconds: timing.firstToken,
-                    outputTokens: fullCoverage ? turnRows.reduce(Int64(0)) { $0 + $1.usage.output } : nil,
+                    outputTokens: fullCoverage ? rowIndices.reduce(Int64(0)) { $0 + rows[$1].usage.output } : nil,
                     responseCount: fullCoverage ? accepted.count : nil)
                 let explicitMembers = Set(observed.filter(\.explicitTurn).compactMap(\.responseID))
-                for row in sessions[index].records.indices where sessions[index].records[row].turnID == turnID &&
-                    sessions[index].records[row].evidence == .responseRecord &&
-                    sessions[index].records[row].requestID.map({ explicitMembers.contains($0) }) == true {
+                for row in rowIndices where rows[row].evidence == .responseRecord &&
+                    rows[row].requestID.map({ explicitMembers.contains($0) }) == true {
                     sessions[index].records[row].turnPerformance = performance
                 }
             }
@@ -776,6 +811,17 @@ private extension CodexLogScanner {
         func warn(_ kind: DiagnosticKind, _ message: String) {
             diagnostics.insert(.init(severity: .warning, kind: kind, sessionID: log.id, fileName: log.fileName, message: "\(log.id.prefix(8))：\(message)"))
         }
+        func counterDifference(_ total: TokenUsage, from previous: TokenUsage) -> TokenUsage? {
+            guard let difference = total.difference(from: previous) else { return nil }
+            if (total.cachedInputKnown && previous.cachedInputKnown && !difference.cachedInputKnown) ||
+                (total.reasoningKnown && previous.reasoningKnown && !difference.reasoningKnown) {
+                warn(.counterAmbiguity, "累计计数器无法核对：保留输入/输出增量，异常缓存或推理子项标为未完整记录。")
+            }
+            return difference
+        }
+        func lastOnlySignature(_ frame: Frame, _ last: TokenUsage) -> String {
+            frame.responseID ?? "\(frame.turn ?? "no-turn")|\(frame.model)|\(last.input)|\(last.cachedInput)|\(last.output)|\(last.reasoning)"
+        }
         var previous: TokenUsage?
         var previousFrame: Frame?
         var lastOnlySignatures = Set<String>()
@@ -798,6 +844,11 @@ private extension CodexLogScanner {
             if position < inherited {
                 if let total = frame.cumulative { previous = total; previousFrame = frame }
                 continue
+            }
+            // Covered notifications are still evidence against a later anonymous
+            // replay, whether the companion carried a cumulative snapshot or not.
+            if coveredCounts.contains(position), let last = frame.last {
+                lastOnlySignatures.insert(lastOnlySignature(frame, last))
             }
             var delta: TokenUsage?
             var usingLastRequest = false
@@ -834,7 +885,7 @@ private extension CodexLogScanner {
                     continue
                 }
                 if let previous {
-                    if let difference = total.difference(from: previous) {
+                    if let difference = counterDifference(total, from: previous) {
                         delta = difference
                         if let last = frame.last, difference != last,
                            (frame.model != previousFrame?.model || frame.timestamp.map { formatter.string(from: $0) } != previousFrame?.timestamp.map { formatter.string(from: $0) }) {
@@ -857,7 +908,7 @@ private extension CodexLogScanner {
                     if delta == nil { warn(.counterAmbiguity, "缺少历史基线，首个累计快照未纳入统计。") }
                 } else { delta = total; initialSnapshot = true }
                 if !usingLastRequest, !requestsSinceCounter.isZero, let value = delta {
-                    if let remainder = value.difference(from: requestsSinceCounter) { delta = remainder }
+                    if let remainder = counterDifference(value, from: requestsSinceCounter) { delta = remainder }
                     else {
                         delta = nil
                         warn(.counterAmbiguity, "请求记录与累计通知无法核对，仅统计独立请求，跳过可能重复的累计通知。")
@@ -877,7 +928,7 @@ private extension CodexLogScanner {
                 // Without a request identity an identical usage value might be either
                 // a retransmission or a new request. Conservatively suppress repeated
                 // equal values within one turn and disclose that ambiguity.
-                let signature = frame.responseID ?? "\(frame.turn ?? "no-turn")|\(frame.model)|\(last.input)|\(last.cachedInput)|\(last.output)|\(last.reasoning)"
+                let signature = lastOnlySignature(frame, last)
                 if !lastOnlySignatures.insert(signature).inserted {
                     warn(.counterAmbiguity, "无累计快照/请求 ID 的相同用量无法区分重发，已保守去重，可能少计。")
                     continue

@@ -8,7 +8,6 @@ import AppKit
 enum DashboardSection: String, CaseIterable, Identifiable {
     case overview = "总览"
     case requests = "请求日志"
-    case models = "模型统计"
     case sessions = "历史会话"
     case settings = "设置"
     var id: Self { self }
@@ -16,7 +15,6 @@ enum DashboardSection: String, CaseIterable, Identifiable {
         switch self {
         case .overview: return "square.grid.2x2"
         case .requests: return "list.bullet.rectangle"
-        case .models: return "cpu"
         case .sessions: return "rectangle.stack"
         case .settings: return "gearshape"
         }
@@ -26,10 +24,18 @@ enum DashboardSection: String, CaseIterable, Identifiable {
 struct DashboardView: View {
     @EnvironmentObject private var store: UsageStore
     @ViewState(initialValue: DashboardSection.overview) private var section: DashboardSection
+    @ViewState(initialValue: false) private var showingStatus: Bool
+    @ViewState(initialValue: "") private var overviewModel: String
+    @ViewState(initialValue: "") private var requestModel: String
     private let initialRequestSelection: String?
-    init(initialSection: DashboardSection = .overview, initialRequestSelection: String? = nil) {
+    private let initialTrendMetric: OverviewTrendMetric
+    private let initialPriceManagement: Bool
+    init(initialSection: DashboardSection = .overview, initialRequestSelection: String? = nil, initialPriceManagement: Bool = false, initialOverviewModel: String = "", initialTrendMetric: OverviewTrendMetric = .tokens) {
         self._section = ViewState(initialValue: initialSection)
+        self._overviewModel = ViewState(initialValue: initialOverviewModel)
         self.initialRequestSelection = initialRequestSelection
+        self.initialPriceManagement = initialPriceManagement
+        self.initialTrendMetric = initialTrendMetric
     }
 
     var body: some View {
@@ -39,16 +45,23 @@ struct DashboardView: View {
             VStack(spacing: 0) {
                 header
                 Divider()
+                if store.hasReport {
+                    statusLine
+                    Divider()
+                }
                 Group {
                     if section != .settings && !store.hasReport {
                         PendingUsageView(loading: store.loading, error: store.errorMessage)
                     } else {
                         switch section {
-                        case .overview: OverviewContent(period: store.period)
-                        case .requests: RequestsContent(period: store.period, selectedRecordID: initialRequestSelection)
-                        case .models: ModelsContent(period: store.period)
+                        case .overview:
+                            OverviewContent(period: store.period, model: overviewModel.isEmpty ? nil : overviewModel, initialMetric: initialTrendMetric) {
+                                requestModel = overviewModel
+                                section = .requests
+                            }
+                        case .requests: RequestsContent(period: store.period, selectedRecordID: initialRequestSelection, initialModel: requestModel)
                         case .sessions: SessionsContent(period: store.period)
-                        case .settings: SettingsContent()
+                        case .settings: SettingsContent(initialShowingPrices: initialPriceManagement)
                         }
                     }
                 }
@@ -58,20 +71,19 @@ struct DashboardView: View {
         }
         .frame(minWidth: 950, minHeight: 630)
         .background(CPTheme.viewBackground)
+        .sheet(isPresented: $showingStatus) {
+            ScanStatusDetails().environmentObject(store).environment(\.appPalette, store.palette)
+        }
+        .environment(\.appPalette, store.palette)
     }
 
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 11) {
-                CPLogo(size: 39)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Codex Stats").font(.system(size: 15, weight: .bold, design: .rounded))
-                    Text("LOCAL ANALYTICS")
-                        .font(.system(size: 9, weight: .medium, design: .rounded))
-                        .tracking(1.15).foregroundStyle(.tertiary)
-                }
+            HStack(spacing: 9) {
+                CPLogo(size: 28)
+                Text("Codex Stats").font(.system(size: 14, weight: .semibold))
             }
-            .padding(.bottom, 36)
+            .padding(.bottom, 28)
             ForEach(DashboardSection.allCases) { item in
                 Button { section = item } label: {
                     HStack(spacing: 12) {
@@ -81,21 +93,21 @@ struct DashboardView: View {
                         Text(item.rawValue).font(.system(size: 12, weight: section == item ? .semibold : .medium))
                         Spacer()
                     }
-                    .foregroundStyle(section == item ? CPTheme.accent : Color.primary.opacity(0.70))
+                    .foregroundStyle(section == item ? AnyShapeStyle(CPTheme.accent) : AnyShapeStyle(Color.primary.opacity(0.70)))
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 12)
-                    .background(section == item ? CPTheme.accent.opacity(0.09) : .clear,
-                                in: RoundedRectangle(cornerRadius: 10))
+                    .padding(.vertical, 10)
+                    .background(section == item ? AnyShapeStyle(CPTheme.selection) : AnyShapeStyle(Color.clear),
+                                in: RoundedRectangle(cornerRadius: 8))
                 }
                 .buttonStyle(.plain)
                 .padding(.bottom, 3)
             }
             Spacer()
             HStack(spacing: 7) {
-                Circle().fill(store.errorMessage == nil ? CPTheme.accent : CPTheme.orange)
+                Circle().fill(store.scanStatus.requiresAttention ? CPTheme.orange : CPTheme.accent)
                     .frame(width: 7, height: 7)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(store.loading ? "正在扫描…" : (store.errorMessage != nil ? "读取失败" : (store.hasReport ? "本地数据已连接" : "尚未读取")))
+                    Text(store.scanStatus.sidebarText)
                         .font(.system(size: 11, weight: .medium))
                     Text(store.hasReport ? "\(store.report.fileCount) 份日志" : "等待扫描结果")
                         .font(.system(size: 10)).foregroundStyle(.secondary)
@@ -107,14 +119,36 @@ struct DashboardView: View {
             QuitAppButton()
                 .padding(.top, 14)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 27)
-        .frame(width: 218, alignment: .leading)
-        .background(Color(nsColor: .underPageBackgroundColor))
+        .padding(.horizontal, 13)
+        .padding(.vertical, 24)
+        .frame(width: 184, alignment: .leading)
+        .background(CPTheme.sectionBackground)
+    }
+
+    private var statusLine: some View {
+        let status = store.scanStatus
+        return HStack(alignment: .top, spacing: 8) {
+            Image(systemName: status.requiresAttention ? "exclamationmark.triangle" : "checkmark.circle")
+                .foregroundStyle(status.requiresAttention ? CPTheme.orange : CPTheme.accent)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(status.summary).fontWeight(.medium)
+                if let error = status.errorMessage {
+                    Text(error).foregroundStyle(.secondary).lineLimit(2).help(error)
+                }
+            }
+            Spacer(minLength: 8)
+            Button("查看详情") { showingStatus = true }
+                .accessibilityLabel("查看统计状态和诊断详情")
+                .accessibilityIdentifier("scan-status-details")
+        }
+        .font(.system(size: 11))
+        .padding(.horizontal, 24)
+        .padding(.vertical, 8)
+        .background((status.requiresAttention ? CPTheme.orange : CPTheme.accent).opacity(0.04))
     }
 
     private var header: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 12) {
             HStack(spacing: 14) {
                 Label(section == .overview ? "用量统计" : section.rawValue, systemImage: section.icon)
                     .font(.system(size: 17, weight: .semibold))
@@ -140,109 +174,220 @@ struct DashboardView: View {
                 }
                 .fixedSize()
             }
-            if section != .settings {
+            if section != .settings && section != .requests {
                 HStack {
-                    Label("Codex · 本地会话日志", systemImage: "doc.text")
-                        .font(.system(size: 11)).foregroundStyle(.secondary)
+                    if section == .overview {
+                        overviewModelPicker
+                    } else {
+                        Label("Codex · 本地会话日志", systemImage: "doc.text")
+                            .font(.system(size: 11)).foregroundStyle(.secondary)
+                    }
                     Spacer()
                     PeriodPicker(selection: $store.period)
                 }
             }
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
+        .padding(.horizontal, section == .requests ? 16 : 24)
+        .padding(.vertical, section == .requests || section == .overview ? 12 : 16)
+        .background(CPTheme.headerBackground)
+    }
+
+    private var overviewModelPicker: some View {
+        let summary = store.overviewSummary(model: overviewModel.isEmpty ? nil : overviewModel, in: store.period).data
+        let models = Set(store.snapshot.overview.observedModels + (overviewModel.isEmpty ? [] : [overviewModel])).sorted {
+            let firstCount = summary.modelRecordCounts[$0] ?? 0
+            let secondCount = summary.modelRecordCounts[$1] ?? 0
+            return firstCount == secondCount ? $0 < $1 : firstCount > secondCount
+        }
+        return Picker("模型", selection: $overviewModel) {
+            Text("全部模型 · \(summary.modelRecordCounts.values.reduce(0, +)) 条记录").tag("")
+            ForEach(models, id: \.self) { model in
+                Text(model + " · \(summary.modelRecordCounts[model] ?? 0) 条记录").tag(model)
+            }
+        }
+        .pickerStyle(.menu).frame(width: 264)
+        .accessibilityIdentifier("overview-model-picker")
+        .help((overviewModel.isEmpty ? "全部模型" : overviewModel) + "；按模型筛选本页全部指标，不会切换 Codex 实际使用的模型")
+        .accessibilityValue(overviewModel.isEmpty ? "全部模型" : overviewModel)
     }
 
 }
 
-private struct DailyPoint: Identifiable {
-    let day: String
-    let tokens: Double
-    var id: String { day }
+func trendDollarAxis(_ value: Double) -> String {
+    "$" + value.formatted(.number.locale(Locale(identifier: "en_US_POSIX")).precision(.significantDigits(1...3)))
 }
 
-private struct OverviewContent: View {
+enum OverviewTrendMetric: String, CaseIterable, Identifiable {
+    case tokens = "Token", records = "记录数", cost = "API 等值金额"
+    var id: Self { self }
+}
+
+struct OverviewContent: View {
     @EnvironmentObject private var store: UsageStore
     let period: UsagePeriod
+    var model: String? = nil
+    var onViewRecords: () -> Void
+    @ViewState(initialValue: OverviewTrendMetric.tokens) private var trendMetric: OverviewTrendMetric
+
+    init(period: UsagePeriod, model: String? = nil, initialMetric: OverviewTrendMetric = .tokens, onViewRecords: @escaping () -> Void = {}) {
+        self.period = period; self.model = model; self.onViewRecords = onViewRecords
+        self._trendMetric = ViewState(initialValue: initialMetric)
+    }
 
     var body: some View {
-        let summary = store.summary(in: period)
+        let query = store.overviewSummary(model: model, in: period)
+        let summary = query.data
         let usage = summary.usage
-        ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                HStack(spacing: 12) {
-                    MetricTile(label: "总 Token", number: usage.total, tint: CPTheme.accent, systemImage: "circle.hexagongrid", caption: "输入 + 输出")
-                    MetricTile(label: "输入 Token", number: usage.input, tint: CPTheme.cyan, systemImage: "arrow.down.left", caption: "包含缓存输入")
-                    MetricTile(label: "输出 Token", number: usage.output, tint: CPTheme.purple, systemImage: "arrow.up.right", caption: "包含推理 Token")
-                    MetricTile(label: "缓存输入", number: usage.cachedInput, tint: CPTheme.accent, systemImage: "externaldrive", known: usage.cachedInputKnown, caption: "已包含在输入中")
+        let estimate = query.valuation.total
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack(alignment: .top, spacing: 10) {
+                    overviewCard("API 等值估算", value: estimate.state == .unavailable ? "无法估算" : dollars(estimate.amountUSD),
+                                 caption: estimate.state == .partial ? "已估算小计" : "USD · 参考价值，非实际扣费", help: costHelp(estimate), compact: estimate.state == .unavailable) {
+                        if estimate.state != .complete {
+                            Text(abbreviated(estimate.unestimatedTokens) + " Token 未估算 · " + costReasons(estimate))
+                                .foregroundStyle(CPTheme.orange)
+                        }
+                    }
+                    overviewCard("总 Token", value: abbreviated(usage.total), caption: "输入 + 输出", help: detailedNumber(usage.total)) { EmptyView() }
+                    overviewCard("缓存率", value: cacheRateLabel(usage), caption: "缓存输入 ÷ 输入", help: cacheRateHelp(usage), compact: CacheRate(usage: usage).state == .incomplete) { EmptyView() }
+                    overviewCard("用量记录数", value: summary.recordCount.formatted(), caption: "已计入的记录，非确认请求数", help: "已接受的用量记录数量；累计快照可能包含多次请求") { EmptyView() }
                 }
-                Surface {
-                    VStack(alignment: .leading, spacing: 16) {
+                .fixedSize(horizontal: false, vertical: true)
+                Surface(padding: 18) {
+                    VStack(alignment: .leading, spacing: 14) {
                         HStack {
                             Text("使用趋势 · \(period.rawValue)").font(.system(size: 13, weight: .semibold))
                             Spacer()
-                            Circle().fill(CPTheme.cyan).frame(width: 7, height: 7)
-                            Text("Tokens").font(.system(size: 11)).foregroundStyle(.secondary)
+                            Picker("趋势指标", selection: $trendMetric) {
+                                ForEach(OverviewTrendMetric.allCases) { Text($0.rawValue).tag($0) }
+                            }
+                            .pickerStyle(.segmented).labelsHidden().frame(width: 270)
+                            .accessibilityIdentifier("overview-trend-metric")
+                            .help("仅切换趋势：记录数为已接受用量记录；API 等值金额为参考价值，非实际扣费")
                         }
-                        if usage.isZero {
-                            EmptyViewCard(title: "该时间范围没有用量", subtitle: "检查日志位置，或选择其他时间范围。")
+                        if summary.recordCount == 0 {
+                            EmptyViewCard(title: "该筛选范围没有用量", subtitle: "可切换时间或返回全部模型；当前模型选择会保留。")
+                        } else if trendMetric == .cost && estimate.state == .unavailable {
+                            VStack(spacing: 10) {
+                                Image(systemName: "chart.bar.xaxis").font(.system(size: 26)).foregroundStyle(CPTheme.orange)
+                                Text("当前用量无法估算金额").font(.headline)
+                                Text(costReasons(estimate) + "；可在设置中管理模型价格。")
+                                    .font(.system(size: 12)).foregroundStyle(.secondary)
+                            }
+                            .frame(maxWidth: .infinity).frame(height: 168)
                         } else {
-                            trendChart(summary)
+                            trendChart(summary, valuation: query.valuation)
                         }
-                        Text(period == .today ? "按本地小时汇总，归属时间取已计入用量的日志事件时间" : "按本地日期汇总，最近最多显示 30 个有记录的日期")
+                        if trendMetric == .cost {
+                            Text("△ 已估算小计 · ◇ 未计价（不代表 $0）").font(.system(size: 10)).foregroundStyle(CPTheme.orange)
+                            Text("USD · 参考价值，非实际扣费" + (estimate.state == .complete ? "" : " · △ 未完整估算：" + abbreviated(estimate.unestimatedTokens) + " Token 未估算 · " + costReasons(estimate)))
+                                .font(.system(size: 10)).foregroundStyle(estimate.state == .complete ? AnyShapeStyle(.secondary) : AnyShapeStyle(CPTheme.orange))
+                                .fixedSize(horizontal: false, vertical: true)
+                        } else if trendMetric == .records {
+                            Text("已接受的用量记录，非确认请求数").font(.system(size: 10)).foregroundStyle(.secondary)
+                        }
+                        Text(period == .today ? "按本地小时汇总 · 日志事件归属时间" : "按本地日期汇总 · 最多显示最近 30 个有记录的日期")
                             .font(.system(size: 10)).foregroundStyle(.secondary)
                     }
                 }
-                HStack(alignment: .top, spacing: 12) {
-                    Surface {
-                        VStack(alignment: .leading, spacing: 16) {
+                HStack(alignment: .top, spacing: 14) {
+                    Surface(padding: 18) {
+                        VStack(alignment: .leading, spacing: 14) {
                             HStack {
-                                Text("模型排行").font(.system(size: 13, weight: .semibold))
+                                Text("模型分布").font(.system(size: 13, weight: .semibold))
                                 Spacer()
                                 Text("按总 Token").font(.system(size: 10)).foregroundStyle(.secondary)
                             }
-                            let models = summary.models
-                            if models.isEmpty {
-                                EmptyViewCard(title: "暂无模型数据", subtitle: "请检查日志目录设置。")
+                            if summary.models.isEmpty {
+                                Text("当前筛选没有模型用量").font(.system(size: 11)).foregroundStyle(.secondary)
                             } else {
-                                ForEach(Array(models.prefix(5))) { model in
-                                    ModelBar(model: model, maxTokens: models.first?.usage.total ?? 1)
+                                ForEach(Array(summary.models.prefix(5))) { item in
+                                    ModelBar(model: item, maxTokens: summary.models.first?.usage.total ?? 1, showSessionCount: false)
                                 }
                             }
+                            Button("查看用量记录", action: onViewRecords)
+                                .accessibilityIdentifier("overview-view-records")
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    Surface {
+                    Surface(padding: 18) {
                         VStack(alignment: .leading, spacing: 14) {
                             Text("Token 明细").font(.system(size: 13, weight: .semibold))
-                            TokenDetails(usage: usage)
-                            Divider()
-                            if usage.cachedInputKnown && usage.input > 0 {
-                                Text("缓存占输入 \((Double(usage.cachedInput) / Double(usage.input)).formatted(.percent.precision(.fractionLength(1))))")
-                                    .font(.system(size: 11, weight: .medium))
-                            }
-                            Text("总计 = 输入 + 输出。缓存包含在输入中，推理包含在输出中。")
-                                .font(.system(size: 10)).foregroundStyle(.secondary)
-                            Text("本地日志统计，不代表订阅扣费。")
-                                .font(.system(size: 10)).foregroundStyle(.secondary)
+                            TokenDetails(usage: usage, showTotal: true)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
-                if let error = store.errorMessage { StatusBanner(message: error) }
-                DiagnosticSummary(diagnostics: store.report.diagnostics)
+                Text("缓存包含在输入中，推理包含在输出中。所有统计遵循上方的模型与时间筛选；估算不代表订阅扣费。")
+                    .font(.system(size: 10)).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(24)
+            .padding(18)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .background(CPTheme.overviewBackground)
+        .accessibilityIdentifier("overview-content")
+    }
+
+    private func overviewCard<Detail: View>(_ title: String, value: String, caption: String, help: String,
+                                            compact: Bool = false, @ViewBuilder detail: () -> Detail) -> some View {
+        Surface(padding: 14) {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
+                ViewThatFits(in: .horizontal) {
+                    if !compact {
+                        Text(value).font(.system(size: 26, weight: .semibold)).fixedSize()
+                    }
+                    Text(value).font(.system(size: 17, weight: .semibold)).fixedSize()
+                    Text(value).font(.system(size: 17, weight: .semibold)).fixedSize(horizontal: false, vertical: true)
+                }
+                .monospacedDigit().help(help)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(title).accessibilityValue(value + "；" + help)
+                Text(caption).foregroundStyle(.secondary)
+                detail()
+            }
+            .font(.system(size: 10))
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, minHeight: 98, maxHeight: .infinity, alignment: .topLeading)
+        }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+    }
+
+    private func trendValue(usage: TokenUsage, count: Int, cost: CostEstimate?) -> Double {
+        switch trendMetric {
+        case .tokens: return Double(usage.total)
+        case .records: return Double(count)
+        case .cost: return cost.map { NSDecimalNumber(decimal: $0.amountUSD).doubleValue } ?? 0
         }
     }
 
-    private func trendChart(_ summary: UsageSummary) -> some View {
+    @ChartContentBuilder private func trendMarks<X: Plottable>(x: PlottableValue<X>, value: Double, cost: CostEstimate?, showWords: Bool) -> some ChartContent {
+        if trendMetric != .cost || cost?.state != .unavailable {
+            BarMark(x: x, y: .value(trendMetric.rawValue, value))
+                .foregroundStyle(CPTheme.accent).cornerRadius(3)
+                .accessibilityLabel(trendMetric.rawValue)
+                .accessibilityValue(trendMetric == .cost ? cost.map(costHelp) ?? "$0.00；无记录" : trendMetric == .records ? String(Int(value)) : abbreviated(value))
+        }
+        if trendMetric == .cost, let cost, cost.state != .complete {
+            PointMark(x: x, y: .value("未完整估算", value))
+                .symbol(cost.state == .unavailable ? .diamond : .triangle).symbolSize(36).foregroundStyle(CPTheme.orange)
+                .annotation(position: .top) {
+                    if showWords { Text(cost.state == .unavailable ? "未计价" : "小计").font(.system(size: 9)).foregroundStyle(CPTheme.orange).help(costHelp(cost)) }
+                }
+                .accessibilityLabel(cost.state == .unavailable ? "无法估算" : "已估算小计")
+                .accessibilityValue(costHelp(cost))
+        }
+    }
+
+    private func trendChart(_ summary: OverviewSummary, valuation: ValuationSummary) -> some View {
         Group {
             if period == .today {
                 Chart(summary.hourlyTotals) { point in
-                    BarMark(x: .value("小时", point.hour, unit: .hour), y: .value("Token", point.usage.total))
-                        .foregroundStyle(CPTheme.cyan)
-                        .cornerRadius(3)
+                    trendMarks(x: .value("小时", point.hour, unit: .hour),
+                               value: trendValue(usage: point.usage, count: summary.hourlyRecordCounts[point.hour] ?? 0, cost: valuation.hourly[point.hour]),
+                               cost: valuation.hourly[point.hour], showWords: valuation.hourly.count <= 12)
                 }
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 4)) { value in
@@ -254,17 +399,19 @@ private struct OverviewContent: View {
                     }
                 }
             } else {
-                let points = Array(summary.dailyTotals.suffix(30))
-                    .map { DailyPoint(day: $0.day, tokens: Double($0.usage.total)) }
-                Chart(points) { point in
-                    BarMark(x: .value("日期", point.day), y: .value("Token", point.tokens))
-                        .foregroundStyle(CPTheme.cyan)
-                        .cornerRadius(3)
+                let days = Array(summary.dailyRecordCounts.keys.sorted().suffix(30))
+                let usage = Dictionary(uniqueKeysWithValues: summary.dailyTotals.map { ($0.day, $0.usage) })
+                let tickStep = max(1, Int(ceil(Double(max(0, days.count - 1)) / 5)))
+                let ticks = days.enumerated().compactMap { $0.offset.isMultiple(of: tickStep) || $0.offset == days.count - 1 ? $0.element : nil }
+                Chart(days, id: \.self) { day in
+                    trendMarks(x: .value("日期", day),
+                               value: trendValue(usage: usage[day] ?? TokenUsage(), count: summary.dailyRecordCounts[day] ?? 0, cost: valuation.daily[day]),
+                               cost: valuation.daily[day], showWords: days.count <= 12)
                 }
                 .chartXAxis {
-                    AxisMarks { value in
+                    AxisMarks(values: ticks) { value in
                         AxisValueLabel(anchor: .top) {
-                            if let day = value.as(String.self) { Text(String(day.suffix(5))) }
+                            if let day = value.as(String.self), ticks.contains(day) { Text(String(day.suffix(5))) }
                         }
                     }
                 }
@@ -275,89 +422,50 @@ private struct OverviewContent: View {
             AxisMarks(position: .leading) { value in
                 AxisGridLine()
                 AxisValueLabel(anchor: .trailing) {
-                    if let tokens = value.as(Double.self) {
-                        Text(abbreviated(tokens))
+                    if let amount = value.as(Double.self) {
+                        if trendMetric == .cost { Text(trendDollarAxis(amount)) }
+                        else if trendMetric == .records {
+                            if amount.rounded() == amount { Text(amount.formatted(.number.precision(.fractionLength(0)))) }
+                        } else { Text(abbreviated(amount)) }
                     }
                 }
             }
         }
-        .frame(height: 210)
+        .frame(height: 168)
     }
+
 }
 
-private struct ModelsContent: View {
+struct ScanStatusDetails: View {
     @EnvironmentObject private var store: UsageStore
-    let period: UsagePeriod
-    @ViewState(initialValue: "") private var search: String
-
-    @ViewState(initialValue: ModelSort.total) private var sort: ModelSort
-    private enum ModelSort: String, CaseIterable {
-        case total = "总 Token", input = "输入", output = "输出", cache = "缓存输入", reasoning = "推理", name = "模型名称"
-        func value(_ m: ModelUsage) -> Int64 {
-            switch self {
-            case .total: return m.usage.total
-            case .input: return m.usage.input
-            case .output: return m.usage.output
-            case .cache: return m.usage.cachedInput
-            case .reasoning: return m.usage.reasoning
-            case .name: return 0
-            }
-        }
-    }
-    private var models: [ModelUsage] {
-        store.summary(in: period).models
-            .filter { search.isEmpty || $0.model.localizedCaseInsensitiveContains(search) }
-            .sorted { sort.value($0) == sort.value($1) ? $0.model < $1.model : sort.value($0) > sort.value($1) }
-    }
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        let rows = models
-        VStack(alignment: .leading, spacing: 17) {
-            HStack(alignment: .bottom) {
-                SectionHeader(title: "模型消耗明细", subtitle: "按模型拆分输入、缓存、输出和推理 Token")
-                Spacer()
-                TextField("搜索模型", text: $search)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 190)
-            }
-            Picker("排序", selection: $sort) {
-                ForEach(ModelSort.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-            }.frame(width: 200)
-            if rows.isEmpty {
-                EmptyViewCard(title: "没有匹配的模型", subtitle: "请切换时间范围或查看设置中的日志路径。")
-            } else {
-                // Native Table owns horizontal scrolling and keeps the first column visible.
-                Table(rows) {
-                    TableColumn("模型") { model in
-                        Text(model.model).fontWeight(.semibold)
-                            .lineLimit(1).help(model.model)
-                    }.width(150)
-                    TableColumn("输入") { column($0.usage.input) }.width(76)
-                    TableColumn("缓存输入") { column($0.usage.cachedInput, known: $0.usage.cachedInputKnown) }.width(76)
-                    TableColumn("非缓存输入") { column($0.usage.uncachedInput, known: $0.usage.cachedInputKnown) }.width(76)
-                    TableColumn("输出") { column($0.usage.output) }.width(76)
-                    TableColumn("推理") { column($0.usage.reasoning, known: $0.usage.reasoningKnown) }.width(76)
-                    TableColumn("总计") { column($0.usage.total, emphasized: true) }.width(76)
-                    TableColumn("会话") { model in
-                        Text("\(model.sessionCount)").monospacedDigit()
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }.width(44)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("统计状态").font(.system(size: 17, weight: .semibold))
+            ScrollView {
+                VStack(alignment: .leading, spacing: 14) {
+                    Text(store.scanStatus.summary).fontWeight(.medium)
+                    if let error = store.errorMessage {
+                        Text(error).foregroundStyle(CPTheme.orange).textSelection(.enabled)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Text(store.lastSuccessfulRefresh.map { "上次成功扫描：\($0.formatted(date: .abbreviated, time: .standard))" } ?? "尚未成功扫描")
+                    Text("\(store.report.fileCount) 份日志 · \(store.report.sessions.count) 个会话 · \(store.report.invalidLineCount) 行无效日志")
+                    DiagnosticSummary(diagnostics: store.report.diagnostics, initiallyExpanded: true)
                 }
-                .accessibilityIdentifier("model-table")
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .font(.system(size: 12))
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            Text("Input 包含 Cached，Output 包含 Reasoning。统计为本地日志还原值，不等同于订阅消耗百分比。")
-                .font(.system(size: 11)).foregroundStyle(.secondary)
-            Spacer(minLength: 0)
+            HStack {
+                Spacer()
+                Button("关闭") { dismiss() }
+                    .keyboardShortcut(.cancelAction)
+                    .accessibilityIdentifier("close-scan-status")
+            }
         }
-        .padding(30)
-    }
-
-    private func column(_ count: Int64, emphasized: Bool = false, known: Bool = true) -> some View {
-        Text(abbreviated(count, known: known))
-            .font(.system(size: 12, weight: emphasized ? .semibold : .regular, design: .rounded))
-            .monospacedDigit()
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .help(detailedNumber(count, known: known))
+        .padding(24)
+        .frame(width: 640, height: 420)
+        .background(CPTheme.viewBackground)
     }
 }

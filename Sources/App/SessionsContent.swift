@@ -14,22 +14,13 @@ struct SessionsContent: View {
     private enum SessionSort: String, CaseIterable {
         case recent = "最近活动", tokens = "Token 用量", project = "项目名称"
     }
-    private struct SessionRow: Identifiable {
-        let session: SessionUsage
-        let usage: TokenUsage
-        let models: [ModelUsage]
-        var id: String { session.id }
-    }
 
-    private func matching(now: Date) -> [SessionRow] {
-        let rows = store.report.recentSessions(in: period, now: now).compactMap { session -> SessionRow? in
-            let usage = session.usage(in: period, now: now)
-            let models = session.modelUsage(in: period, now: now)
-            guard search.isEmpty || session.title.localizedCaseInsensitiveContains(search)
-                || session.project.localizedCaseInsensitiveContains(search)
-                || (session.recordedSessionID?.localizedCaseInsensitiveContains(search) ?? false)
-                || models.contains(where: { $0.model.localizedCaseInsensitiveContains(search) }) else { return nil }
-            return SessionRow(session: session, usage: usage, models: models)
+    private func matching(now: Date) -> [SessionUsageRow] {
+        let rows = store.report.sessionRows(in: period, now: now).filter { row in
+            search.isEmpty || row.session.title.localizedCaseInsensitiveContains(search)
+                || row.session.project.localizedCaseInsensitiveContains(search)
+                || (row.session.recordedSessionID?.localizedCaseInsensitiveContains(search) ?? false)
+                || row.models.contains(where: { $0.model.localizedCaseInsensitiveContains(search) })
         }
         return rows.sorted {
             switch sort {
@@ -42,11 +33,13 @@ struct SessionsContent: View {
     }
 
     var body: some View {
-        let rows = matching(now: Date())
+        let now = Date()
+        let rows = matching(now: now)
+        let valuation = store.summary(in: period, now: now).valuation
         let selected = rows.first(where: { $0.id == selectedID }) ?? rows.first
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 15) {
-                SectionHeader(title: "历史会话", subtitle: "\(rows.count) 个本地会话")
+                SectionHeader(title: "历史会话", subtitle: "\(rows.count) 个本地会话", titleSize: 18)
                 TextField("搜索项目、模型或 Session ID", text: $search)
                     .textFieldStyle(.roundedBorder)
                 Picker("排序", selection: $sort) {
@@ -64,17 +57,19 @@ struct SessionsContent: View {
                                         selected: selected?.id == row.id)
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityAddTraits(selected?.id == row.id ? .isSelected : [])
                             }
                         }
                         .padding(.trailing, 5)
                     }
                 }
             }
-            .padding(24)
-            .frame(width: 360)
+            .padding(16)
+            .frame(width: 280)
+            .background(CPTheme.sectionBackground)
             Divider()
             if let selected {
-                SessionDetailView(session: selected.session, period: period, usage: selected.usage, models: selected.models)
+                SessionDetailView(session: selected.session, period: period, usage: selected.usage, models: selected.models, cost: valuation.sessions[selected.id] ?? CostEstimate(priceVersion: store.snapshot.valuation.catalogRevision), modelCosts: valuation.sessionModels[selected.id] ?? [:])
                     .id(selected.id)
             } else {
                 EmptyViewCard(title: "选择一个会话", subtitle: "右侧将展示会话中的模型和用量明细。")
@@ -110,7 +105,7 @@ private struct SessionListRow: View {
                 Text(session.lastActivity.cpDateTime)
             }
             .font(.system(size: 10)).foregroundStyle(.secondary)
-            Text(session.recordedSessionID ?? "Session ID 未记录").font(.system(size: 9, design: .monospaced)).foregroundStyle(.tertiary).lineLimit(1)
+            Text(session.recordedSessionID ?? "Session ID 未记录").help(session.recordedSessionID ?? "Session ID 未记录").font(.system(size: 9, design: .monospaced)).foregroundStyle(.tertiary).lineLimit(1)
             HStack {
                 Text(abbreviated(usage.total) + " tokens")
                     .font(.system(size: 11, weight: .semibold, design: .rounded))
@@ -121,11 +116,11 @@ private struct SessionListRow: View {
             }
         }
         .padding(12)
-        .background(selected ? CPTheme.accent.opacity(0.105) : CPTheme.cardBackground,
-                    in: RoundedRectangle(cornerRadius: 12))
-        .overlay(RoundedRectangle(cornerRadius: 12)
-            .strokeBorder(selected ? CPTheme.accent.opacity(0.36) : CPTheme.stroke))
-        .contentShape(RoundedRectangle(cornerRadius: 12))
+        .background(selected ? CPTheme.selection : CPTheme.cardBackground,
+                    in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10)
+            .strokeBorder(selected ? CPTheme.accent : CPTheme.stroke))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -134,6 +129,8 @@ private struct SessionDetailView: View {
     let period: UsagePeriod
     let usage: TokenUsage
     let models: [ModelUsage]
+    let cost: CostEstimate
+    let modelCosts: [String: CostEstimate]
 
     var body: some View {
         ScrollView {
@@ -141,7 +138,7 @@ private struct SessionDetailView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(session.title)
-                            .font(.system(size: 23, weight: .bold, design: .rounded))
+                            .font(.system(size: 21, weight: .semibold))
                             .textSelection(.enabled)
                         Label(session.project, systemImage: "folder")
                             .font(.system(size: 11)).foregroundStyle(.secondary)
@@ -173,13 +170,14 @@ private struct SessionDetailView: View {
                                 .font(.system(size: 10)).foregroundStyle(.tertiary)
                         }
                         Text(abbreviated(usage.total))
-                            .font(.system(size: 37, weight: .semibold, design: .rounded))
+                            .font(.system(size: 37, weight: .semibold))
+                            .foregroundStyle(CPTheme.accent)
                             .monospacedDigit()
-                        Text(abbreviated(usage.total) + " tokens")
                             .help(detailedNumber(usage.total) + " tokens")
-                            .font(.system(size: 12, design: .monospaced)).foregroundStyle(.secondary)
                         Divider()
-                        TokenDetails(usage: usage)
+                        TokenDetails(usage: usage, showTotal: false)
+                        CacheRateText(usage: usage).font(.system(size: 12))
+                        CostEstimateText(estimate: cost).font(.system(size: 12))
                         HStack {
                             Text("开始 \(session.firstActivity.cpDateTime)")
                             Spacer()
@@ -203,6 +201,8 @@ private struct SessionDetailView: View {
                                         .monospacedDigit()
                                 }
                                 TokenDetails(usage: model.usage)
+                                CacheRateText(usage: model.usage).font(.system(size: 12))
+                                CostEstimateText(estimate: modelCosts[model.model] ?? CostEstimate(priceVersion: cost.priceVersion)).font(.system(size: 12))
                             }
                         }
                     }
@@ -220,7 +220,7 @@ private struct SessionDetailView: View {
                     .textSelection(.enabled)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(26)
+            .padding(24)
         }
         .background(CPTheme.viewBackground)
     }
@@ -228,9 +228,23 @@ private struct SessionDetailView: View {
 
 struct SettingsContent: View {
     @EnvironmentObject private var store: UsageStore
+    @Environment(\.self) private var environment
     @ViewState(initialValue: "") private var editingPath: String
+    @ViewState(initialValue: false) private var showingPrices: Bool
+
+    init(initialShowingPrices: Bool = false) { _showingPrices = ViewState(initialValue: initialShowingPrices) }
 
     var body: some View {
+        Group {
+            if showingPrices {
+                PriceManagementContent { showingPrices = false }
+            } else {
+                settings
+            }
+        }
+        .onAppear { editingPath = store.rootPath }
+    }
+    private var settings: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 SectionHeader(title: "偏好设置", subtitle: "所有数据处理都在本机完成，不使用 API Key 或网络服务")
@@ -246,7 +260,7 @@ struct SettingsContent: View {
                                 .font(.system(size: 12, design: .monospaced))
                             Button("保存并扫描") { store.updateRoot(editingPath) }
                                 .buttonStyle(.borderedProminent)
-                                .tint(CPTheme.accent)
+                                .tint(CPTheme.actionFill.resolve(in: environment))
                         }
                         HStack {
                             Button("在 Finder 中打开") {
@@ -269,6 +283,38 @@ struct SettingsContent: View {
                     }
                 }
                 Surface {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Picker("配色", selection: $store.palette) {
+                            ForEach(AppPalette.allCases) { palette in
+                                Text(palette.label).tag(palette)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .frame(width: 220, alignment: .leading)
+                        .accessibilityIdentifier("color-palette")
+                        Text("只改变配色，外观跟随系统")
+                            .font(.system(size: 11)).foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Surface {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Label("API 等值估算参考", systemImage: "dollarsign.circle")
+                            .font(.system(size: 14, weight: .semibold))
+                        Text(store.catalog?.description ?? "价格配置不可用")
+                        Text("仅参考非缓存输入、缓存输入和输出；推理已包含在输出中。未知模型或缓存拆分缺失时不猜价。")
+                        Text(ReferencePricing.exclusions)
+                        Text("价表：" + (store.catalog?.revision ?? "不可用") + "；各模型来源与核验日期见管理页")
+                        if let error = store.priceError { StatusBanner(message: error) }
+                        Button("管理模型价格") { showingPrices = true }
+                            .accessibilityIdentifier("manage-model-prices")
+                        Text(ReferencePricing.source).textSelection(.enabled)
+                    }
+                    .font(.system(size: 11)).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Surface {
                     VStack(alignment: .leading, spacing: 13) {
                         Label("数据与隐私", systemImage: "lock.shield")
                             .font(.system(size: 14, weight: .semibold))
@@ -287,16 +333,15 @@ struct SettingsContent: View {
                         Text("会话文件：\(store.report.fileCount) · 会话数量：\(store.report.sessions.count)")
                         Text(store.lastSuccessfulRefresh.map { "上次成功扫描：\($0.formatted(date: .abbreviated, time: .standard))" } ?? "尚未成功扫描")
                         Text("无效日志行：\(store.report.invalidLineCount) · 复用缓存：\(store.report.cachedFileCount) 份")
-                        DiagnosticSummary(diagnostics: store.report.diagnostics)
-                        if let error = store.errorMessage { StatusBanner(message: error) }
+                        if !store.hasReport, let error = store.errorMessage { StatusBanner(message: error) }
                     }
                     .font(.system(size: 12))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            .padding(30)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 20)
         }
-        .onAppear { editingPath = store.rootPath }
     }
 
     private func line(_ string: String) -> some View {

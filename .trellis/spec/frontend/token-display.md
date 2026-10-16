@@ -41,3 +41,11 @@ Run `./Scripts/test-token-display.sh` to test the App's real implementation in e
 Wrong: `tokens.formatted(.number.notation(.compactName))` on a Token axis.
 
 Correct: `Text(abbreviated(tokens))` plus an exact-value path where the component displays amounts.
+
+## Derived metrics (v0.2.16)
+
+`CacheRateText` and `CostEstimateText` in Components.swift are the only shared display paths. CacheRate uses aggregate counters: known one-decimal percent, noInput `—`, incomplete `未完整记录`; help and AX include exact numerator/denominator. Never average displayed percentages.
+
+`dollars(_ value: Decimal)` rounds with NSDecimalRound to two decimals, then groups the decimal string with fixed USD `$`, comma and period. Do not convert money to Double or rely on NumberFormatter(NSDecimalNumber) for rounding: the actual half-cent test exposed different behavior. A positive value below0.01 shows `< $0.01`; real zero shows `$0.00`. Exact help preserves at least8 places without discarding smaller digits.
+
+Complete estimates use API-equivalent reference language; partial estimates visibly state subtotal and uncovered Tokens/reasons; unavailable never shows numeric zero, even in help/AX or CLI. Include version/date/basis/exclusions in help and accessible semantics. Menu288, model950/1120 with both palettes/light/dark/legacy scrollers must fit; preserve Token primary hierarchy and never add request Table columns. Static captures establish rendering, not actual VoiceOver/hover. Run formatter/Store/native gates and Core tests defined in [derived usage](../backend/derived-usage.md).

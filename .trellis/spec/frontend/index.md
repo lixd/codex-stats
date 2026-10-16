@@ -22,6 +22,8 @@ This directory contains guidelines for frontend development. Fill in each file w
 | [Type Safety](./type-safety.md) | Type patterns, validation | To fill |
 | [Menu Lifecycle](./menu-lifecycle.md) | Exact menu-window dismissal, compact layout and resident termination policy | v0.2.10 B menu |
 | [Token Display](./token-display.md) | Native K/M formatting, exact values and locale checks | Verified v0.2.10; semantic card captions |
+| [Native Visual Roles](./visual-system.md) | D layout, cyan/blue environment roles, contrast and native state/table checks | v0.2.19 four-page navigation, overview model filtering, local price forms and request fit; actual system HC remains manual |
+| [Shared Scan Status](./scan-status.md) | Cross-page diagnostics, retained errors and recovery | v0.2.11; current evidence in VERIFICATION.md |
 
 ## Token Display Changes
 

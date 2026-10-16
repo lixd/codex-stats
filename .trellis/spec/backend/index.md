@@ -19,10 +19,13 @@ This directory contains guidelines for backend development. Fill in each file wi
 | [Error Handling](./error-handling.md) | Error types, handling strategies | To fill |
 | [Quality Guidelines](./quality-guidelines.md) | Code standards, forbidden patterns | To fill |
 | [Logging Guidelines](./logging-guidelines.md) | Structured logging, log levels | To fill |
-| [Local Token Accounting](./token-accounting.md) | Physical history, response ownership, deduplication and typed diagnostics | Verified: 70 Core tests and native build |
-| [Scan and Filter Performance](./scan-performance.md) | Operation-local calendar bounds, timestamp precision and fixed-input benchmarking | Verified: 78 tests and paired snapshot benchmark |
+| [Overview Query](./overview-query.md) | Scalar model/period summaries, same-query valuation and bounded overview cache | R21/T15; independent model selection and explicit new default prices |
+| [Derived Usage](./derived-usage.md) | Weighted cache ratio, Decimal reference USD, atomic scalar index and explicit coverage | v0.2.17; local catalog, all-history candidates, guarded deletion and Store/formatter/native/CLI oracles |
+| [Local Token Accounting](./token-accounting.md) | Physical history, response ownership, deduplication and typed diagnostics | v0.2.11; 133 Core tests, accounting oracles and native build |
+| [Scan and Filter Performance](./scan-performance.md) | Operation-local calendar bounds, timestamp precision and fixed-input benchmarking | v0.2.11; paired snapshots and Turn/session scale benchmark |
 | [Turn Performance](./turn-performance.md) | Explicit complete lifecycle, whole-Turn output coverage and truthful rate scope | Retained; distinct from request estimates |
 | [Request Estimates](./request-estimates.md) | Native response/event boundaries, eligibility and explicit uncertainty | v0.2.7; 114 Core tests |
+| [Safe Local Delivery](./local-delivery.md) | Staged validation, atomic publication and running-instance refusal | v0.2.11; current evidence in VERIFICATION.md |
 
 ## Token Accounting Changes
 

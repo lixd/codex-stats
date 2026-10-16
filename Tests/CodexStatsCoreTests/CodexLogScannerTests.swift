@@ -271,6 +271,120 @@ private func compact(_ id: String) -> [String: Any] {
     #expect(try logs.scan().totals(in: .all).total == 220)
     #expect(try logs.scan().warnings.contains { $0.contains("保守去重") })
 }
+
+@Test(arguments: ["repeat-notification", "repeat-pair", "prior-notification", "cumulative-companion"])
+func pairedNotificationsSeedLastOnlyReplayEvidence(shape: String) throws {
+    let logs = try Logs(); defer { logs.remove() }
+    let tokens = usage(100)
+    let native = request("response", tokens, total: tokens)
+    let notification = count(last: tokens)
+    let events: [[String: Any]]
+    switch shape {
+    case "repeat-pair": events = [native, notification, native, notification]
+    case "prior-notification": events = [notification, native, native, notification]
+    case "cumulative-companion": events = [native, count(tokens, last: tokens), notification]
+    default: events = [native, notification, notification]
+    }
+    let lines = [meta(), turn()] + events
+    try logs.write(lines)
+    try logs.write(lines, name: "copy.jsonl", archived: true)
+    let report = try logs.scan()
+    #expect(report.totals(in: .all).total == 110)
+    #expect(report.records(in: .all).count == 1)
+    #expect(report.records(in: .all).first?.requestID == "response")
+    #expect(report.diagnostics.contains { $0.kind == .counterAmbiguity })
+}
+
+@Test func pairedReplayEvidencePreservesIndependentResponsesAndTurns() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    let tokens = usage(100)
+    try logs.write([meta(), turn(), request("first", tokens), count(last: tokens),
+        request("second", tokens), count(last: tokens),
+        turn("model-A", id: "turn-B"), count(last: tokens)])
+    let report = try logs.scan()
+    #expect(report.totals(in: .all).total == 330)
+    #expect(Set(report.records(in: .all).compactMap(\.requestID)) == ["first", "second"])
+}
+
+@Test(arguments: ["cache", "reasoning", "both", "cache-reset", "reasoning-reset"])
+func invalidCumulativeSubsetsKeepParentsAndExposeUnknown(field: String) throws {
+    let logs = try Logs(); defer { logs.remove() }
+    let invalidCache = field == "cache" || field == "both" || field == "cache-reset"
+    let invalidReason = field == "reasoning" || field == "both" || field == "reasoning-reset"
+    let before = usage(100, 100, cache: field == "cache-reset" ? 50 : 0,
+                       reasoning: field == "reasoning-reset" ? 50 : 0)
+    let after = usage(110, 110, cache: field == "cache-reset" ? 20 : (invalidCache ? 50 : 5),
+                      reasoning: field == "reasoning-reset" ? 20 : (invalidReason ? 50 : 5))
+    // A same-model/date last value must not replace the provable parent delta.
+    for last in [nil, usage(5, 5)] {
+        try logs.write([meta(), turn(), count(before), count(after, last: last)])
+        let report = try logs.scan()
+        let row = try #require(report.sessions.first?.records.last)
+        #expect(row.usage.input == 10 && row.usage.output == 10)
+        #expect(row.usage.cachedInputKnown == !invalidCache)
+        #expect(row.usage.reasoningKnown == !invalidReason)
+        #expect(row.usage.cachedInput == (invalidCache ? 0 : 5))
+        #expect(row.usage.reasoning == (invalidReason ? 0 : 5))
+        #expect(row.cumulativeSnapshot?.cachedInput == (after["cached_input_tokens"] as? Int).map(Int64.init))
+        #expect(report.totals(in: .all).total == 220)
+        #expect(report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") })
+    }
+}
+
+@Test func nativeDeductionDoesNotClampInconsistentSubsetRemainders() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    try logs.write([meta(), turn(), count(usage(100, 100)),
+        request("native", usage(5, 5)), count(usage(110, 110, cache: 8, reasoning: 3))])
+    let report = try logs.scan()
+    let row = try #require(report.sessions.first?.records.last)
+    #expect(row.usage.input == 5 && row.usage.output == 5)
+    #expect(row.usage.cachedInput == 0 && !row.usage.cachedInputKnown)
+    #expect(row.usage.reasoning == 3 && row.usage.reasoningKnown)
+    #expect(report.totals(in: .all).total == 220)
+    #expect(report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") })
+}
+
+@Test func missingSubsetDifferenceDoesNotInventValuesOrAnomaly() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    for missingFirst in [true, false] {
+        let missing = ["input_tokens": missingFirst ? 100 : 110, "output_tokens": missingFirst ? 100 : 110]
+        let known = usage(missingFirst ? 110 : 100, missingFirst ? 110 : 100, cache: 50, reasoning: 50)
+        try logs.write([meta(), turn(), count(missingFirst ? missing : known), count(missingFirst ? known : missing)])
+        let report = try logs.scan()
+        let row = try #require(report.sessions.first?.records.last)
+        #expect(row.usage.input == 10 && row.usage.output == 10)
+        #expect(!row.usage.cachedInputKnown && !row.usage.reasoningKnown)
+        #expect(!report.diagnostics.contains { $0.kind == .counterAmbiguity })
+    }
+}
+
+@Test func zeroParentSubsetCorrectionWarnsWithoutInventingAnAccountingRow() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    try logs.write([meta(), turn(), count(usage(100, 100)),
+        count(usage(100, 100, cache: 50, reasoning: 50)),
+        count(usage(110, 110, cache: 55, reasoning: 55))])
+    let report = try logs.scan()
+    let rows = try #require(report.sessions.first?.records)
+    #expect(rows.count == 2)
+    #expect(rows[0].usage == TokenUsage(input: 100, output: 100))
+    #expect(rows[1].usage == TokenUsage(input: 10, cachedInput: 5, output: 10, reasoning: 5))
+    #expect(report.totals(in: .all).total == 220)
+    #expect(report.diagnostics.contains { $0.kind == .counterAmbiguity && $0.message.contains("累计计数器无法核对") })
+}
+
+@Test func validLaterSubsetDeltaCannotEraseEarlierUnknownEvidence() throws {
+    let logs = try Logs(); defer { logs.remove() }
+    try logs.write([meta(), turn(), count(usage(100, 100)),
+        count(usage(110, 110, cache: 50, reasoning: 50)),
+        count(usage(120, 120, cache: 55, reasoning: 55))])
+    let report = try logs.scan()
+    let rows = try #require(report.sessions.first?.records)
+    #expect(rows.count == 3)
+    #expect(rows[2].usage == TokenUsage(input: 10, cachedInput: 5, output: 10, reasoning: 5))
+    let total = report.totals(in: .all)
+    #expect(total.total == 240)
+    #expect(!total.cachedInputKnown && !total.reasoningKnown)
+}
 @Test func damagedAndPartialLinesRecoverOnAppend() throws {
     let logs = try Logs(); defer { logs.remove() }
     try logs.write([meta(), turn(), count(usage(100))])

@@ -4,7 +4,7 @@
 
 用户明确选择“B 好看，高级”，并于 2026-10-15 批准生产接入。**B 已在 v0.2.10 / build 12 源码实现，并通过原生合成预览；真实菜单点击和 macOS 14 实机验收仍独立待验。** 当前生产菜单的重建参数见 [当前界面设计](ui-design.md)。保留原型及选择历史，不能将原型截图当作运行证据。
 
-B 仅改菜单的视觉层级与指标布局；分析窗口、离线日志统计、时间范围、刷新、退出、窗口关闭行为沿用当前设计。没有A/B运行时切换、主题设置、多Provider、费用或额度功能。当前参考原型在 `Tests/MenuDesignPrototype/main.swift` 的 `MenuProposal(dashboard:true)`；对比入口 [A/B 预览](menu-design-comparison.html)。
+B 仅改菜单的视觉层级与指标布局；分析窗口、离线日志统计、时间范围、刷新、退出、窗口关闭行为沿用当前设计。菜单没有A/B布局切换、多Provider或订阅额度功能；v0.2.16在原卡片内补充参考金额与缓存率，见[派生指标设计](cache-rate-cost-design.md)；v0.2.13增加浅青/晴蓝配色选择，菜单结构仍为B，详见[当前双配色](native-cyan-blue-design.md)。当前参考原型在 `Tests/MenuDesignPrototype/main.swift` 的 `MenuProposal(dashboard:true)`；对比入口 [A/B 预览](menu-design-comparison.html)。
 
 ## 为什么选这个方向
 
@@ -14,13 +14,13 @@ B 的四卡结构比 A 的单行列表更高。历史原型约 288×469pt；生�
 
 ## 可复建视觉参数
 
-使用现有CPTheme、CPLogo与abbreviated，颜色精确值和格式规则见当前界面设计。整体左对齐VStack间距10，外padding14，固定宽288，有效宽260，语义windowBackgroundColor，内容自适应高度。
+使用现有CPTheme、CPLogo与abbreviated，颜色精确值和格式规则见当前界面设计。整体左对齐VStack间距10，外padding14，固定宽288，有效宽260，CPTheme.viewBackground（当前浅青/晴蓝环境配色，见配色契约），内容自适应高度。
 
-| 区域 | v0.2.10 生产参数 |
+| 区域 | 当前生产参数（几何沿用v0.2.10） |
 |---|---|
 |品牌头|HStack间距8，Logo24，产品名13/semibold，右刷新符号secondary；24×24标签区、扫描时spinner+disabled、状态可访问性标签|
 |时间选择|今天/7天/30天/全部，segmented、small、labelsHidden、宽260|
-|总量卡|padding10，corner10，accent×0.09背景，撑满内容宽；内部间距6|
+|总量卡|padding10，corner10，selection背景，撑满内容宽；内部间距6|
 |总量标签|10/medium/secondary；今天为今日用量，其他所选范围rawValue加用量|
 |总量数字|29/semibold/rounded、等宽数字、单行最小缩放0.65；tokens10/secondary；基线对齐横距5|
 |四卡|LazyVGrid两列flexible，行间距8；默认列间距由GridItem系统默认决定，未显式锁定|
@@ -30,8 +30,8 @@ B 的四卡结构比 A 的单行列表更高。历史原型约 288×469pt；生�
 |模型区域|内部间距8，标题主要模型10/secondary，前两名|
 |模型行|名称和值10/medium，名称单行截断并帮助全名，值固定固有宽并帮助精确值；行与条间距4|
 |模型条|高3，底accent×0.10，前景accent，按第一名归一化；不强制最小宽|
-|统计提醒|横距5，警告/错误orange，纯信息cyan，文字10，尾箭头8，真实诊断数量|
-|分析按钮|文字11/medium，横padding10、竖9、圆角8；accent背景、白字、右箭头；无边框|
+|统计提醒|横距5，警告/错误orange，纯信息accent，文字10，尾箭头8，真实诊断数量|
+|分析按钮|文字11/medium，横padding10、竖9、圆角8；actionFill背景、白字、右箭头；无边框|
 |底部|左两行9/secondary、间距3；右power+退出10/secondary，标签最小24×24，可访问性退出Codex Stats并保留quit-app|
 
 原型未指定图标命中区，生产补充刷新/退出最小24pt。App外部弹窗阴影、外部圆角及未指定的系统控件字体由MenuBarExtra.window系统容器决定。不能从PNG添加未经确认的玻璃材质或强制固定OS装饰。
@@ -79,3 +79,6 @@ B 的四卡结构比 A 的单行列表更高。历史原型约 288×469pt；生�
 | 浅色 | 深色 |
 |---|---|
 | ![B 菜单浅色](images/b-production-menu-light.png) | ![B 菜单深色](images/b-production-menu-dark.png) |
+
+
+v0.2.12保留本文B菜单几何与交互，共享色彩按[青灰与青绿设计](sage-teal-design.md)更新：总量卡selection，白字主操作actionFill，信息诊断accent。原型图片只代表历史比较，不覆盖当前颜色契约。
